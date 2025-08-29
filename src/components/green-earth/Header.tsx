@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bell, History, Gift } from "lucide-react";
+import { History, Gift } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Notifications } from "./Notifications";
 
 export function Header() {
   return (
@@ -17,13 +18,7 @@ export function Header() {
             <h1 className="text-2xl font-bold text-foreground">Alex Green</h1>
           </div>
         </div>
-        <div className="relative">
-          <Button variant="secondary" size="icon" className="rounded-full w-12 h-12 bg-white shadow-sm transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:ring-0">
-            <Bell className="h-6 w-6" />
-            <span className="sr-only">Notifications</span>
-          </Button>
-          <span className="absolute top-0 right-0 block h-3 w-3 rounded-full bg-accent ring-2 ring-background" />
-        </div>
+        <Notifications />
       </div>
       <Card className="shadow-lg rounded-2xl">
         <CardHeader className="pb-4">
