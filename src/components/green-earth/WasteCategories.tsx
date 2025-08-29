@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -65,7 +66,7 @@ export function WasteCategories() {
   );
 
   return (
-    <section aria-labelledby="waste-categories-heading">
+    <section aria-labelledby="waste-categories-heading" className="px-4">
       <div className="flex items-center justify-between mb-4">
         <h2 id="waste-categories-heading" className="text-xl font-bold">Categories</h2>
         <Button variant="link" size="sm" className="text-accent h-auto p-0">See All</Button>
@@ -74,7 +75,7 @@ export function WasteCategories() {
         <FilterBar />
       </div>
       <div className="mb-4">
-        <h3 className="text-xl font-bold">Items</h3>
+        <h3 className="text-lg font-bold">Items</h3>
       </div>
       <div className="grid grid-cols-2 gap-4">
         {filteredCategories.map((category) => (
