@@ -1,13 +1,21 @@
+"use client";
+
 import { Home, Map, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import useUIState from "@/hooks/useUIState";
 
 const navItems = [
-  { name: "Home", icon: Home, href: "#", active: true },
-  { name: "Maps", icon: Map, href: "#", active: false },
-  { name: "Profile", icon: User, href: "#", active: false },
+  { name: "Home", icon: Home, href: "#" },
+  { name: "Maps", icon: Map, href: "#" },
+  { name: "Profile", icon: User, href: "#" },
 ];
 
 export function BottomNav() {
+  const [activeItem, setActiveItem] = useUIState(state => [state.activeBottomNavItem, state.setActiveBottomNavItem]);
+
+  const handleInteraction = (name: string) => {
+    setActiveItem(name);
+  };
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-card border-t z-20 w-full">
       <div className="flex justify-around p-2">
@@ -15,10 +23,12 @@ export function BottomNav() {
           <a
             key={item.name}
             href={item.href}
+            onTouchStart={() => handleInteraction(item.name)}
+            onMouseDown={() => handleInteraction(item.name)}
             className={`flex flex-col items-center justify-center h-16 w-20 rounded-lg transition-colors
-              ${item.active
+              ${activeItem === item.name
                 ? "bg-secondary text-secondary-foreground"
-                : "text-foreground/70 hover:bg-accent/50 active:bg-accent/70"
+                : "text-foreground/70 active:bg-accent/70"
               }`}
           >
             <item.icon className="w-6 h-6 mb-1" />

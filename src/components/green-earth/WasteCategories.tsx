@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FilterBar } from "./FilterBar";
-import { useState } from "react";
+import useUIState from "@/hooks/useUIState";
 
 const allCategories = [
   {
@@ -57,7 +57,7 @@ const allCategories = [
 ];
 
 export function WasteCategories() {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const activeFilter = useUIState(state => state.activeFilter);
 
   const filteredCategories = allCategories.filter(category =>
     category.tags.includes(activeFilter)
@@ -65,13 +65,16 @@ export function WasteCategories() {
 
   return (
     <section aria-labelledby="waste-categories-heading">
-      <div className="px-4">
-        <h2 id="waste-categories-heading" className="text-2xl font-bold mb-4">Items</h2>
+      <div className="px-4 mb-4">
+        <h2 id="waste-categories-heading" className="text-2xl font-bold">Categories</h2>
       </div>
-      <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} />
+      <FilterBar />
+      <div className="px-4 mb-8">
+        <h3 className="text-xl font-bold">Items</h3>
+      </div>
       <div className="px-4 grid grid-cols-2 gap-4">
         {filteredCategories.map((category) => (
-          <Card key={category.name} className="flex flex-col overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+          <Card key={category.name} className="flex flex-col overflow-hidden shadow-md active:bg-card/80 transition-colors duration-300">
             <CardHeader className="p-0">
               <div className="relative aspect-[4/3] w-full">
                 <Image
