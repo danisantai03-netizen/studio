@@ -20,10 +20,10 @@ export function BottomNav() {
             key={item.name}
             href={item.href}
             onClick={() => setActiveItem(item.name)}
-            className={`flex flex-col items-center justify-center h-16 w-20 rounded-lg transition-colors
+            className={`flex flex-col items-center justify-center h-16 w-20 rounded-lg transition-colors focus:outline-none focus:ring-0
               ${activeItem === item.name
                 ? "bg-secondary text-secondary-foreground"
-                : "text-foreground/70 active:bg-accent/70"
+                : "text-foreground/70 active:bg-accent/20"
               }`}
           >
             <item.icon className="w-6 h-6 mb-1" />

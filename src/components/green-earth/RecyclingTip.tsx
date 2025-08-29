@@ -42,7 +42,7 @@ export function RecyclingTip() {
 
   return (
     <section aria-labelledby="recycling-tip-heading">
-      <Card className="border-primary/50 shadow-md">
+      <Card className="border-primary/50 shadow-sm">
         <CardHeader className="py-4">
           <CardTitle id="recycling-tip-heading" className="flex items-center gap-2 text-primary text-base">
             <Lightbulb className="w-5 h-5"/>
@@ -60,7 +60,7 @@ export function RecyclingTip() {
           )}
         </CardContent>
         <CardFooter className="py-3">
-          <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary hover:text-primary hover:bg-primary/10 text-sm h-auto p-1">
+          <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary hover:text-primary hover:bg-primary/10 active:opacity-70 focus:ring-0 text-sm h-auto p-1">
             <RefreshCw className={`mr-2 h-4 w-4 ${isPending ? "animate-spin" : ""}`} />
             Get Another Tip
           </Button>

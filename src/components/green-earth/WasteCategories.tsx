@@ -65,16 +65,18 @@ export function WasteCategories() {
 
   return (
     <section aria-labelledby="waste-categories-heading">
-      <div className="px-4 mb-4">
+      <div className="mb-4">
         <h2 id="waste-categories-heading" className="text-2xl font-bold">Categories</h2>
       </div>
-      <FilterBar />
-      <div className="px-4 mb-8">
+      <div className="mb-6">
+        <FilterBar />
+      </div>
+      <div className="mb-4">
         <h3 className="text-xl font-bold">Items</h3>
       </div>
-      <div className="px-4 grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {filteredCategories.map((category) => (
-          <Card key={category.name} className="flex flex-col overflow-hidden shadow-md active:bg-card/80 transition-colors duration-300">
+          <Card key={category.name} className="flex flex-col overflow-hidden shadow-sm active:bg-card/80 transition-colors duration-300">
             <CardHeader className="p-0">
               <div className="relative aspect-[4/3] w-full">
                 <Image

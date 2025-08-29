@@ -7,20 +7,14 @@ import { BottomNav } from "@/components/green-earth/BottomNav";
 
 export default function Home() {
   return (
-    <div className="bg-background text-foreground min-h-screen w-screen flex flex-col">
-      <div className="flex-grow pb-24">
+    <div className="bg-background text-foreground min-h-screen">
+      <div className="flex flex-col flex-grow pb-24">
         <Header />
-        <main>
-          <div className="flex flex-col gap-8 py-8">
-            <div className="px-4">
-              <PromoCarousel />
-            </div>
-            <div className="px-4">
-              <FeatureLinks />
-            </div>
-            <div className="px-4">
-              <RecyclingTip />
-            </div>
+        <main className="flex-grow">
+          <div className="flex flex-col gap-8 py-8 px-4">
+            <PromoCarousel />
+            <FeatureLinks />
+            <RecyclingTip />
             <WasteCategories />
           </div>
         </main>

@@ -12,12 +12,12 @@ export function FeatureLinks() {
   return (
     <section aria-labelledby="features-heading">
       <h2 id="features-heading" className="sr-only">Features</h2>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-3">
         {features.map((feature) => (
-          <a href={feature.href} key={feature.name} className="block group rounded-lg focus:outline-none focus:ring-2 focus:ring-ring">
-            <Card className="shadow-md transition-colors active:bg-card/60">
+          <a href={feature.href} key={feature.name} className="block group rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+            <Card className="shadow-sm transition-colors active:bg-card/60">
               <CardContent className="p-3 flex flex-col items-center justify-center gap-2 aspect-square">
-                <feature.icon className="w-7 h-7 text-primary" />
+                <feature.icon className="w-6 h-6 text-primary" />
                 <p className="font-semibold text-center text-xs">{feature.name}</p>
               </CardContent>
             </Card>
