@@ -5,6 +5,7 @@ import * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatPointsAsCurrency } from "@/lib/utils";
 import { Notifications } from "./Notifications";
+import { Button } from "../ui/button";
 
 export function Header() {
   const [points, setPoints] = React.useState(1370);
