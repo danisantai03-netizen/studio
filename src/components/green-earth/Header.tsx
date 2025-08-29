@@ -34,8 +34,8 @@ export function Header() {
               <AvatarFallback>AG</AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-base font-bold text-white">Alex Green</h1>
               <p className="text-sm text-white/80">Welcome back 👋</p>
+              <h1 className="text-base font-bold text-white">Alex Green</h1>
             </div>
           </div>
           <Notifications />
@@ -43,36 +43,35 @@ export function Header() {
 
         {/* New Points Card Implementation */}
         <div
-          className="bg-primary text-primary-foreground rounded-2xl p-5 shadow-lg border border-primary/50 max-h-48 overflow-hidden w-full font-sans antialiased"
+          className="bg-primary text-primary-foreground rounded-2xl p-4 shadow-lg border border-primary/50 w-full font-sans antialiased"
           key={points}
         >
-          {/* Top Section: Points & Redeem */}
-          <div className="flex justify-between items-start mb-4">
+          <div className="flex justify-between items-center">
             {/* Points Info */}
             <div
               className="transition-transform duration-200 ease-in-out"
               aria-live="polite"
             >
-              <p className="text-sm font-medium text-primary-foreground/80 leading-5">My Points</p>
-              <p className="text-4xl font-bold text-white mt-1 leading-none">
-                {points.toLocaleString('id-ID')}
-              </p>
-              <p className="text-sm text-primary-foreground/80 opacity-90 mt-1">
+              <div className="flex items-baseline gap-2">
+                 <p className="text-2xl font-bold text-white leading-none">
+                    {points.toLocaleString('id-ID')}
+                </p>
+                <p className="text-sm font-medium text-primary-foreground/80 leading-5">Points</p>
+              </div>
+              <p className="text-xs text-primary-foreground/80 opacity-90 mt-1">
                 {formatPointsAsCurrency(points)}
               </p>
             </div>
 
-            {/* Redeem Button */}
-            <button className="bg-accent hover:bg-accent/90 text-accent-foreground text-sm font-medium px-6 py-3 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/70 focus:ring-opacity-50 active:scale-95">
-              Redeem
-            </button>
-          </div>
-
-          {/* History Button */}
-          <div className="flex justify-center">
-            <button className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground/90 text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring/50 focus:ring-opacity-30 active:scale-95">
-              History
-            </button>
+            {/* Action Buttons */}
+            <div className="flex items-center gap-2">
+                 <button className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground/90 text-xs font-medium px-4 py-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring/50 focus:ring-opacity-30 active:scale-95">
+                    History
+                </button>
+                <button className="bg-accent hover:bg-accent/90 text-accent-foreground text-xs font-medium px-4 py-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/70 focus:ring-opacity-50 active:scale-95">
+                    Redeem
+                </button>
+            </div>
           </div>
         </div>
       </div>
