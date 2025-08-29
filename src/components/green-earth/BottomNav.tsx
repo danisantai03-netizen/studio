@@ -26,14 +26,14 @@ const NavIcon = ({
     <button
       onClick={onClick}
       className={cn(
-        "flex flex-col items-center justify-center h-16 w-20 transition-all duration-200 ease-in-out focus:outline-none focus:ring-0 group",
+        "flex flex-col items-center justify-center h-14 w-20 transition-all duration-200 ease-in-out focus:outline-none focus:ring-0 group",
         isActive ? "text-primary" : "text-gray-400"
       )}
       aria-label={item.name}
     >
       <item.icon
         className={cn(
-          "w-6 h-6 mb-1 transition-transform duration-200 ease-in-out",
+          "w-6 h-6 mb-0.5 transition-transform duration-200 ease-in-out",
           isActive ? "scale-110" : "group-hover:scale-110"
         )}
       />
@@ -58,7 +58,7 @@ export function BottomNav() {
   ]);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20">
+    <nav className="fixed bottom-0 left-0 right-0 h-14 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20">
       <div className="flex justify-around items-center h-full">
         {navItems.map((item) => (
           <NavIcon
