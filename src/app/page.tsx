@@ -10,7 +10,7 @@ export default function Home() {
     <div className="bg-background text-foreground min-h-screen w-screen flex flex-col">
       <div className="flex-grow pb-24">
         <Header />
-        <main className="container mx-auto p-4 md:p-8">
+        <main className="px-4">
           <div className="flex flex-col gap-8">
             <PromoCarousel />
             <FeatureLinks />

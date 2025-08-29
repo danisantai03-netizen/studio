@@ -5,7 +5,7 @@ import { Bell, History, Gift } from "lucide-react";
 export function Header() {
   return (
     <header className="bg-background/80 backdrop-blur-sm border-b">
-      <div className="container mx-auto p-4">
+      <div className="px-4 pt-4">
         <div className="flex justify-between items-start mb-4">
           <div>
             <p className="text-sm text-muted-foreground">Welcome back,</p>
@@ -16,7 +16,7 @@ export function Header() {
             <span className="sr-only">Notifications</span>
           </Button>
         </div>
-        <Card className="shadow-lg">
+        <Card className="shadow-lg mb-4">
           <CardHeader>
             <CardTitle>My Points</CardTitle>
           </CardHeader>
