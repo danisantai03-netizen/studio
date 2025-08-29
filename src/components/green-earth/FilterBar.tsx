@@ -11,18 +11,18 @@ export function FilterBar() {
   const [activeFilter, setFilter] = useUIState(state => [state.activeFilter, state.setActiveFilter]);
 
   return (
-    <div>
+    <div className="flex items-center justify-between">
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max space-x-2">
           {filters.map((filter) => (
             <Button
               key={filter}
-              variant={activeFilter === filter ? "default" : "outline"}
+              variant={activeFilter === filter ? "default" : "secondary"}
               className={cn(
-                "rounded-full h-8 px-4 text-sm transition-opacity focus:ring-0",
-                activeFilter === filter 
-                  ? "bg-primary text-primary-foreground" 
-                  : "active:opacity-70"
+                "rounded-full h-9 px-4 text-sm font-semibold transition-all duration-200 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+                activeFilter === filter
+                  ? "bg-accent text-accent-foreground"
+                  : "bg-white text-foreground hover:bg-gray-100"
               )}
               onClick={() => setFilter(filter)}
             >
@@ -32,6 +32,7 @@ export function FilterBar() {
         </div>
         <ScrollBar orientation="horizontal" className="hidden" />
       </ScrollArea>
+      <a href="#" className="ml-4 text-sm font-semibold text-accent whitespace-nowrap">See All</a>
     </div>
   );
 }

@@ -72,13 +72,13 @@ export function WasteCategories() {
         <FilterBar />
       </div>
       <div className="mb-4">
-        <h3 className="text-xl font-bold">Items</h3>
+        <h3 className="text-2xl font-bold">Items</h3>
       </div>
       <div className="grid grid-cols-2 gap-4">
         {filteredCategories.map((category) => (
-          <Card key={category.name} className="flex flex-col overflow-hidden shadow-sm active:bg-card/80 transition-colors duration-300">
+          <Card key={category.name} className="flex flex-col overflow-hidden shadow-md rounded-2xl active:bg-card/80 transition-all duration-200 ease-in-out">
             <CardHeader className="p-0">
-              <div className="relative aspect-[4/3] w-full">
+              <div className="relative aspect-square w-full">
                 <Image
                   src={category.image}
                   alt={category.name}
@@ -88,8 +88,8 @@ export function WasteCategories() {
                 />
               </div>
             </CardHeader>
-            <CardContent className="p-3 flex flex-col flex-grow">
-              <CardTitle className="text-base">{category.name}</CardTitle>
+            <CardContent className="p-3 flex flex-col flex-grow bg-white">
+              <CardTitle className="text-base font-bold">{category.name}</CardTitle>
               <CardDescription className="mt-1 flex-grow text-xs">{category.description}</CardDescription>
               <p className="mt-2 text-primary font-bold text-sm">{category.points}</p>
             </CardContent>

@@ -42,25 +42,25 @@ export function RecyclingTip() {
 
   return (
     <section aria-labelledby="recycling-tip-heading">
-      <Card className="border-primary/50 shadow-sm">
+      <Card className="bg-primary/90 text-primary-foreground shadow-lg rounded-2xl">
         <CardHeader className="py-4">
-          <CardTitle id="recycling-tip-heading" className="flex items-center gap-2 text-primary text-base">
-            <Lightbulb className="w-5 h-5"/>
-            Recycling Tip
+          <CardTitle id="recycling-tip-heading" className="flex items-center gap-2 text-lg">
+            <Lightbulb className="w-6 h-6"/>
+            Daily Eco Tip
           </CardTitle>
         </CardHeader>
         <CardContent className="py-0">
           {isLoading ? (
             <div className="space-y-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-4 w-full bg-white/30" />
+              <Skeleton className="h-4 w-3/4 bg-white/30" />
             </div>
           ) : (
-            <p className="text-foreground text-sm">{tip?.tip}</p>
+            <p className="text-base">{tip?.tip}</p>
           )}
         </CardContent>
-        <CardFooter className="py-3">
-          <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary hover:text-primary hover:bg-primary/10 active:opacity-70 focus:ring-0 text-sm h-auto p-1">
+        <CardFooter className="py-4">
+          <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-white/10 active:opacity-70 focus:ring-0 text-sm h-auto p-2 rounded-full">
             <RefreshCw className={`mr-2 h-4 w-4 ${isPending ? "animate-spin" : ""}`} />
             Get Another Tip
           </Button>

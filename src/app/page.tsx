@@ -11,7 +11,7 @@ export default function Home() {
       <div className="flex flex-col flex-grow pb-24">
         <Header />
         <main className="flex-grow">
-          <div className="flex flex-col gap-8 py-8 px-4">
+          <div className="flex flex-col gap-8 py-8 px-6">
             <PromoCarousel />
             <FeatureLinks />
             <RecyclingTip />
