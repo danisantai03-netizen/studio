@@ -10,7 +10,7 @@ const features = [
 export function FeatureLinks() {
   return (
     <section aria-labelledby="features-heading">
-      <h2 id="features-heading" className="sr-only">Features</h2>
+      <h2 id="features-heading" className="text-xl font-bold mb-4">Features</h2>
       <div className="grid grid-cols-4 gap-4">
         {features.map((feature) => (
           <a
@@ -18,10 +18,10 @@ export function FeatureLinks() {
             key={feature.name}
             className="flex flex-col items-center justify-center gap-2 group focus:outline-none focus:ring-0 transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95"
           >
-            <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full transition-all duration-200 ease-in-out group-hover:bg-primary/20">
-              <feature.icon className="w-8 h-8 text-primary" />
+            <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl transition-all duration-200 ease-in-out group-hover:bg-primary/20">
+              <feature.icon className="w-7 h-7 text-primary" />
             </div>
-            <p className="font-semibold text-center text-sm text-foreground">{feature.name}</p>
+            <p className="font-semibold text-center text-xs text-foreground">{feature.name}</p>
           </a>
         ))}
       </div>

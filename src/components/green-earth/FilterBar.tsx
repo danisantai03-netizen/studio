@@ -17,11 +17,12 @@ export function FilterBar() {
           {filters.map((filter) => (
             <Button
               key={filter}
-              variant={activeFilter === filter ? "default" : "secondary"}
+              variant="outline"
+              size="sm"
               className={cn(
-                "rounded-full h-9 px-4 text-sm font-semibold shadow-sm focus:outline-none focus:ring-0",
+                "rounded-full h-8 px-4 text-xs font-semibold shadow-sm focus:outline-none focus:ring-0",
                 activeFilter === filter
-                  ? "bg-accent text-accent-foreground pointer-events-none"
+                  ? "bg-accent text-accent-foreground border-transparent pointer-events-none"
                   : "bg-white text-foreground transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95"
               )}
               onClick={() => setFilter(filter)}
@@ -32,7 +33,6 @@ export function FilterBar() {
         </div>
         <ScrollBar orientation="horizontal" className="hidden" />
       </ScrollArea>
-      <a href="#" className="ml-4 text-sm font-semibold text-accent whitespace-nowrap transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95">See All</a>
     </div>
   );
 }
