@@ -31,25 +31,29 @@ export default function NotificationsPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <header className="sticky top-0 bg-white shadow-sm z-10 p-4 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <Link href="/" aria-label="Go back to home">
-            <ArrowLeft className="w-6 h-6" />
-          </Link>
-          <h1 className="text-xl font-bold">Notifications</h1>
-        </div>
-        <Button
-          variant="link"
-          size="sm"
-          className="text-accent h-auto p-0"
-          onClick={() => markAllAsRead.mutate()}
-          disabled={totalUnread === 0}
+      <div className="p-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-2xl font-bold mb-4"
+          aria-label="Go back to home"
         >
-          Mark all as read
-        </Button>
-      </header>
+          <ArrowLeft className="w-6 h-6" />
+          <span>Notification</span>
+        </Link>
+        <div className="flex justify-end mb-4">
+          <Button
+            variant="link"
+            size="sm"
+            className="text-accent h-auto p-0"
+            onClick={() => markAllAsRead.mutate()}
+            disabled={totalUnread === 0}
+          >
+            Mark all as read
+          </Button>
+        </div>
+      </div>
 
-      <main className="p-4">
+      <main className="px-4">
         <div className="space-y-3">
           {isLoading ? (
             <NotificationSkeleton />
