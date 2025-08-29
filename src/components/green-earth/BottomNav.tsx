@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Home, Map, User } from "lucide-react";
@@ -13,7 +14,7 @@ export function BottomNav() {
   const [activeItem, setActiveItem] = useUIState(state => [state.activeBottomNavItem, state.setActiveBottomNavItem]);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t z-20 w-full">
+    <nav className="fixed bottom-0 left-0 right-0 bg-background border-t z-20 w-full">
       <div className="flex justify-around p-2">
         {navItems.map((item) => (
           <a
