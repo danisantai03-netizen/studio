@@ -40,29 +40,34 @@ export function Header() {
           </div>
           <Notifications />
         </div>
-        <Card className="shadow-lg rounded-2xl bg-primary text-primary-foreground w-full max-w-md mx-auto min-h-[160px]">
-          <CardContent className="p-4 flex flex-col justify-between h-full">
+        <Card className="shadow-lg rounded-2xl bg-primary text-primary-foreground w-full max-w-md mx-auto">
+          <CardContent className="p-4 flex flex-col justify-between h-full relative min-h-[160px]">
             <div className="flex justify-between items-start">
-                <div className="flex-1">
-                    <p className="text-xs text-primary-foreground/80">My Points</p>
-                     <p 
-                        className="text-3xl font-bold leading-none mt-1 transition-transform duration-200 ease-in-out" 
-                        aria-live="polite"
-                        key={points} // Re-trigger animation on change
-                     >
-                        {formatPointsAsCurrency(points)}
-                    </p>
+              <div className="flex-1">
+                <p className="text-xs text-primary-foreground/80">My Points</p>
+                <div
+                  className="transition-transform duration-200 ease-in-out"
+                  key={points} // Re-trigger animation on change
+                  aria-live="polite"
+                >
+                  <p className="text-3xl font-bold leading-none mt-1">
+                    {points.toLocaleString('id-ID')}
+                  </p>
+                   <p className="text-sm text-primary-foreground/80 mt-1">
+                    {formatPointsAsCurrency(points)}
+                  </p>
                 </div>
-                <Button variant="secondary" size="sm" className="w-auto bg-accent text-accent-foreground rounded-full shadow-md transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:ring-0">
-                    <Gift className="mr-1.5 h-4 w-4" />
-                    Redeem
-                </Button>
+              </div>
+              <Button variant="secondary" size="sm" className="w-auto bg-accent text-accent-foreground rounded-full shadow-md transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:ring-0">
+                <Gift className="mr-1.5 h-4 w-4" />
+                Redeem
+              </Button>
             </div>
-            <div className="flex justify-center">
-                 <Button variant="ghost" size="sm" className="w-auto rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:ring-0">
-                    <History className="mr-1.5 h-4 w-4" />
-                    History
-                </Button>
+            <div className="flex justify-center mt-4">
+              <Button variant="ghost" size="sm" className="w-auto rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:ring-0">
+                <History className="mr-1.5 h-4 w-4" />
+                History
+              </Button>
             </div>
           </CardContent>
         </Card>
