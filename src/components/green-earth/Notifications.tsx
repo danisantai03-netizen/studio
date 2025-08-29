@@ -130,16 +130,7 @@ function NotificationCard({
   onClick: (notification: NotificationItem) => void;
 }) {
   const content = (
-      <div
-        role="menuitem"
-        tabIndex={-1}
-        onClick={() => onClick(notification)}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick(notification)}}
-        className={cn(
-          "flex items-start gap-3 p-3 rounded-lg transition-all duration-150 cursor-pointer hover:shadow-sm hover:bg-gray-50/50",
-          !notification.read && "font-semibold"
-        )}
-      >
+      <>
         <div className="w-10 h-10 rounded-full bg-primary/10 grid place-items-center shrink-0 mt-1">
           <Check className="w-5 h-5 text-primary" />
         </div>
@@ -156,15 +147,26 @@ function NotificationCard({
         {!notification.read && (
           <div className="w-2 h-2 rounded-full bg-accent mt-1 shrink-0" aria-label="Unread"></div>
         )}
-      </div>
+      </>
   );
 
+  const commonProps = {
+    onClick: () => onClick(notification),
+    onKeyDown: (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') onClick(notification)},
+    className: cn(
+      "flex items-start gap-3 p-3 rounded-lg transition-all duration-150 cursor-pointer hover:shadow-sm hover:bg-gray-50/50",
+      !notification.read && "font-semibold"
+    )
+  };
+
   return notification.href ? (
-    <Link href={notification.href} passHref legacyBehavior>
+    <Link href={notification.href} {...commonProps} role="menuitem" tabIndex={-1}>
         {content}
     </Link>
   ) : (
-    content
+    <div {...commonProps} role="menuitem" tabIndex={-1}>
+      {content}
+    </div>
   );
 }
 
