@@ -66,10 +66,14 @@ export default {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
+      boxShadow: {
+        card: '0 6px 20px rgba(16,24,40,0.06)',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        card: '1rem',
       },
       keyframes: {
         'accordion-down': {
