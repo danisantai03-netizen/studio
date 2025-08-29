@@ -18,7 +18,7 @@ export function Header() {
               <h1 className="text-xl font-bold text-foreground">Alex Green</h1>
             </div>
           </div>
-          <Button variant="ghost" size="icon">
+          <Button variant="secondary" size="icon" className="rounded-full">
             <Bell className="h-6 w-6" />
             <span className="sr-only">Notifications</span>
           </Button>

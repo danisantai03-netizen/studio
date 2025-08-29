@@ -30,7 +30,7 @@ export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
             </Button>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" className="h-2" />
+        <ScrollBar orientation="horizontal" className="hidden" />
       </ScrollArea>
     </div>
   );

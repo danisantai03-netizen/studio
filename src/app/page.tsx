@@ -11,7 +11,7 @@ export default function Home() {
       <div className="flex-grow pb-24">
         <Header />
         <main>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 py-8">
             <div className="px-4">
               <PromoCarousel />
             </div>
