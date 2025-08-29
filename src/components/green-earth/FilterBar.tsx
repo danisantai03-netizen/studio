@@ -19,10 +19,10 @@ export function FilterBar() {
               key={filter}
               variant={activeFilter === filter ? "default" : "secondary"}
               className={cn(
-                "rounded-full h-9 px-4 text-sm font-semibold transition-all duration-200 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+                "rounded-full h-9 px-4 text-sm font-semibold transition-transform duration-200 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 active:scale-95 hover:scale-105",
                 activeFilter === filter
                   ? "bg-accent text-accent-foreground"
-                  : "bg-white text-foreground hover:bg-gray-100"
+                  : "bg-white text-foreground"
               )}
               onClick={() => setFilter(filter)}
             >
@@ -32,7 +32,7 @@ export function FilterBar() {
         </div>
         <ScrollBar orientation="horizontal" className="hidden" />
       </ScrollArea>
-      <a href="#" className="ml-4 text-sm font-semibold text-accent whitespace-nowrap">See All</a>
+      <a href="#" className="ml-4 text-sm font-semibold text-accent whitespace-nowrap transition-transform duration-200 ease-in-out active:scale-95 hover:scale-105">See All</a>
     </div>
   );
 }

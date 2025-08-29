@@ -16,9 +16,9 @@ export function FeatureLinks() {
           <a
             href={feature.href}
             key={feature.name}
-            className="flex flex-col items-center justify-center gap-2 group focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-2xl"
+            className="flex flex-col items-center justify-center gap-2 group focus:outline-none focus:ring-0 transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95"
           >
-            <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full transition-all duration-200 ease-in-out group-hover:bg-primary/20 group-active:scale-95">
+            <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full transition-all duration-200 ease-in-out group-hover:bg-primary/20">
               <feature.icon className="w-8 h-8 text-primary" />
             </div>
             <p className="font-semibold text-center text-sm text-foreground">{feature.name}</p>

@@ -39,6 +39,7 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-tap-highlight-color: transparent;
   }
   html {
     -webkit-text-size-adjust: 100%;
@@ -47,7 +48,5 @@
   }
   body {
     @apply bg-background text-foreground;
-    -webkit-tap-highlight-color: transparent;
   }
 }
-

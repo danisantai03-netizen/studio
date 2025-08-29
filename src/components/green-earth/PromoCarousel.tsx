@@ -60,13 +60,13 @@ export function PromoCarousel() {
         <CarouselContent>
           {promotions.map((promo, index) => (
             <CarouselItem key={index}>
-              <Card className="overflow-hidden shadow-lg rounded-2xl">
+              <Card className="overflow-hidden shadow-lg rounded-2xl transition-transform duration-200 ease-in-out hover:shadow-xl active:scale-95">
                 <CardContent className="relative p-0 aspect-[16/9]">
                   <Image
                     src={promo.image}
                     alt={promo.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
                     data-ai-hint={promo.aiHint}
                     priority={index === 0}
                   />
@@ -74,7 +74,7 @@ export function PromoCarousel() {
                   <div className="absolute bottom-0 left-0 p-6 text-white">
                     <h3 className="text-2xl md:text-3xl font-bold">{promo.title}</h3>
                     <p className="mt-2 max-w-lg text-base md:text-lg">{promo.description}</p>
-                    <Button className="mt-4 bg-accent text-accent-foreground font-semibold px-6 py-2 rounded-full shadow-md hover:bg-accent/90 transition-all duration-200 ease-in-out">
+                    <Button className="mt-4 bg-accent text-accent-foreground font-semibold px-6 py-2 rounded-full shadow-md transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95">
                       Join Now
                     </Button>
                   </div>

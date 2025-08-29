@@ -60,7 +60,7 @@ export function RecyclingTip() {
           )}
         </CardContent>
         <CardFooter className="py-4">
-          <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-white/10 active:opacity-70 focus:ring-0 text-sm h-auto p-2 rounded-full">
+          <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary-foreground/80 hover:text-primary-foreground transition-transform duration-200 ease-in-out active:scale-95 focus:ring-0 text-sm h-auto p-2 rounded-full">
             <RefreshCw className={`mr-2 h-4 w-4 ${isPending ? "animate-spin" : ""}`} />
             Get Another Tip
           </Button>
