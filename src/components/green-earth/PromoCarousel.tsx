@@ -61,7 +61,7 @@ export function PromoCarousel() {
           {promotions.map((promo, index) => (
             <CarouselItem key={index}>
               <Card className="overflow-hidden shadow-lg">
-                <CardContent className="relative p-0 aspect-[2/1] md:aspect-[3/1]">
+                <CardContent className="relative p-0 aspect-[2/1]">
                   <Image
                     src={promo.image}
                     alt={promo.title}

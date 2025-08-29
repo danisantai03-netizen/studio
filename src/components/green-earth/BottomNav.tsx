@@ -9,7 +9,7 @@ const navItems = [
 
 export function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t z-20">
+    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t z-20 w-full">
       <div className="container mx-auto flex justify-around p-2">
         {navItems.map((item) => (
           <Button
