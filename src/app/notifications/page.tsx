@@ -65,11 +65,12 @@ export default function NotificationsPage() {
             </div>
           ) : (
             notifications.map((item) => (
-              <NotificationCard
-                key={item.id}
-                notification={item}
-                onClick={handleNotificationClick}
-              />
+              <div key={item.id} className="mb-3">
+                <NotificationCard
+                  notification={item}
+                  onClick={handleNotificationClick}
+                />
+              </div>
             ))
           )}
         </div>
