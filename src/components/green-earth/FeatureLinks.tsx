@@ -16,9 +16,9 @@ export function FeatureLinks() {
         {features.map((feature) => (
           <a href={feature.href} key={feature.name} className="block group rounded-lg focus:outline-none focus:ring-2 focus:ring-ring">
             <Card className="shadow-md transition-colors active:bg-card/60">
-              <CardContent className="p-4 sm:p-6 flex flex-col items-center justify-center gap-2 aspect-square">
-                <feature.icon className="w-8 h-8 text-primary" />
-                <p className="font-semibold text-center text-sm">{feature.name}</p>
+              <CardContent className="p-3 flex flex-col items-center justify-center gap-2 aspect-square">
+                <feature.icon className="w-7 h-7 text-primary" />
+                <p className="font-semibold text-center text-xs">{feature.name}</p>
               </CardContent>
             </Card>
           </a>

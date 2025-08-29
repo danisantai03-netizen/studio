@@ -43,24 +43,24 @@ export function RecyclingTip() {
   return (
     <section aria-labelledby="recycling-tip-heading">
       <Card className="border-primary/50 shadow-md">
-        <CardHeader>
-          <CardTitle id="recycling-tip-heading" className="flex items-center gap-2 text-primary">
-            <Lightbulb />
+        <CardHeader className="py-4">
+          <CardTitle id="recycling-tip-heading" className="flex items-center gap-2 text-primary text-base">
+            <Lightbulb className="w-5 h-5"/>
             Recycling Tip
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="py-0">
           {isLoading ? (
             <div className="space-y-2">
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-3/4" />
             </div>
           ) : (
-            <p className="text-foreground">{tip?.tip}</p>
+            <p className="text-foreground text-sm">{tip?.tip}</p>
           )}
         </CardContent>
-        <CardFooter>
-          <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary hover:text-primary hover:bg-primary/10">
+        <CardFooter className="py-3">
+          <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary hover:text-primary hover:bg-primary/10 text-sm h-auto p-1">
             <RefreshCw className={`mr-2 h-4 w-4 ${isPending ? "animate-spin" : ""}`} />
             Get Another Tip
           </Button>
