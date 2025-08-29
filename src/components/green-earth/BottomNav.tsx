@@ -85,7 +85,7 @@ export function BottomNav() {
   const { items } = navConfig;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20">
+    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20 md:hidden">
       <div className="flex justify-around items-center h-full">
         {items.map((item) => (
           <NavIcon

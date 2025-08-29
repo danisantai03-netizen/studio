@@ -11,7 +11,7 @@ export function FeatureLinks() {
   return (
     <section aria-labelledby="features-heading" className="px-4">
       <h2 id="features-heading" className="text-xl font-bold mb-4">Features</h2>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         {features.map((feature) => (
           <a
             href={feature.href}

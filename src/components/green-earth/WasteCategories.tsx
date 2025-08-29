@@ -77,7 +77,7 @@ export function WasteCategories() {
       <div className="mb-4">
         <h3 className="text-lg font-bold">Items</h3>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredCategories.map((category) => (
           <Card key={category.name} className="flex flex-col overflow-hidden shadow-md rounded-2xl transition-transform duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95">
             <CardHeader className="p-0">
