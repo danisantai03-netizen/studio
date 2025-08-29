@@ -31,26 +31,24 @@ export default function NotificationsPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <div className="p-4">
+      <div className="p-4 flex justify-between items-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-2xl font-bold mb-4"
+          className="inline-flex items-center gap-2 text-xl font-bold"
           aria-label="Go back to home"
         >
           <ArrowLeft className="w-6 h-6" />
           <span>Notification</span>
         </Link>
-        <div className="flex justify-end mb-4">
-          <Button
-            variant="link"
-            size="sm"
-            className="text-accent h-auto p-0"
-            onClick={() => markAllAsRead.mutate()}
-            disabled={totalUnread === 0}
-          >
-            Mark all as read
-          </Button>
-        </div>
+        <Button
+          variant="link"
+          size="sm"
+          className="text-accent h-auto p-0"
+          onClick={() => markAllAsRead.mutate()}
+          disabled={totalUnread === 0}
+        >
+          Mark all as read
+        </Button>
       </div>
 
       <main className="px-4">
@@ -89,7 +87,7 @@ function NotificationCard({
 }) {
     const content = (
       <div className={cn(
-        "flex items-start gap-4 p-4 rounded-2xl transition-all duration-150 cursor-pointer hover:shadow-md active:scale-[0.98]",
+        "flex items-start gap-3 p-3 rounded-xl transition-all duration-150 cursor-pointer hover:shadow-md active:scale-[0.98]",
         notification.read ? "bg-white" : "bg-primary/5 border border-primary/20"
       )}>
         <div className={cn(
@@ -98,7 +96,7 @@ function NotificationCard({
         )}>
           <Check className={cn("w-5 h-5", notification.read ? "text-gray-500" : "text-primary")} />
         </div>
-        <div className="flex-grow">
+        <div className="flex-grow pt-1">
           <p className={cn("text-sm", !notification.read && "font-semibold")}>
             {notification.title}
           </p>
@@ -111,7 +109,7 @@ function NotificationCard({
           </div>
         </div>
         {!notification.read && (
-          <div className="w-2.5 h-2.5 rounded-full bg-accent mt-1 shrink-0 self-center" aria-label="Unread"></div>
+          <div className="w-2 h-2.5 rounded-full bg-accent mt-1 shrink-0 self-center" aria-label="Unread"></div>
         )}
       </div>
   );
@@ -136,7 +134,7 @@ function NotificationSkeleton() {
   return (
     <div className="space-y-3">
       {[...Array(5)].map((_, i) => (
-        <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-white animate-pulse">
+        <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-white animate-pulse">
           <Skeleton className="w-10 h-10 rounded-full" />
           <div className="flex-grow space-y-2 mt-1">
             <Skeleton className="h-4 w-4/5" />
