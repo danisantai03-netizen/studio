@@ -10,8 +10,8 @@ export default function Home() {
     <div className="bg-background text-foreground min-h-screen">
       <div className="flex flex-col flex-grow pb-24">
         <Header />
-        <main className="flex-grow pt-6">
-          <div className="flex flex-col gap-8">
+        <main className="flex-grow">
+          <div className="flex flex-col gap-6 pt-4">
             <PromoCarousel />
             <FeatureLinks />
             <RecyclingTip />

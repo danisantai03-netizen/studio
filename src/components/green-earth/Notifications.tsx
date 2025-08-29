@@ -13,7 +13,7 @@ export function Notifications() {
     <Link
       href="/notifications"
       aria-label={`Notifications, ${totalUnread} unread`}
-      className="relative p-2 rounded-full focus:outline-none focus:ring-0 transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-70"
+      className="relative p-2 rounded-full focus:outline-none focus:ring-0 transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-70 text-white"
     >
       <Bell className="h-6 w-6" />
       {totalUnread > 0 && (
