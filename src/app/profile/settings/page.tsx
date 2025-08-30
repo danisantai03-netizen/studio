@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Bell, Moon, Sun, Globe, ChevronRight } from 'lucide-react';
+import { useDarkMode } from '@/hooks/useDarkMode';
 
 export default function SettingsPage() {
   const [notifications, setNotifications] = React.useState(true);
-  const [darkMode, setDarkMode] = React.useState(false);
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
     <div className="bg-background min-h-screen">
@@ -27,10 +28,10 @@ export default function SettingsPage() {
                  />
                  <div className="h-px bg-border mx-4" />
                  <SettingRowSwitch
-                    icon={darkMode ? Moon : Sun}
+                    icon={isDarkMode ? Moon : Sun}
                     title="Dark Mode"
-                    checked={darkMode}
-                    onCheckedChange={setDarkMode}
+                    checked={isDarkMode}
+                    onCheckedChange={toggleDarkMode}
                  />
             </div>
         </div>
