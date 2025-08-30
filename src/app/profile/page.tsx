@@ -2,12 +2,10 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   ChevronRight,
-  Pencil,
   ShieldCheck,
   FileText,
   MessageSquareHeart,
@@ -17,8 +15,8 @@ import {
   LogOut,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import useUserStore from '@/hooks/useUserStore';
 import { BottomNav } from '@/components/green-earth/BottomNav';
+import { ProfileHeaderCard } from '@/components/green-earth/ProfileHeaderCard';
 
 const menuItems = [
   { icon: Users, text: 'Referral', href: '#' },
@@ -31,7 +29,6 @@ const menuItems = [
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { name, avatarUrl } = useUserStore();
 
   return (
     <div className="bg-background min-h-screen">
@@ -46,34 +43,17 @@ export default function ProfilePage() {
 
         <main className="flex-grow">
           {/* Profile Info */}
-          <div className="px-4 py-6 flex flex-col items-center text-center">
-            <div className="relative">
-              <Image
-                src={avatarUrl}
-                alt={name}
-                width={96}
-                height={96}
-                className="rounded-full border-4 border-white shadow-md"
-              />
-              <Button
-                size="icon"
-                className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-primary-foreground border-2 border-white"
-                aria-label="Edit profile"
-              >
-                <Pencil className="w-4 h-4" />
-              </Button>
-            </div>
-            <h2 className="mt-4 text-2xl font-bold">{name}</h2>
-            <p className="text-muted-foreground text-sm mt-1">ID: 1289-4720-3482</p>
+          <div className="px-4 py-2">
+            <ProfileHeaderCard />
           </div>
 
           {/* Menu List */}
-          <div className="px-4 py-2">
+          <div className="px-4 py-6">
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
                 {menuItems.map((item, index) => (
                     <React.Fragment key={item.text}>
                         <MenuItem icon={item.icon} text={item.text} href={item.href} />
-                        {index < menuItems.length && <div className="h-px bg-gray-100 mx-4" />}
+                        {index < menuItems.length - 1 && <div className="h-px bg-gray-100 mx-4" />}
                     </React.Fragment>
                 ))}
                  <MenuItem icon={LogOut} text="Logout" href="#" isLogout/>
