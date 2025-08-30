@@ -19,6 +19,7 @@ export default function Home() {
           <FeatureLinks />
           <RecyclingTip />
           <div className="px-4">
+            <h2 className="text-xl font-bold mb-4">Category</h2>
             <FilterBar />
           </div>
           <WasteCategories />
