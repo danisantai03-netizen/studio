@@ -6,10 +6,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell } from 'lucide-react';
 import Link from "next/link";
 import { useNotifications } from "@/hooks/use-notifications";
+import useUserStore from "@/hooks/useUserStore";
 
 export function Header() {
   const { data } = useNotifications();
   const totalUnread = data?.totalUnread ?? 0;
+  const { name, avatarUrl } = useUserStore();
 
   return (
     <header className="relative bg-background p-4">
@@ -17,15 +19,15 @@ export function Header() {
           <div className="flex items-center gap-3">
             <Avatar className="h-12 w-12 border-2 border-white shadow-sm">
               <AvatarImage
-                src="httpshttps://picsum.photos/48/48"
-                alt="Alex Green"
+                src={avatarUrl}
+                alt={name}
                 data-ai-hint="profile person"
               />
-              <AvatarFallback>AG</AvatarFallback>
+              <AvatarFallback>{name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>
               <p className="text-sm text-muted-foreground">Welcome back,</p>
-              <h1 className="text-lg font-bold text-foreground">Alex Green</h1>
+              <h1 className="text-lg font-bold text-foreground">{name}</h1>
             </div>
           </div>
           <Link

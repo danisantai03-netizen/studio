@@ -23,7 +23,7 @@ const navItems = [
   },
   {
     name: "Profile",
-    href: "#", // Placeholder
+    href: "/profile",
     activeIcon: "/assets/bottomNav/profile-active.svg",
     inactiveIcon: "/assets/bottomNav/profile-inactive.svg",
   },
