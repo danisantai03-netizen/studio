@@ -6,12 +6,10 @@ import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Bell, Moon, Sun, Globe, ChevronRight } from 'lucide-react';
-import { useDarkMode } from '@/hooks/useDarkMode';
+import { Bell, Globe, ChevronRight } from 'lucide-react';
 
 export default function SettingsPage() {
   const [notifications, setNotifications] = React.useState(true);
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
     <div className="bg-background min-h-screen">
@@ -25,13 +23,6 @@ export default function SettingsPage() {
                     title="Push Notifications"
                     checked={notifications}
                     onCheckedChange={setNotifications}
-                 />
-                 <div className="h-px bg-border mx-4" />
-                 <SettingRowSwitch
-                    icon={isDarkMode ? Moon : Sun}
-                    title="Dark Mode"
-                    checked={isDarkMode}
-                    onCheckedChange={toggleDarkMode}
                  />
             </div>
         </div>
