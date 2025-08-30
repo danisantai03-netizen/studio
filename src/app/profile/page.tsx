@@ -1,7 +1,7 @@
 
 'use client';
 
-import *d React from 'react';
+import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
