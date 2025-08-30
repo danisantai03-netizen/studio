@@ -14,7 +14,7 @@ const features = [
 
 export function FeatureLinks() {
   return (
-    <section aria-labelledby="features-heading" className="py-6">
+    <section aria-labelledby="features-heading" className="py-2">
       <h2 id="features-heading" className="text-xl font-bold mb-4 px-4">Features</h2>
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max space-x-4 px-4 pb-4">
@@ -24,7 +24,7 @@ export function FeatureLinks() {
               key={feature.name}
               className="flex flex-col items-center flex-shrink-0 w-20 text-center group focus:outline-none focus:ring-0"
             >
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl transition-all duration-200 ease-in-out group-hover:bg-primary/20">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary/5 rounded-2xl transition-all duration-200 ease-in-out group-hover:bg-primary/10 border border-primary/10">
                 <feature.icon className="w-7 h-7 text-primary" />
               </div>
               <p className="font-semibold text-center text-xs text-foreground mt-2">{feature.name}</p>

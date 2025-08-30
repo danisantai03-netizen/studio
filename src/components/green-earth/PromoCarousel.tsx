@@ -70,8 +70,8 @@ export function PromoCarousel() {
         <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
           <CarouselContent>
             {promotions.map((promo, index) => (
-              <CarouselItem key={index} className="aspect-[16/9] rounded-2xl overflow-hidden">
-                <Card className="overflow-hidden shadow-lg h-full w-full rounded-2xl border-none">
+              <CarouselItem key={index}>
+                <Card className="overflow-hidden shadow-lg h-full w-full rounded-2xl border-none aspect-[16/9]">
                   <CardContent className="relative p-0 w-full h-full">
                     <Image
                       src={promo.image}
