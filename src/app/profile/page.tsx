@@ -16,17 +16,16 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BottomNav } from '@/components/green-earth/BottomNav';
-import { ProfileHeaderCard } from '@/components/green-earth/ProfileHeaderCard';
 import useUserStore from '@/hooks/useUserStore';
 import Image from 'next/image';
 
 const menuItems = [
-  { icon: Users, text: 'Referral', href: '#' },
-  { icon: History, text: 'Transaction History', href: '#' },
-  { icon: Settings, text: 'Settings', href: '#' },
-  { icon: ShieldCheck, text: 'Security', href: '#' },
-  { icon: MessageSquareHeart, text: 'Help & Feedback', href: '#' },
-  { icon: FileText, text: 'Terms & Conditions', href: '#' },
+  { icon: Users, text: 'Referral', href: '/profile/referral' },
+  { icon: History, text: 'Transaction History', href: '/profile/history' },
+  { icon: Settings, text: 'Settings', href: '/profile/settings' },
+  { icon: ShieldCheck, text: 'Security', href: '/profile/security' },
+  { icon: MessageSquareHeart, text: 'Help & Feedback', href: '/profile/feedback' },
+  { icon: FileText, text: 'Terms & Conditions', href: '/profile/terms' },
 ];
 
 export default function ProfilePage() {
@@ -90,9 +89,19 @@ function ProfileInfoCard() {
 }
 
 function MenuItem({ icon: Icon, text, href, isLogout = false }: { icon: React.ElementType, text: string, href: string, isLogout?: boolean }) {
+  const router = useRouter();
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (href !== '#') {
+        router.push(href);
+    }
+    // Handle logout logic here if needed
+  };
+
   return (
     <a
       href={href}
+      onClick={handleClick}
       className={`flex items-center p-4 text-sm font-medium transition-colors duration-150 active:bg-gray-100/50 ${isLogout ? 'text-destructive' : 'text-foreground'}`}
     >
       <Icon className={`w-5 h-5 mr-4 shrink-0 ${isLogout ? '' : 'text-primary'}`} />
