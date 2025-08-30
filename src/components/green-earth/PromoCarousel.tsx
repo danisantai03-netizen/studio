@@ -17,19 +17,19 @@ const promotions = [
   {
     title: "Double Points Week",
     description: "Recycle electronics & earn double points!",
-    image: "https://picsum.photos/1200/800?random=1",
+    image: "/assets/promos/promo-1.jpg",
     aiHint: "electronics recycling"
   },
   {
     title: "Community Cleanup Drive",
     description: "Join us this Saturday for a park cleanup.",
-    image: "https://picsum.photos/1200/800?random=2",
+    image: "/assets/promos/promo-2.jpg",
     aiHint: "community park"
   },
   {
     title: "New Recycling Center",
     description: "A new center is now open in your area.",
-    image: "https://picsum.photos/1200/800?random=3",
+    image: "/assets/promos/promo-3.jpg",
     aiHint: "recycling center"
   },
 ];
@@ -68,10 +68,10 @@ export function PromoCarousel() {
     <section aria-labelledby="promotions-heading">
       <div className="relative">
         <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
-          <CarouselContent className="-ml-4">
+          <CarouselContent className="-ml-3">
             {promotions.map((promo, index) => (
-              <CarouselItem key={index} className="pl-4">
-                <Card className="overflow-hidden shadow-lg h-full w-full rounded-2xl border-none aspect-[16/9]">
+              <CarouselItem key={index} className="pl-3">
+                <Card className="overflow-hidden shadow-lg h-full w-full rounded-xl border-none aspect-[16/9] sm:aspect-video">
                   <CardContent className="relative p-0 w-full h-full">
                     <Image
                       src={promo.image}
@@ -83,9 +83,9 @@ export function PromoCarousel() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <div className="absolute bottom-0 left-0 p-4 text-white">
-                      <h3 className="text-lg sm:text-xl font-bold">{promo.title}</h3>
-                      <p className="mt-1 max-w-lg text-sm">{promo.description}</p>
-                      <Button size="sm" className="mt-3 bg-accent text-accent-foreground font-semibold px-4 py-2 text-xs sm:px-6 sm:py-2.5 sm:text-sm h-auto rounded-full shadow-md transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95">
+                      <h3 className="text-base sm:text-lg font-bold">{promo.title}</h3>
+                      <p className="mt-1 max-w-lg text-xs sm:text-sm">{promo.description}</p>
+                      <Button size="sm" className="mt-2 bg-accent text-accent-foreground font-semibold px-4 py-2 text-xs h-auto rounded-full shadow-md transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 sm:mt-3 sm:px-6 sm:py-2.5 sm:text-sm">
                         Join Now
                       </Button>
                     </div>
@@ -95,13 +95,13 @@ export function PromoCarousel() {
             ))}
           </CarouselContent>
         </Carousel>
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center space-x-2">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center space-x-1.5">
           {promotions.map((_, index) => (
             <button
               key={index}
               onClick={() => api?.scrollTo(index)}
               className={cn(
-                "w-2 h-2 rounded-full",
+                "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
                 current === index ? "bg-white" : "bg-white/40"
               )}
               aria-label={`Go to slide ${index + 1}`}

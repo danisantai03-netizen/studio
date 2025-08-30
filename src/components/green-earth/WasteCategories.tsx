@@ -90,12 +90,12 @@ export function WasteCategories() {
 
   return (
     <section aria-labelledby="waste-categories-heading">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {filteredCategories.map((category) => (
           <Link key={category.name} href={`/schedule-pickup/${encodeURIComponent(category.category)}`} className="block group">
-            <Card className="flex flex-col overflow-hidden shadow-sm rounded-2xl transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95 border-gray-200/50 h-full">
+            <Card className="flex flex-col overflow-hidden shadow-sm rounded-xl transition-all duration-200 ease-in-out hover:shadow-md active:scale-95 border-gray-200/50 h-full">
               <CardHeader className="p-0">
-                <div className="relative aspect-[3/2] w-full">
+                <div className="relative aspect-[4/3] w-full">
                   <Image
                     src={category.image}
                     alt={category.name}
@@ -105,10 +105,10 @@ export function WasteCategories() {
                   />
                 </div>
               </CardHeader>
-              <CardContent className="p-3 flex flex-col flex-grow bg-white">
+              <CardContent className="p-2.5 flex flex-col flex-grow bg-white">
                 <CardTitle className="text-sm font-bold">{category.name}</CardTitle>
-                <CardDescription className="mt-1 flex-grow text-xs text-gray-600">{category.description}</CardDescription>
-                <p className="mt-2 text-primary font-bold text-xs">{category.points}</p>
+                <CardDescription className="mt-0.5 flex-grow text-xs text-gray-600">{category.description}</CardDescription>
+                <p className="mt-1.5 text-primary font-bold text-xs">{category.points}</p>
               </CardContent>
             </Card>
           </Link>

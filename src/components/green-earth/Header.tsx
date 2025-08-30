@@ -2,12 +2,11 @@
 "use client";
 
 import * as React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell } from 'lucide-react';
 import Link from "next/link";
+import Image from "next/image";
+import { Bell } from 'lucide-react';
 import { useNotifications } from "@/hooks/use-notifications";
 import useUserStore from "@/hooks/useUserStore";
-import Image from "next/image";
 
 export function Header() {
   const { data } = useNotifications();
@@ -15,10 +14,10 @@ export function Header() {
   const { name, avatarUrl } = useUserStore();
 
   return (
-    <header className="relative bg-background p-4">
+    <header className="relative bg-background p-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm">
+            <Link href="/profile" className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-white shadow-sm">
               <Image
                 src={avatarUrl}
                 alt={name}
@@ -26,10 +25,10 @@ export function Header() {
                 className="object-cover"
                 data-ai-hint="profile person"
               />
-            </div>
+            </Link>
             <div>
-              <p className="text-sm text-muted-foreground">Welcome back,</p>
-              <h1 className="text-lg font-bold text-foreground">{name}</h1>
+              <p className="text-xs text-muted-foreground">Welcome back,</p>
+              <h1 className="text-base font-bold text-foreground">{name}</h1>
             </div>
           </div>
           <Link

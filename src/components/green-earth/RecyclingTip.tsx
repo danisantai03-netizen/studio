@@ -44,14 +44,14 @@ export function RecyclingTip() {
   return (
     <section aria-labelledby="recycling-tip-heading">
       <div className="flex items-center justify-between mb-2">
-        <h2 id="recycling-tip-heading" className="text-xl font-bold">Daily Eco Tips</h2>
-        <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary h-auto p-0 text-sm">
+        <h2 id="recycling-tip-heading" className="text-lg font-bold">Daily Eco Tips</h2>
+        <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary h-auto p-0 text-xs">
           <RefreshCw className={`mr-1 h-3 w-3 ${isPending ? "animate-spin" : ""}`} />
           New Tip
         </Button>
       </div>
         {isLoading ? (
-            <Card className="bg-primary/5 text-primary-foreground shadow-sm rounded-2xl w-full border-primary/20">
+            <Card className="bg-primary/5 text-primary-foreground shadow-sm rounded-xl w-full border-primary/20">
               <CardContent className="p-3 sm:p-4">
                 <div className="flex items-start gap-3">
                   <Skeleton className="w-8 h-8 rounded-full bg-primary/20" />
@@ -64,7 +64,7 @@ export function RecyclingTip() {
             </Card>
         ) : (
           tip && (
-            <Card className="bg-primary/5 shadow-sm rounded-2xl w-full border-primary/20">
+            <Card className="bg-primary/5 shadow-sm rounded-xl w-full border-primary/20">
               <CardContent className="p-3 sm:p-4">
                 <div className="flex items-start gap-3">
                   <div className="bg-primary/10 p-1.5 rounded-full mt-0.5">

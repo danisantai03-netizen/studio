@@ -22,7 +22,7 @@ interface UserState {
 
 const useUserStore = create<UserState>((set) => ({
   name: 'Alex Green',
-  avatarUrl: 'https://picsum.photos/96/96',
+  avatarUrl: '/assets/avatars/alex-green.jpg',
   email: 'alex.green@example.com',
   phone: '81234567890',
   userId: '1289-4720-3482',

@@ -1,7 +1,7 @@
 
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -31,17 +31,19 @@ const menuItems = [
 export default function ProfilePage() {
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Profile" showBackButton={false} />
-      <div className="flex flex-col flex-grow pb-28">
+      <div className="px-3">
+        <UniversalHeader title="Profile" showBackButton={false} />
+      </div>
+      <div className="flex flex-col flex-grow pb-20">
         <main className="flex-grow">
           {/* Profile Info */}
-          <div className="p-4">
+          <div className="p-3">
             <ProfileInfoCard />
           </div>
 
           {/* Menu List */}
-          <div className="px-4 py-2">
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <div className="px-3 py-2">
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                 {menuItems.map((item, index) => (
                     <React.Fragment key={item.text}>
                         <MenuItem icon={item.icon} text={item.text} href={item.href} />
@@ -62,8 +64,8 @@ export default function ProfilePage() {
 function ProfileInfoCard() {
     const { name, avatarUrl, userId } = useUserStore();
     return (
-        <Link href="/profile/edit" className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm active:bg-gray-50 transition-colors duration-150">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden">
+        <Link href="/profile/edit" className="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm active:bg-gray-50 transition-colors duration-150">
+            <div className="relative w-14 h-14 rounded-full overflow-hidden">
                  <Image 
                     src={avatarUrl}
                     alt={name}
@@ -72,8 +74,8 @@ function ProfileInfoCard() {
                 />
             </div>
             <div className="flex-grow">
-                <p className="font-bold text-lg">{name}</p>
-                <p className="text-sm text-muted-foreground">ID: {userId}</p>
+                <p className="font-bold text-base">{name}</p>
+                <p className="text-xs text-muted-foreground">ID: {userId}</p>
             </div>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
         </Link>
@@ -97,7 +99,7 @@ function MenuItem({ icon: Icon, text, href, isLogout = false }: { icon: React.El
       role="button"
       tabIndex={0}
     >
-      <Icon className={`w-5 h-5 mr-4 shrink-0 ${isLogout ? '' : 'text-primary'}`} />
+      <Icon className={`w-5 h-5 mr-3 shrink-0 ${isLogout ? '' : 'text-primary'}`} />
       <span className="flex-grow">{text}</span>
       {!isLogout && <ChevronRight className="w-5 h-5 text-muted-foreground" />}
     </div>
