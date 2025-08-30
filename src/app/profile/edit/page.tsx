@@ -1,12 +1,12 @@
 
 'use client';
 
-import *d React from 'react';
+import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import *d z from 'zod';
+import * as z from 'zod';
 import useUserStore from '@/hooks/useUserStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
