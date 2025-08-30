@@ -15,6 +15,12 @@ export function Header() {
   const totalUnread = data?.totalUnread ?? 0;
   const { name, avatarUrl } = useUserStore();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
 
   return (
     <header className="relative bg-background p-3">
@@ -35,7 +41,7 @@ export function Header() {
             </div>
           </div>
           <div className="flex items-center gap-1">
-            {isDarkMode !== undefined && (
+            {isMounted && (
                  <Button
                     variant="ghost"
                     size="icon"

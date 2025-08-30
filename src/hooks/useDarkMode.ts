@@ -4,21 +4,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export function useDarkMode() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean | undefined>(undefined);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    const isDark =
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
-    setIsDarkMode(isDark);
-    
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    // Set initial state from the class on the <html> element
+    setIsDarkMode(document.documentElement.classList.contains('dark'));
   }, []);
 
   const toggleDarkMode = useCallback(() => {
@@ -26,23 +16,14 @@ export function useDarkMode() {
         const newIsDark = !prev;
         if (newIsDark) {
             document.documentElement.classList.add('dark');
-            localStorage.theme = 'dark';
+            localStorage.setItem('theme', 'dark');
         } else {
             document.documentElement.classList.remove('dark');
-            localStorage.theme = 'light';
+            localStorage.setItem('theme', 'light');
         }
         return newIsDark;
     });
   }, []);
-  
-  useEffect(() => {
-    if (isDarkMode === undefined) return; // Don't do anything until the initial state is determined
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
 
   return { isDarkMode, toggleDarkMode };
 }
