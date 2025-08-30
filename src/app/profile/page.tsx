@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   ArrowLeft,
   ChevronRight,
@@ -69,9 +70,9 @@ export default function ProfilePage() {
 }
 
 function ProfileInfoCard() {
-    const { name, avatarUrl } = useUserStore();
+    const { name, avatarUrl, userId } = useUserStore();
     return (
-        <a href="#" className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm active:bg-gray-50 transition-colors duration-150">
+        <Link href="/profile/edit" className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm active:bg-gray-50 transition-colors duration-150">
             <Image 
                 src={avatarUrl}
                 alt={name}
@@ -81,16 +82,16 @@ function ProfileInfoCard() {
             />
             <div className="flex-grow">
                 <p className="font-bold text-lg">{name}</p>
-                <p className="text-sm text-muted-foreground">See profile information</p>
+                <p className="text-sm text-muted-foreground">ID: {userId}</p>
             </div>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
-        </a>
+        </Link>
     )
 }
 
 function MenuItem({ icon: Icon, text, href, isLogout = false }: { icon: React.ElementType, text: string, href: string, isLogout?: boolean }) {
   const router = useRouter();
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (href !== '#') {
         router.push(href);
@@ -99,14 +100,13 @@ function MenuItem({ icon: Icon, text, href, isLogout = false }: { icon: React.El
   };
 
   return (
-    <a
-      href={href}
+    <div
       onClick={handleClick}
-      className={`flex items-center p-4 text-sm font-medium transition-colors duration-150 active:bg-gray-100/50 ${isLogout ? 'text-destructive' : 'text-foreground'}`}
+      className={`flex items-center p-4 text-sm font-medium transition-colors duration-150 active:bg-gray-100/50 cursor-pointer ${isLogout ? 'text-destructive' : 'text-foreground'}`}
     >
       <Icon className={`w-5 h-5 mr-4 shrink-0 ${isLogout ? '' : 'text-primary'}`} />
       <span className="flex-grow">{text}</span>
       {!isLogout && <ChevronRight className="w-5 h-5 text-muted-foreground" />}
-    </a>
+    </div>
   )
 }
