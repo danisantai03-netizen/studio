@@ -1,7 +1,7 @@
 
 'use client';
 
-import * as React from 'react';
+import *d React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -35,7 +35,7 @@ export default function ProfilePage() {
       <div className="flex flex-col flex-grow pb-28">
         <main className="flex-grow">
           {/* Profile Info */}
-          <div className="px-4 py-6">
+          <div className="p-4">
             <ProfileInfoCard />
           </div>
 
@@ -94,6 +94,8 @@ function MenuItem({ icon: Icon, text, href, isLogout = false }: { icon: React.El
     <div
       onClick={handleClick}
       className={`flex items-center p-4 text-sm font-medium transition-colors duration-150 active:bg-gray-100/50 cursor-pointer ${isLogout ? 'text-destructive' : 'text-foreground'}`}
+      role="button"
+      tabIndex={0}
     >
       <Icon className={`w-5 h-5 mr-4 shrink-0 ${isLogout ? '' : 'text-primary'}`} />
       <span className="flex-grow">{text}</span>

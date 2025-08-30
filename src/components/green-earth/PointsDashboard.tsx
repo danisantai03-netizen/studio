@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { History, Gift } from 'lucide-react';
 import { formatPointsAsCurrency } from '@/lib/utils';
+import Link from 'next/link';
 
 export function PointsDashboard() {
   const points = 1370;
@@ -23,9 +24,11 @@ export function PointsDashboard() {
             </p>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-primary-foreground">
-              <History className="mr-2 h-4 w-4" /> History
-            </Button>
+            <Link href="/profile/history" className="w-full">
+                <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-primary-foreground w-full">
+                  <History className="mr-2 h-4 w-4" /> History
+                </Button>
+            </Link>
             <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-primary-foreground">
               <Gift className="mr-2 h-4 w-4" /> Redeem
             </Button>

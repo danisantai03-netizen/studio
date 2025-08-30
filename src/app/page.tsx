@@ -22,7 +22,7 @@ export default function Home() {
           </div>
           <RecyclingTip />
           <div className="px-4 space-y-4">
-            <h2 className="text-xl font-bold">Category</h2>
+            <h2 className="text-xl font-bold">What are you recycling?</h2>
             <FilterBar />
           </div>
           <WasteCategories />

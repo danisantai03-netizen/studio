@@ -1,10 +1,10 @@
 
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowLeft, Camera } from 'lucide-react';
+import { Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -144,7 +144,7 @@ export default function SchedulePickupPage() {
        )}
       <UniversalHeader title="Schedule Pickup" showBackButton={true} />
 
-      <main className="px-4 pb-24 flex flex-col gap-6">
+      <main className="p-4 pb-24 flex flex-col gap-6">
         {/* Category Image */}
         <div className="relative aspect-video max-h-48 mx-auto w-full">
             <Image 
@@ -219,9 +219,11 @@ export default function SchedulePickupPage() {
         </div>
 
         {/* CTA Button */}
-        <Button size="lg" className="w-full h-14 text-base bg-accent hover:bg-accent/90" onClick={handleSchedule} disabled={isSubmitted}>
-          Schedule Pickup
-        </Button>
+        <div className="pt-2">
+            <Button size="lg" className="w-full h-14 text-base bg-accent hover:bg-accent/90" onClick={handleSchedule} disabled={isSubmitted}>
+              Schedule Pickup
+            </Button>
+        </div>
       </main>
     </div>
   );

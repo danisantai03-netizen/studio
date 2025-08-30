@@ -90,10 +90,7 @@ export function WasteCategories() {
 
   return (
     <section aria-labelledby="waste-categories-heading" className="px-4">
-       <div className="flex items-center justify-between mb-4">
-        <h2 id="waste-categories-heading" className="text-xl font-bold">What are you recycling?</h2>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {filteredCategories.map((category) => (
           <Link key={category.name} href={`/schedule-pickup/${encodeURIComponent(category.category)}`} className="block group">
             <Card className="flex flex-col overflow-hidden shadow-sm rounded-2xl transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95 border-gray-200/50 h-full">
