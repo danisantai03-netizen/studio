@@ -8,7 +8,7 @@ import { BottomNav } from "@/components/green-earth/BottomNav";
 export default function Home() {
   return (
     <div className="bg-background text-foreground min-h-screen">
-      <div className="flex flex-col flex-grow md:pb-0 pb-20">
+      <div className="flex flex-col flex-grow pb-20 md:pb-0">
         <Header />
         <main className="flex-grow">
           <div className="flex flex-col gap-6 pt-4">

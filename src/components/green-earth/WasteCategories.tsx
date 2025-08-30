@@ -77,9 +77,9 @@ export function WasteCategories() {
       <div className="mb-4">
         <h3 className="text-lg font-bold">Items</h3>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredCategories.map((category) => (
-          <Card key={category.name} className="flex flex-col overflow-hidden shadow-md rounded-2xl transition-transform duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95">
+          <Card key={category.name} className="flex flex-col overflow-hidden shadow-sm rounded-2xl transition-transform duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95 border-gray-200/50">
             <CardHeader className="p-0">
               <div className="relative aspect-4/3 w-full">
                 <Image
@@ -93,7 +93,7 @@ export function WasteCategories() {
             </CardHeader>
             <CardContent className="p-3 flex flex-col flex-grow bg-white">
               <CardTitle className="text-sm font-bold">{category.name}</CardTitle>
-              <CardDescription className="mt-1 flex-grow text-xs">{category.description}</CardDescription>
+              <CardDescription className="mt-1 flex-grow text-xs text-gray-600">{category.description}</CardDescription>
               <p className="mt-2 text-primary font-bold text-xs">{category.points}</p>
             </CardContent>
           </Card>
