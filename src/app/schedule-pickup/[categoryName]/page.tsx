@@ -8,8 +8,7 @@ import { ArrowLeft, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from "@/hooks/use-toast";
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { SuccessAnimation } from '@/components/green-earth/SuccessAnimation';
 
 // In a real app, this data would come from a database or a config file
 const categoryData: { [key: string]: any } = {
@@ -88,12 +87,12 @@ const categoryData: { [key: string]: any } = {
 export default function SchedulePickupPage() {
   const router = useRouter();
   const params = useParams();
-  const { toast } = useToast();
   const categoryName = decodeURIComponent(params.categoryName as string);
   const data = categoryData[categoryName];
 
   const [weight, setWeight] = useState('');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -115,11 +114,11 @@ export default function SchedulePickupPage() {
   }, [weight, data]);
   
   const handleSchedule = () => {
-     toast({
-        title: "Pickup Scheduled!",
-        description: `Your pickup for ${categoryName} has been confirmed.`,
-    });
-    router.push('/');
+     setIsSubmitted(true);
+  }
+  
+  const onAnimationComplete = () => {
+      router.push('/');
   }
 
   if (!data) {
@@ -135,7 +134,13 @@ export default function SchedulePickupPage() {
 
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-background min-h-screen relative">
+       {isSubmitted && (
+         <SuccessAnimation
+            onComplete={onAnimationComplete}
+            message="Pickup Scheduled!"
+         />
+       )}
       <div className="p-4 flex items-center gap-2">
         <Button variant="ghost" size="icon" onClick={() => router.back()} aria-label="Go back">
           <ArrowLeft className="w-6 h-6" />
@@ -145,7 +150,7 @@ export default function SchedulePickupPage() {
 
       <main className="px-4 pb-24 flex flex-col gap-6">
         {/* Category Image */}
-        <div className="relative aspect-video max-h-64 mx-auto w-full">
+        <div className="relative aspect-video max-h-48 mx-auto w-full">
           <Image src={data.imgSrc} alt={categoryName} fill className="object-contain" />
         </div>
 
@@ -213,7 +218,7 @@ export default function SchedulePickupPage() {
         </div>
 
         {/* CTA Button */}
-        <Button size="lg" className="w-full h-14 text-base bg-accent hover:bg-accent/90" onClick={handleSchedule}>
+        <Button size="lg" className="w-full h-14 text-base bg-accent hover:bg-accent/90" onClick={handleSchedule} disabled={isSubmitted}>
           Schedule Pickup
         </Button>
       </main>
