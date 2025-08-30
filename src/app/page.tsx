@@ -3,9 +3,10 @@ import { Header } from "@/components/green-earth/Header";
 import { PointsDashboard } from "@/components/green-earth/PointsDashboard";
 import { PromoCarousel } from "@/components/green-earth/PromoCarousel";
 import { FeatureLinks } from "@/components/green-earth/FeatureLinks";
-import { CategoryGrid } from "@/components/green-earth/CategoryGrid";
 import { RecyclingTip } from "@/components/green-earth/RecyclingTip";
 import { BottomNav } from "@/components/green-earth/BottomNav";
+import { WasteCategories } from "@/components/green-earth/WasteCategories";
+import { FilterBar } from "@/components/green-earth/FilterBar";
 
 export default function Home() {
   return (
@@ -16,8 +17,11 @@ export default function Home() {
           <PointsDashboard />
           <PromoCarousel />
           <FeatureLinks />
-          <CategoryGrid />
           <RecyclingTip />
+          <div className="px-4">
+            <FilterBar />
+          </div>
+          <WasteCategories />
         </main>
       </div>
       <BottomNav />

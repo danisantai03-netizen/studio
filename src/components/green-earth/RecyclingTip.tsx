@@ -51,7 +51,7 @@ export function RecyclingTip() {
         </Button>
       </div>
         {isLoading ? (
-            <Card className="bg-primary/10 text-primary-foreground shadow-md rounded-2xl w-full">
+            <Card className="bg-primary/5 text-primary-foreground shadow-sm rounded-2xl w-full border-primary/20">
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
                   <Skeleton className="w-8 h-8 rounded-full bg-primary/20" />
@@ -64,11 +64,11 @@ export function RecyclingTip() {
             </Card>
         ) : (
           tip && (
-            <Card className="bg-primary/10 shadow-md rounded-2xl w-full">
+            <Card className="bg-primary/5 shadow-sm rounded-2xl w-full border-primary/20">
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
-                  <div className="bg-primary/20 p-1.5 rounded-full mt-0.5">
-                    <Lightbulb className="w-4 h-4 text-primary"/>
+                  <div className="bg-primary/10 p-1.5 rounded-full mt-0.5">
+                    <Lightbulb className="w-5 h-5 text-primary"/>
                   </div>
                   <p className="text-sm whitespace-normal flex-1 text-primary-dark font-medium">{tip.tip}</p>
                 </div>

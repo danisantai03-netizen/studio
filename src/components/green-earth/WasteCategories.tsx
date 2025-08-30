@@ -3,59 +3,82 @@
 
 import Image from "next/image";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FilterBar } from "./FilterBar";
 import useUIState from "@/hooks/useUIState";
-import { Button } from "../ui/button";
+import Link from 'next/link';
 
 const allCategories = [
   {
-    name: "Plastics",
-    description: "Bottles, containers, jugs.",
-    points: "10 PTS/item",
-    image: "https://picsum.photos/400/300?random=4",
+    name: "PET Bottles",
+    description: "Clear plastic bottles.",
+    points: "20 PTS/item",
+    image: "/assets/categories/plastics.svg",
     aiHint: "plastic bottles",
-    tags: ["All", "Bottles", "Plastics"]
+    tags: ["All", "Plastics"],
+    category: "Plastic Bottles"
   },
   {
-    name: "Paper",
-    description: "Newspapers, magazines.",
+    name: "Newspapers",
+    description: "Daily and weekly papers.",
     points: "5 PTS/lb",
-    image: "https://picsum.photos/400/300?random=5",
+    image: "/assets/categories/paper.svg",
     aiHint: "stack paper",
-    tags: ["All", "Paper", "Cardboard"]
+    tags: ["All", "Paper"],
+    category: "Paper"
   },
   {
-    name: "Glass",
-    description: "Jars and bottles of any color.",
+    name: "Glass Jars",
+    description: "Food jars, colored bottles.",
     points: "15 PTS/item",
-    image: "https://picsum.photos/400/300?random=6",
+    image: "/assets/categories/glass.svg",
     aiHint: "glass jars",
-    tags: ["All", "Glass", "Bottles"]
+    tags: ["All", "Glass"],
+    category: "Glass"
   },
   {
-    name: "Electronics",
-    description: "Old phones, chargers.",
-    points: "50-200 PTS/item",
-    image: "https://picsum.photos/400/300?random=7",
+    name: "Old Phones",
+    description: "Smartphones, feature phones.",
+    points: "150 PTS/item",
+    image: "/assets/categories/electronics.svg",
     aiHint: "old electronics",
-    tags: ["All", "Non-Organic"]
+    tags: ["All", "Electronics"],
+    category: "Electronics"
   },
   {
-    name: "Aluminum",
-    description: "Soda, beer, beverage cans.",
+    name: "Soda Cans",
+    description: "Aluminum beverage cans.",
     points: "5 PTS/can",
-    image: "https://picsum.photos/400/300?random=8",
+    image: "/assets/categories/aluminum.svg",
     aiHint: "aluminum cans",
-    tags: ["All", "Cans", "Aluminum"]
+    tags: ["All", "Aluminum", "Metal"],
+    category: "Aluminum Cans"
   },
   {
-    name: "Organic",
-    description: "Food scraps, yard trimmings.",
+    name: "Food Scraps",
+    description: "Vegetable peels, coffee grounds.",
     points: "2 PTS/lb",
-    image: "https://picsum.photos/400/300?random=9",
+    image: "/assets/categories/organic.svg",
     aiHint: "compost bin",
-    tags: ["All", "Organic"]
+    tags: ["All", "Organic"],
+    category: "Organic"
   },
+  {
+    name: "HDPE Containers",
+    description: "Milk jugs, detergent bottles.",
+    points: "15 PTS/item",
+    image: "/assets/categories/plastics.svg",
+    aiHint: "plastic containers",
+    tags: ["All", "Plastics"],
+    category: "Plastic Bottles"
+  },
+  {
+    name: "Cardboard",
+    description: "Shipping boxes, packaging.",
+    points: "8 PTS/lb",
+    image: "/assets/categories/paper.svg",
+    aiHint: "cardboard boxes",
+    tags: ["All", "Paper", "Cardboard"],
+    category: "Cardboard"
+  }
 ];
 
 export function WasteCategories() {
@@ -67,36 +90,31 @@ export function WasteCategories() {
 
   return (
     <section aria-labelledby="waste-categories-heading" className="px-4">
-      <div className="flex items-center justify-between mb-4">
-        <h2 id="waste-categories-heading" className="text-xl font-bold">Categories</h2>
-        <Button variant="link" size="sm" className="text-accent h-auto p-0">See All</Button>
-      </div>
-      <div className="mb-4">
-        <FilterBar />
-      </div>
-      <div className="mb-4">
-        <h3 className="text-lg font-bold">Items</h3>
+       <div className="flex items-center justify-between mb-4">
+        <h2 id="waste-categories-heading" className="text-xl font-bold">What are you recycling?</h2>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredCategories.map((category) => (
-          <Card key={category.name} className="flex flex-col overflow-hidden shadow-sm rounded-2xl transition-transform duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95 border-gray-200/50">
-            <CardHeader className="p-0">
-              <div className="relative aspect-[4/3] w-full">
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={category.aiHint}
-                />
-              </div>
-            </CardHeader>
-            <CardContent className="p-3 flex flex-col flex-grow bg-white">
-              <CardTitle className="text-sm font-bold">{category.name}</CardTitle>
-              <CardDescription className="mt-1 flex-grow text-xs text-gray-600">{category.description}</CardDescription>
-              <p className="mt-2 text-primary font-bold text-xs">{category.points}</p>
-            </CardContent>
-          </Card>
+          <Link key={category.name} href={`/schedule-pickup/${encodeURIComponent(category.category)}`} className="block group">
+            <Card className="flex flex-col overflow-hidden shadow-sm rounded-2xl transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95 border-gray-200/50 h-full">
+              <CardHeader className="p-0">
+                <div className="relative aspect-[3/2] w-full">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={category.aiHint}
+                  />
+                </div>
+              </CardHeader>
+              <CardContent className="p-3 flex flex-col flex-grow bg-white">
+                <CardTitle className="text-sm font-bold">{category.name}</CardTitle>
+                <CardDescription className="mt-1 flex-grow text-xs text-gray-600">{category.description}</CardDescription>
+                <p className="mt-2 text-primary font-bold text-xs">{category.points}</p>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </section>

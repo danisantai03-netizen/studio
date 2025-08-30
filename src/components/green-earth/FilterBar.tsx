@@ -6,7 +6,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import useUIState from "@/hooks/useUIState";
 
-const filters = ["All", "Bottles", "Cardboard", "Paper", "Glass", "Cans", "Iron", "Aluminum", "Copper", "Organic", "Non-Organic"];
+const filters = ["All", "Plastics", "Paper", "Glass", "Electronics", "Aluminum", "Organic"];
 
 export function FilterBar() {
   const [activeFilter, setFilter] = useUIState(state => [state.activeFilter, state.setActiveFilter]);
