@@ -145,7 +145,7 @@ export default function SchedulePickupPage() {
 
       <main className="px-4 pb-24 flex flex-col gap-6">
         {/* Category Image */}
-        <div className="relative bg-primary/5 rounded-2xl aspect-square max-h-64 mx-auto w-full">
+        <div className="relative aspect-video max-h-64 mx-auto w-full">
           <Image src={data.imgSrc} alt={categoryName} fill className="object-contain" />
         </div>
 
