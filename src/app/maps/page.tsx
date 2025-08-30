@@ -11,10 +11,7 @@ import Image from 'next/image';
 export default function MapsPage() {
   return (
     <div className="bg-background min-h-screen flex flex-col">
-      {/* Header */}
-      <div className="px-3">
-        <UniversalHeader title="Find Recycling Centers" showBackButton={false} />
-      </div>
+      <UniversalHeader title="Find Recycling Centers" showBackButton={false} />
 
       {/* Map Content */}
       <main className="flex-grow flex flex-col relative">

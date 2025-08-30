@@ -31,17 +31,13 @@ const menuItems = [
 export default function ProfilePage() {
   return (
     <div className="bg-background min-h-screen">
-      <div className="px-3">
-        <UniversalHeader title="Profile" showBackButton={false} />
-      </div>
+      <UniversalHeader title="Profile" showBackButton={false} />
       <div className="flex flex-col flex-grow pb-20">
         <main className="flex-grow">
-          {/* Profile Info */}
           <div className="p-3">
             <ProfileInfoCard />
           </div>
 
-          {/* Menu List */}
           <div className="px-3 py-2">
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                 {menuItems.map((item, index) => (
@@ -86,10 +82,12 @@ function MenuItem({ icon: Icon, text, href, isLogout = false }: { icon: React.El
   const router = useRouter();
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (href !== '#') {
+    if (isLogout) {
+        // Handle logout logic here
+        console.log("Logout clicked");
+    } else {
         router.push(href);
     }
-    // Handle logout logic here if needed
   };
 
   return (
@@ -98,6 +96,7 @@ function MenuItem({ icon: Icon, text, href, isLogout = false }: { icon: React.El
       className={`flex items-center p-4 text-sm font-medium transition-colors duration-150 active:bg-gray-100/50 cursor-pointer ${isLogout ? 'text-destructive' : 'text-foreground'}`}
       role="button"
       tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick(e as any) }}
     >
       <Icon className={`w-5 h-5 mr-3 shrink-0 ${isLogout ? '' : 'text-primary'}`} />
       <span className="flex-grow">{text}</span>
