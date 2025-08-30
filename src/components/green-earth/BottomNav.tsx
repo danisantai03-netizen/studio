@@ -4,9 +4,8 @@
 import * as React from "react";
 import { usePathname } from 'next/navigation';
 import Link from "next/link";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Home, Map, User, ScanLine } from "lucide-react";
+import { Home, Map, User } from "lucide-react";
 
 const navItems = [
   {
@@ -18,12 +17,6 @@ const navItems = [
     name: "Maps",
     href: "/maps",
     icon: Map,
-  },
-  {
-    name: "Scan",
-    href: "/scan",
-    icon: ScanLine,
-    isCentral: true,
   },
   {
     name: "Profile",
@@ -39,7 +32,6 @@ export function BottomNav() {
     if (pathname === '/') return 'Home';
     if (pathname.startsWith('/profile')) return 'Profile';
     if (pathname.startsWith('/maps')) return 'Maps';
-    if (pathname.startsWith('/scan')) return 'Scan';
     return 'Home';
   }
 
@@ -51,16 +43,6 @@ export function BottomNav() {
         {navItems.map((item) => {
           const isActive = activeItem === item.name;
           const Icon = item.icon;
-
-          if (item.isCentral) {
-            return (
-              <Link href={item.href} key={item.name} className="-mt-6">
-                <div className="relative flex items-center justify-center w-16 h-16 bg-primary rounded-full shadow-lg text-white">
-                  <Icon className="w-8 h-8" />
-                </div>
-              </Link>
-            )
-          }
 
           return (
             <Link href={item.href} key={item.name} className="flex flex-col items-center justify-center h-full w-20 group">
