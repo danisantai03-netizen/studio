@@ -7,6 +7,7 @@ import { Bell } from 'lucide-react';
 import Link from "next/link";
 import { useNotifications } from "@/hooks/use-notifications";
 import useUserStore from "@/hooks/useUserStore";
+import Image from "next/image";
 
 export function Header() {
   const { data } = useNotifications();
@@ -17,14 +18,15 @@ export function Header() {
     <header className="relative bg-background p-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Avatar className="h-12 w-12 border-2 border-white shadow-sm">
-              <AvatarImage
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm">
+              <Image
                 src={avatarUrl}
                 alt={name}
+                fill
+                className="object-cover"
                 data-ai-hint="profile person"
               />
-              <AvatarFallback>{name.charAt(0)}</AvatarFallback>
-            </Avatar>
+            </div>
             <div>
               <p className="text-sm text-muted-foreground">Welcome back,</p>
               <h1 className="text-lg font-bold text-foreground">{name}</h1>

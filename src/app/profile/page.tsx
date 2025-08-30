@@ -73,13 +73,14 @@ function ProfileInfoCard() {
     const { name, avatarUrl, userId } = useUserStore();
     return (
         <Link href="/profile/edit" className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm active:bg-gray-50 transition-colors duration-150">
-            <Image 
-                src={avatarUrl}
-                alt={name}
-                width={56}
-                height={56}
-                className="rounded-full"
-            />
+            <div className="relative w-14 h-14 rounded-full overflow-hidden">
+                 <Image 
+                    src={avatarUrl}
+                    alt={name}
+                    fill
+                    className="object-cover"
+                />
+            </div>
             <div className="flex-grow">
                 <p className="font-bold text-lg">{name}</p>
                 <p className="text-sm text-muted-foreground">ID: {userId}</p>
