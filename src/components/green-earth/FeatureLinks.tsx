@@ -22,7 +22,7 @@ export function FeatureLinks() {
             <a
               href={feature.href}
               key={feature.name}
-              className="flex flex-col items-center flex-shrink-0 w-24 text-center group"
+              className="flex flex-col items-center flex-shrink-0 w-20 text-center group"
             >
               <div className="flex items-center justify-center w-16 h-16 transition-all duration-200 ease-in-out group-hover:scale-105">
                 <Image src={feature.imgSrc} alt={feature.name} width={48} height={48} />
