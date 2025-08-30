@@ -135,7 +135,7 @@ export default function SchedulePickupPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <div className="p-4 flex items-center gap-4">
+      <div className="p-4 flex items-center gap-2">
         <Button variant="ghost" size="icon" onClick={() => router.back()} aria-label="Go back">
           <ArrowLeft className="w-6 h-6" />
         </Button>
@@ -144,8 +144,8 @@ export default function SchedulePickupPage() {
 
       <main className="px-4 pb-24 flex flex-col gap-6">
         {/* Category Image */}
-        <div className="flex justify-center bg-primary/5 p-8 rounded-2xl">
-          <Image src={data.imgSrc} alt={categoryName} width={128} height={128} />
+        <div className="relative bg-primary/5 p-8 rounded-2xl aspect-square max-h-64 mx-auto w-full">
+          <Image src={data.imgSrc} alt={categoryName} fill className="object-contain" />
         </div>
 
         {/* Pricing Info */}
@@ -219,5 +219,3 @@ export default function SchedulePickupPage() {
     </div>
   );
 }
-
-    
