@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ArrowLeft, Camera } from 'lucide-react';
@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 // In a real app, this data would come from a database or a config file
 const categoryData: { [key: string]: any } = {
@@ -144,7 +145,7 @@ export default function SchedulePickupPage() {
 
       <main className="px-4 pb-24 flex flex-col gap-6">
         {/* Category Image */}
-        <div className="relative bg-primary/5 p-8 rounded-2xl aspect-square max-h-64 mx-auto w-full">
+        <div className="relative bg-primary/5 rounded-2xl aspect-square max-h-64 mx-auto w-full">
           <Image src={data.imgSrc} alt={categoryName} fill className="object-contain" />
         </div>
 
