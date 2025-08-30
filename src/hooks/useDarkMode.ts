@@ -4,14 +4,21 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export function useDarkMode() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     const isDark =
       localStorage.theme === 'dark' ||
       (!('theme' in localStorage) &&
         window.matchMedia('(prefers-color-scheme: dark)').matches);
+    
     setIsDarkMode(isDark);
+    
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, []);
 
   const toggleDarkMode = useCallback(() => {
@@ -29,6 +36,7 @@ export function useDarkMode() {
   }, []);
   
   useEffect(() => {
+    if (isDarkMode === undefined) return; // Don't do anything until the initial state is determined
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {

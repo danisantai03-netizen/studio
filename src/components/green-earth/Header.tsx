@@ -35,15 +35,17 @@ export function Header() {
             </div>
           </div>
           <div className="flex items-center gap-1">
-            <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
-                onClick={toggleDarkMode}
-                aria-label="Toggle theme"
-            >
-                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
+            {isDarkMode !== undefined && (
+                 <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9"
+                    onClick={toggleDarkMode}
+                    aria-label="Toggle theme"
+                >
+                    {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </Button>
+            )}
             <Link
               href="/notifications"
               aria-label={`Notifications, ${totalUnread} unread`}
