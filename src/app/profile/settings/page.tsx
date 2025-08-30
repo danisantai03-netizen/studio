@@ -7,7 +7,7 @@ export default function SettingsPage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Settings" showBackButton={true} />
-      <main className="p-4 pt-20">
+      <main className="p-4">
         <p>Settings content goes here.</p>
       </main>
     </div>

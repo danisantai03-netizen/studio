@@ -7,7 +7,7 @@ export default function SecurityPage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Security" showBackButton={true} />
-      <main className="p-4 pt-20">
+      <main className="p-4">
         <p>Security content goes here.</p>
       </main>
     </div>

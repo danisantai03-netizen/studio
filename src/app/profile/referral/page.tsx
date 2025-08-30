@@ -7,7 +7,7 @@ export default function ReferralPage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Referral" showBackButton={true} />
-      <main className="p-4 pt-20">
+      <main className="p-4">
         <p>Referral content goes here.</p>
       </main>
     </div>

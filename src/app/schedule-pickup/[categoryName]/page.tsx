@@ -144,7 +144,7 @@ export default function SchedulePickupPage() {
        )}
       <UniversalHeader title="Schedule Pickup" showBackButton={true} />
 
-      <main className="px-4 pb-24 pt-16 flex flex-col gap-6">
+      <main className="px-4 pb-24 flex flex-col gap-6">
         {/* Category Image */}
         <div className="relative aspect-video max-h-48 mx-auto w-full">
             <Image 

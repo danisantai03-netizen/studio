@@ -15,7 +15,7 @@ export function UniversalHeader({ title, showBackButton = true }: UniversalHeade
   const router = useRouter();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur-sm">
+    <header className="flex h-14 items-center gap-4 bg-background px-4">
       {showBackButton && (
         <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />

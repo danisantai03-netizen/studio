@@ -128,7 +128,7 @@ export default function EditProfilePage() {
       <UniversalHeader title="Edit Profile" showBackButton={true} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <main className="p-4 space-y-6 pb-24 pt-16">
+        <main className="p-4 space-y-6 pb-24">
           <div className="flex flex-col items-center gap-2 py-4">
             <div className="relative w-24 h-24 rounded-full overflow-hidden">
               <Image
@@ -254,12 +254,12 @@ export default function EditProfilePage() {
                    {errors.fullAddress && <p className="text-destructive text-xs mt-1">{errors.fullAddress.message}</p>}
                  </div>
              </div>
+             
+             <div className="pt-4">
+                <Button type="submit" size="lg" className="w-full h-12">Save Changes</Button>
+             </div>
           </div>
         </main>
-        
-        <footer className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 border-t backdrop-blur-sm">
-          <Button type="submit" size="lg" className="w-full h-12">Save Changes</Button>
-        </footer>
       </form>
     </div>
   );

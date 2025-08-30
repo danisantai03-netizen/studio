@@ -7,7 +7,7 @@ export default function TermsPage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Terms & Conditions" showBackButton={true} />
-      <main className="p-4 pt-20">
+      <main className="p-4">
         <p>Terms & Conditions content goes here.</p>
       </main>
     </div>
