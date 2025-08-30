@@ -67,18 +67,18 @@ export function PromoCarousel() {
   return (
     <section aria-labelledby="promotions-heading" className="px-4">
       <h2 id="promotions-heading" className="sr-only">What's New</h2>
-      <div>
-        <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
-          <CarouselContent>
+      <div className="w-full aspect-[16/9] overflow-hidden rounded-2xl relative">
+        <Carousel setApi={setApi} className="w-full h-full" opts={{ loop: true }}>
+          <CarouselContent className="h-full">
             {promotions.map((promo, index) => (
-              <CarouselItem key={index}>
-                <Card className="overflow-hidden shadow-lg rounded-2xl transition-transform duration-200 ease-in-out hover:shadow-xl active:scale-95">
-                  <CardContent className="relative p-0 aspect-[16/9]">
+              <CarouselItem key={index} className="h-full">
+                <Card className="overflow-hidden shadow-lg h-full rounded-none border-none">
+                  <CardContent className="relative p-0 w-full h-full">
                     <Image
                       src={promo.image}
                       alt={promo.title}
                       fill
-                      className="object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
+                      className="object-cover"
                       data-ai-hint={promo.aiHint}
                       priority={index === 0}
                     />
@@ -96,14 +96,14 @@ export function PromoCarousel() {
             ))}
           </CarouselContent>
         </Carousel>
-        <div className="flex justify-center gap-2 mt-3">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center space-x-2">
           {promotions.map((_, index) => (
             <button
               key={index}
               onClick={() => api?.scrollTo(index)}
               className={cn(
-                "w-2 h-2 rounded-full transition-all duration-300",
-                current === index ? "p-1.5 bg-primary" : "bg-primary/20"
+                "w-2 h-2 rounded-full",
+                current === index ? "bg-white" : "bg-white/40"
               )}
               aria-label={`Go to slide ${index + 1}`}
             />
