@@ -130,12 +130,12 @@ export default function EditProfilePage() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <main className="p-4 space-y-6 pb-24">
           <div className="flex flex-col items-center gap-2 py-4">
-            <div className="relative w-24 h-24 rounded-full overflow-hidden">
+            <div className="relative w-24 h-24">
               <Image
                 src={previewAvatar}
                 alt="Profile photo"
                 fill
-                className="object-cover"
+                className="object-cover rounded-full"
               />
               <label htmlFor="photo-upload" className="absolute bottom-0 right-0 bg-primary text-primary-foreground p-1.5 rounded-full cursor-pointer hover:bg-primary/90">
                 <Camera className="w-4 h-4" />
