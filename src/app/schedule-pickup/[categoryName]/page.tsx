@@ -1,19 +1,21 @@
 
 'use client';
 
+import { useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useToast } from "@/hooks/use-toast";
 
 // In a real app, this data would come from a database or a config file
 const categoryData: { [key: string]: any } = {
   'Plastic Bottles': {
-    imgSrc: '/assets/category-bottles.svg',
-    cleanPrice: '2,000',
-    dirtyPrice: '1,500',
+    imgSrc: '/assets/categories/plastics.svg',
+    cleanPrice: 2000,
+    dirtyPrice: 1500,
     benefits: [
       'Reduces landfill waste and ocean pollution.',
       'Saves energy compared to producing new plastic.',
@@ -21,9 +23,9 @@ const categoryData: { [key: string]: any } = {
     ],
   },
   'Paper': {
-    imgSrc: '/assets/category-paper.svg',
-    cleanPrice: '1,000',
-    dirtyPrice: '700',
+    imgSrc: '/assets/categories/paper.svg',
+    cleanPrice: 1000,
+    dirtyPrice: 700,
     benefits: [
         'Saves trees and reduces deforestation.',
         'Uses significantly less water and energy than making new paper.',
@@ -31,9 +33,9 @@ const categoryData: { [key: string]: any } = {
     ],
   },
     'Cardboard': {
-    imgSrc: '/assets/category-cardboard.svg',
-    cleanPrice: '800',
-    dirtyPrice: '500',
+    imgSrc: '/assets/categories/paper.svg',
+    cleanPrice: 800,
+    dirtyPrice: 500,
     benefits: [
         'Highly recyclable and can be repurposed multiple times.',
         'Reduces the need for virgin wood pulp.',
@@ -41,9 +43,9 @@ const categoryData: { [key: string]: any } = {
     ],
   },
   'Glass': {
-    imgSrc: '/assets/category-glass.svg',
-    cleanPrice: '1,200',
-    dirtyPrice: '900',
+    imgSrc: '/assets/categories/glass.svg',
+    cleanPrice: 1200,
+    dirtyPrice: 900,
     benefits: [
         'Infinitely recyclable without loss of quality.',
         'Reduces sand extraction and saves natural resources.',
@@ -51,9 +53,9 @@ const categoryData: { [key: string]: any } = {
     ],
   },
   'Aluminum Cans': {
-    imgSrc: '/assets/category-cans.svg',
-    cleanPrice: '10,000',
-    dirtyPrice: '8,000',
+    imgSrc: '/assets/categories/aluminum.svg',
+    cleanPrice: 10000,
+    dirtyPrice: 8000,
     benefits: [
         'Recycling aluminum saves up to 95% of the energy needed to make it from scratch.',
         'One of the most valuable recyclable materials.',
@@ -61,22 +63,63 @@ const categoryData: { [key: string]: any } = {
     ],
   },
     'Electronics': {
-    imgSrc: '/assets/category-electronics.svg',
-    cleanPrice: 'Varies',
-    dirtyPrice: 'Varies',
+    imgSrc: '/assets/categories/electronics.svg',
+    cleanPrice: 0, // Varies
+    dirtyPrice: 0, // Varies
     benefits: [
         'Prevents hazardous materials like lead and mercury from contaminating the environment.',
         'Recovers valuable materials like gold, silver, and copper.',
         'Reduces the need for mining raw materials.',
     ],
   },
+   'Organic': {
+    imgSrc: '/assets/categories/organic.svg',
+    cleanPrice: 300,
+    dirtyPrice: 100,
+    benefits: [
+        'Creates nutrient-rich compost for soil.',
+        'Reduces methane emissions from landfills.',
+        'Improves soil structure and water retention.',
+    ],
+  }
 };
 
 export default function SchedulePickupPage() {
   const router = useRouter();
   const params = useParams();
+  const { toast } = useToast();
   const categoryName = decodeURIComponent(params.categoryName as string);
   const data = categoryData[categoryName];
+
+  const [weight, setWeight] = useState('');
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const estimatedEarnings = useMemo(() => {
+    const numericWeight = parseFloat(weight);
+    if (!data || !numericWeight || isNaN(numericWeight) || numericWeight <= 0) {
+      return 0;
+    }
+    return numericWeight * data.cleanPrice;
+  }, [weight, data]);
+  
+  const handleSchedule = () => {
+     toast({
+        title: "Pickup Scheduled!",
+        description: `Your pickup for ${categoryName} has been confirmed.`,
+    });
+    router.push('/');
+  }
 
   if (!data) {
     return (
@@ -85,6 +128,10 @@ export default function SchedulePickupPage() {
       </div>
     );
   }
+  
+  const displayCleanPrice = data.cleanPrice > 0 ? `Rp. ${data.cleanPrice.toLocaleString('id-ID')} / kg` : 'Varies';
+  const displayDirtyPrice = data.dirtyPrice > 0 ? `Rp. ${data.dirtyPrice.toLocaleString('id-ID')} / kg` : 'Varies';
+
 
   return (
     <div className="bg-background min-h-screen">
@@ -105,11 +152,11 @@ export default function SchedulePickupPage() {
         <div className="grid grid-cols-2 gap-4 text-center">
             <div className="bg-white p-4 rounded-xl shadow-sm">
                 <p className="text-sm text-muted-foreground">Clean Price</p>
-                <p className="font-bold text-primary">Rp. {data.cleanPrice} / kg</p>
+                <p className="font-bold text-primary">{displayCleanPrice}</p>
             </div>
             <div className="bg-white p-4 rounded-xl shadow-sm">
                 <p className="text-sm text-muted-foreground">Dirty Price</p>
-                <p className="font-bold text-primary">Rp. {data.dirtyPrice} / kg</p>
+                <p className="font-bold text-primary">{displayDirtyPrice}</p>
             </div>
         </div>
 
@@ -117,17 +164,41 @@ export default function SchedulePickupPage() {
         <div className="space-y-4">
           <div className="grid w-full items-center gap-1.5">
             <Label htmlFor="photo">Upload Item Photo</Label>
-            <div className="relative">
-                <Input type="file" id="photo" className="w-full h-12 pl-12" />
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <Image src="/assets/upload-icon.svg" alt="Upload" width={24} height={24} />
-                </div>
+            <div className="flex items-center gap-4">
+                <label htmlFor="photo-upload" className="relative cursor-pointer">
+                    <div className="w-24 h-24 rounded-lg bg-white shadow-sm flex items-center justify-center border-2 border-dashed">
+                        {imagePreview ? (
+                            <Image src={imagePreview} alt="Item preview" fill className="object-cover rounded-lg" />
+                        ) : (
+                             <Camera className="w-8 h-8 text-muted-foreground" />
+                        )}
+                    </div>
+                </label>
+                <Input type="file" id="photo-upload" accept="image/*" className="hidden" onChange={handleImageChange} />
+                <p className="text-xs text-muted-foreground flex-1">
+                    Please upload a clear photo of your items.
+                </p>
             </div>
           </div>
           <div className="grid w-full items-center gap-1.5">
             <Label htmlFor="weight">Estimated Weight (kg)</Label>
-            <Input type="number" id="weight" placeholder="e.g., 5" className="h-12" />
+            <Input 
+                type="number" 
+                id="weight" 
+                placeholder="e.g., 5" 
+                className="h-12" 
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                min="0"
+            />
           </div>
+           {estimatedEarnings > 0 && (
+            <div className="bg-primary/5 p-3 rounded-xl text-center">
+              <p className="text-sm text-primary font-medium">
+                Estimated Earnings: <span className="font-bold">Rp. {estimatedEarnings.toLocaleString('id-ID')}</span>
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Benefits Section */}
@@ -141,10 +212,12 @@ export default function SchedulePickupPage() {
         </div>
 
         {/* CTA Button */}
-        <Button size="lg" className="w-full h-14 text-base bg-accent hover:bg-accent/90">
+        <Button size="lg" className="w-full h-14 text-base bg-accent hover:bg-accent/90" onClick={handleSchedule}>
           Schedule Pickup
         </Button>
       </main>
     </div>
   );
 }
+
+    
