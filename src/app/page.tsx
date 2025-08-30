@@ -7,12 +7,11 @@ import { RecyclingTip } from "@/components/green-earth/RecyclingTip";
 import { BottomNav } from "@/components/green-earth/BottomNav";
 import { WasteCategories } from "@/components/green-earth/WasteCategories";
 import { FilterBar } from "@/components/green-earth/FilterBar";
-import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
     <div className="bg-background text-foreground min-h-screen">
-      <div className="flex flex-col flex-grow pb-24">
+      <div className="flex flex-col flex-grow pb-28">
         <Header />
         <main className="flex-grow space-y-6">
           <PointsDashboard />
@@ -22,8 +21,8 @@ export default function Home() {
              <FeatureLinks />
           </div>
           <RecyclingTip />
-          <div className="px-4">
-            <h2 className="text-xl font-bold mb-4">Category</h2>
+          <div className="px-4 space-y-4">
+            <h2 className="text-xl font-bold">Category</h2>
             <FilterBar />
           </div>
           <WasteCategories />

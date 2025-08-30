@@ -29,12 +29,10 @@ const menuItems = [
 ];
 
 export default function ProfilePage() {
-  const router = useRouter();
-
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Profile" showBackButton={true} />
-      <div className="flex flex-col flex-grow pb-24 pt-14">
+      <UniversalHeader title="Profile" showBackButton={false} />
+      <div className="flex flex-col flex-grow pb-28 pt-14">
         <main className="flex-grow">
           {/* Profile Info */}
           <div className="px-4 py-6">
