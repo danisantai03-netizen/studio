@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SuccessAnimation } from '@/components/green-earth/SuccessAnimation';
+import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 
 // In a real app, this data would come from a database or a config file
 const categoryData: { [key: string]: any } = {
@@ -141,17 +142,17 @@ export default function SchedulePickupPage() {
             message="Pickup Scheduled!"
          />
        )}
-      <div className="p-4 flex items-center gap-2">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} aria-label="Go back">
-          <ArrowLeft className="w-6 h-6" />
-        </Button>
-        <h1 className="text-xl font-bold">Schedule Pickup</h1>
-      </div>
+      <UniversalHeader title="Schedule Pickup" showBackButton={true} />
 
-      <main className="px-4 pb-24 flex flex-col gap-6">
+      <main className="px-4 pb-24 pt-16 flex flex-col gap-6">
         {/* Category Image */}
         <div className="relative aspect-video max-h-48 mx-auto w-full">
-          <Image src={data.imgSrc} alt={categoryName} fill className="object-contain" />
+            <Image 
+                src={data.imgSrc} 
+                alt={categoryName} 
+                fill 
+                className="object-contain"
+            />
         </div>
 
         {/* Pricing Info */}

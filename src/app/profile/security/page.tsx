@@ -1,22 +1,13 @@
 
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 
 export default function SecurityPage() {
-  const router = useRouter();
-
   return (
     <div className="bg-background min-h-screen">
-      <header className="p-4 flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="w-6 h-6" />
-        </Button>
-        <h1 className="text-xl font-bold">Security</h1>
-      </header>
-      <main className="p-4">
+      <UniversalHeader title="Security" showBackButton={true} />
+      <main className="p-4 pt-20">
         <p>Security content goes here.</p>
       </main>
     </div>

@@ -13,8 +13,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Camera, AlertCircle } from 'lucide-react';
+import { Camera, AlertCircle } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 
 const addressData: any = {
   "JAWA BARAT": {
@@ -124,16 +125,11 @@ export default function EditProfilePage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <header className="p-4 flex items-center gap-4 border-b">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="w-6 h-6" />
-        </Button>
-        <h1 className="text-xl font-bold">Edit Profile</h1>
-      </header>
+      <UniversalHeader title="Edit Profile" showBackButton={true} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <main className="p-4 space-y-6 pb-24">
-          <div className="flex flex-col items-center gap-2">
+        <main className="p-4 space-y-6 pb-24 pt-16">
+          <div className="flex flex-col items-center gap-2 py-4">
             <div className="relative w-24 h-24 rounded-full overflow-hidden">
               <Image
                 src={previewAvatar}
@@ -261,7 +257,7 @@ export default function EditProfilePage() {
           </div>
         </main>
         
-        <footer className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t">
+        <footer className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 border-t backdrop-blur-sm">
           <Button type="submit" size="lg" className="w-full h-12">Save Changes</Button>
         </footer>
       </form>

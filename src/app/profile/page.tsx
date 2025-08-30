@@ -5,7 +5,6 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  ArrowLeft,
   ChevronRight,
   ShieldCheck,
   FileText,
@@ -15,10 +14,10 @@ import {
   Users,
   LogOut,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { BottomNav } from '@/components/green-earth/BottomNav';
 import useUserStore from '@/hooks/useUserStore';
 import Image from 'next/image';
+import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 
 const menuItems = [
   { icon: Users, text: 'Referral', href: '/profile/referral' },
@@ -34,23 +33,16 @@ export default function ProfilePage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <div className="flex flex-col flex-grow pb-24">
-        {/* Header */}
-        <header className="p-4 flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => router.push('/')}>
-            <ArrowLeft className="w-6 h-6" />
-          </Button>
-          <h1 className="text-xl font-bold">Profile</h1>
-        </header>
-
+      <UniversalHeader title="Profile" showBackButton={true} />
+      <div className="flex flex-col flex-grow pb-24 pt-14">
         <main className="flex-grow">
           {/* Profile Info */}
-          <div className="px-4 py-2">
+          <div className="px-4 py-6">
             <ProfileInfoCard />
           </div>
 
           {/* Menu List */}
-          <div className="px-4 py-6">
+          <div className="px-4 py-2">
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
                 {menuItems.map((item, index) => (
                     <React.Fragment key={item.text}>
@@ -73,7 +65,7 @@ function ProfileInfoCard() {
     const { name, avatarUrl, userId } = useUserStore();
     return (
         <Link href="/profile/edit" className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm active:bg-gray-50 transition-colors duration-150">
-            <div className="relative w-14 h-14 rounded-full overflow-hidden">
+            <div className="relative w-16 h-16 rounded-full overflow-hidden">
                  <Image 
                     src={avatarUrl}
                     alt={name}
