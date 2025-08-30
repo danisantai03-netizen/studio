@@ -157,11 +157,11 @@ export default function SchedulePickupPage() {
 
         {/* Pricing Info */}
         <div className="grid grid-cols-2 gap-4 text-center">
-            <div className="bg-white p-4 rounded-xl shadow-sm">
+            <div className="bg-card p-4 rounded-xl shadow-sm">
                 <p className="text-sm text-muted-foreground">Clean Price</p>
                 <p className="font-bold text-primary">{displayCleanPrice}</p>
             </div>
-            <div className="bg-white p-4 rounded-xl shadow-sm">
+            <div className="bg-card p-4 rounded-xl shadow-sm">
                 <p className="text-sm text-muted-foreground">Dirty Price</p>
                 <p className="font-bold text-primary">{displayDirtyPrice}</p>
             </div>
@@ -173,7 +173,7 @@ export default function SchedulePickupPage() {
             <Label htmlFor="photo">Upload Item Photo</Label>
             <div className="flex items-center gap-4">
                 <label htmlFor="photo-upload" className="relative cursor-pointer">
-                    <div className="w-24 h-24 rounded-lg bg-white shadow-sm flex items-center justify-center border-2 border-dashed">
+                    <div className="w-24 h-24 rounded-lg bg-card shadow-sm flex items-center justify-center border-2 border-dashed">
                         {imagePreview ? (
                             <Image src={imagePreview} alt="Item preview" fill className="object-cover rounded-lg" />
                         ) : (
@@ -209,7 +209,7 @@ export default function SchedulePickupPage() {
         </div>
 
         {/* Benefits Section */}
-        <div className="bg-white p-4 rounded-xl shadow-sm">
+        <div className="bg-card p-4 rounded-xl shadow-sm">
             <h2 className="font-bold mb-2">Benefits & Tips</h2>
             <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
                 {data.benefits.map((tip: string, index: number) => (
@@ -220,7 +220,7 @@ export default function SchedulePickupPage() {
 
         {/* CTA Button */}
         <div className="pt-2">
-            <Button size="lg" className="w-full h-14 text-base bg-accent hover:bg-accent/90" onClick={handleSchedule} disabled={isSubmitted}>
+            <Button size="lg" className="w-full h-14 text-base" onClick={handleSchedule} disabled={isSubmitted}>
               Schedule Pickup
             </Button>
         </div>

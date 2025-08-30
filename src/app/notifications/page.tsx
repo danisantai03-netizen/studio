@@ -43,7 +43,7 @@ export default function NotificationsPage() {
         <Button
           variant="link"
           size="sm"
-          className="text-accent h-auto p-0"
+          className="text-primary h-auto p-0"
           onClick={() => markAllAsRead.mutate()}
           disabled={totalUnread === 0}
         >
@@ -89,7 +89,7 @@ function NotificationCard({
     const content = (
       <div className={cn(
         "flex items-start gap-3 p-3 rounded-xl transition-all duration-150 cursor-pointer hover:shadow-md active:scale-[0.98]",
-        notification.read ? "bg-white" : "bg-primary/5 border border-primary/20"
+        notification.read ? "bg-card" : "bg-primary/5 border border-primary/20"
       )}>
         <div className={cn(
           "w-10 h-10 rounded-full grid place-items-center shrink-0 mt-1",
@@ -110,7 +110,7 @@ function NotificationCard({
           </div>
         </div>
         {!notification.read && (
-          <div className="w-2 h-2.5 rounded-full bg-accent mt-1 shrink-0 self-center" aria-label="Unread"></div>
+          <div className="w-2 h-2.5 rounded-full bg-secondary mt-1 shrink-0 self-center" aria-label="Unread"></div>
         )}
       </div>
   );
@@ -135,7 +135,7 @@ function NotificationSkeleton() {
   return (
     <div className="space-y-3">
       {[...Array(5)].map((_, i) => (
-        <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-white animate-pulse">
+        <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-card animate-pulse">
           <Skeleton className="w-10 h-10 rounded-full" />
           <div className="flex-grow space-y-2 mt-1">
             <Skeleton className="h-4 w-4/5" />

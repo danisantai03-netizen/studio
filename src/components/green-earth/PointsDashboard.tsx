@@ -29,7 +29,7 @@ export function PointsDashboard() {
                   <History className="mr-2 h-4 w-4" /> History
                 </Button>
             </Link>
-            <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-primary-foreground h-9 text-xs">
+            <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground h-9 text-xs">
               <Gift className="mr-2 h-4 w-4" /> Redeem
             </Button>
           </div>

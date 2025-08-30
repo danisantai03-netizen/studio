@@ -20,7 +20,7 @@ export function FeatureLinks() {
             key={feature.name}
             className="flex flex-col items-center justify-start text-center group"
           >
-            <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 transition-all duration-200 ease-in-out group-hover:scale-105 rounded-xl bg-white shadow-sm p-3">
+            <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 transition-all duration-200 ease-in-out group-hover:scale-105 rounded-xl bg-card shadow-sm p-3">
               <Image src={feature.imgSrc} alt={feature.name} width={40} height={40} className="h-6 w-6 sm:h-7 sm:w-7" />
             </div>
             <p className="font-medium text-center text-xs text-foreground mt-2 w-full truncate sm:text-sm">{feature.name}</p>

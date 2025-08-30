@@ -23,8 +23,8 @@ export function FilterBar() {
               className={cn(
                 "rounded-full h-8 px-4 text-xs font-medium shadow-sm",
                 activeFilter === filter
-                  ? "bg-accent text-accent-foreground border-transparent"
-                  : "bg-white text-foreground"
+                  ? "bg-secondary text-secondary-foreground border-transparent"
+                  : "bg-card text-foreground"
               )}
               onClick={() => setFilter(filter)}
             >

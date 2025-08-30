@@ -105,9 +105,9 @@ export function WasteCategories() {
                   />
                 </div>
               </CardHeader>
-              <CardContent className="p-2.5 flex flex-col flex-grow bg-white">
+              <CardContent className="p-2.5 flex flex-col flex-grow bg-card">
                 <CardTitle className="text-sm font-bold">{category.name}</CardTitle>
-                <CardDescription className="mt-0.5 flex-grow text-xs text-gray-600">{category.description}</CardDescription>
+                <CardDescription className="mt-0.5 flex-grow text-xs text-muted-foreground">{category.description}</CardDescription>
                 <p className="mt-1.5 text-primary font-bold text-xs">{category.points}</p>
               </CardContent>
             </Card>

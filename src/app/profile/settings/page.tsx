@@ -18,14 +18,14 @@ export default function SettingsPage() {
       <main className="p-4 space-y-6">
         <div className="space-y-2">
             <h2 className="text-sm font-semibold text-muted-foreground px-2">General</h2>
-            <div className="bg-white rounded-xl shadow-sm">
+            <div className="bg-card rounded-xl shadow-sm">
                  <SettingRowSwitch
                     icon={Bell}
                     title="Push Notifications"
                     checked={notifications}
                     onCheckedChange={setNotifications}
                  />
-                 <div className="h-px bg-gray-100 mx-4" />
+                 <div className="h-px bg-border mx-4" />
                  <SettingRowSwitch
                     icon={darkMode ? Moon : Sun}
                     title="Dark Mode"
@@ -37,7 +37,7 @@ export default function SettingsPage() {
 
         <div className="space-y-2">
             <h2 className="text-sm font-semibold text-muted-foreground px-2">Regional</h2>
-            <div className="bg-white rounded-xl shadow-sm">
+            <div className="bg-card rounded-xl shadow-sm">
                 <SettingRowSelect
                     icon={Globe}
                     title="Language"
@@ -49,9 +49,9 @@ export default function SettingsPage() {
 
         <div className="space-y-2">
             <h2 className="text-sm font-semibold text-muted-foreground px-2">About</h2>
-            <div className="bg-white rounded-xl shadow-sm">
+            <div className="bg-card rounded-xl shadow-sm">
                 <SettingRowLink title="Privacy Policy" href="/profile/terms" />
-                <div className="h-px bg-gray-100 mx-4" />
+                <div className="h-px bg-border mx-4" />
                 <SettingRowLink title="Terms of Service" href="/profile/terms" />
             </div>
         </div>

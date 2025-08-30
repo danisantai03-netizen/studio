@@ -39,14 +39,14 @@ export default function ProfilePage() {
           </div>
 
           <div className="px-3 py-2">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-card rounded-xl shadow-sm overflow-hidden">
                 {menuItems.map((item, index) => (
                     <React.Fragment key={item.text}>
                         <MenuItem icon={item.icon} text={item.text} href={item.href} />
-                        {index < menuItems.length - 1 && <div className="h-px bg-gray-100 mx-4" />}
+                        {index < menuItems.length - 1 && <div className="h-px bg-border mx-4" />}
                     </React.Fragment>
                 ))}
-                 <div className="h-px bg-gray-100 mx-4" />
+                 <div className="h-px bg-border mx-4" />
                  <MenuItem icon={LogOut} text="Logout" href="#" isLogout/>
             </div>
           </div>
@@ -60,7 +60,7 @@ export default function ProfilePage() {
 function ProfileInfoCard() {
     const { name, avatarUrl, userId } = useUserStore();
     return (
-        <Link href="/profile/edit" className="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm active:bg-gray-50 transition-colors duration-150">
+        <Link href="/profile/edit" className="flex items-center gap-4 p-4 bg-card rounded-xl shadow-sm active:bg-gray-50 transition-colors duration-150">
             <div className="relative w-14 h-14 rounded-full overflow-hidden">
                  <Image 
                     src={avatarUrl}
