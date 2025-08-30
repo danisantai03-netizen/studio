@@ -42,7 +42,7 @@ export function RecyclingTip() {
   }, []);
 
   return (
-    <section aria-labelledby="recycling-tip-heading" className="px-4">
+    <section aria-labelledby="recycling-tip-heading">
       <div className="flex items-center justify-between mb-2">
         <h2 id="recycling-tip-heading" className="text-xl font-bold">Daily Eco Tips</h2>
         <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-primary h-auto p-0 text-sm">
@@ -52,7 +52,7 @@ export function RecyclingTip() {
       </div>
         {isLoading ? (
             <Card className="bg-primary/5 text-primary-foreground shadow-sm rounded-2xl w-full border-primary/20">
-              <CardContent className="p-4">
+              <CardContent className="p-3 sm:p-4">
                 <div className="flex items-start gap-3">
                   <Skeleton className="w-8 h-8 rounded-full bg-primary/20" />
                   <div className="space-y-2 flex-1 pt-1">
@@ -65,7 +65,7 @@ export function RecyclingTip() {
         ) : (
           tip && (
             <Card className="bg-primary/5 shadow-sm rounded-2xl w-full border-primary/20">
-              <CardContent className="p-4">
+              <CardContent className="p-3 sm:p-4">
                 <div className="flex items-start gap-3">
                   <div className="bg-primary/10 p-1.5 rounded-full mt-0.5">
                     <Lightbulb className="w-5 h-5 text-primary"/>

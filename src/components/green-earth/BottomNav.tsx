@@ -45,7 +45,7 @@ export function BottomNav() {
   const activeItem = getActiveItem();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-20 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20 md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 h-auto bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20 md:hidden py-2">
       <div className="flex justify-around items-center h-full">
         {navItems.map((item) => {
           const isActive = activeItem === item.name;
@@ -54,13 +54,14 @@ export function BottomNav() {
               <Image
                 src={isActive ? item.activeIcon : item.inactiveIcon}
                 alt={item.name}
-                width={28}
-                height={28}
-                className="transition-transform duration-200 ease-in-out group-hover:scale-110"
+                width={24}
+                height={24}
+                className="transition-transform duration-200 ease-in-out group-hover:scale-110 h-6 w-6 sm:h-7 sm:w-7"
               />
               <span className={cn(
-                "text-xs mt-1.5 font-semibold",
-                isActive ? "text-primary" : "text-gray-500"
+                "text-xs mt-1 font-semibold",
+                isActive ? "text-primary" : "text-gray-500",
+                "sm:text-sm"
               )}>
                 {item.name}
               </span>

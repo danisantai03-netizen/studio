@@ -89,8 +89,8 @@ export function WasteCategories() {
   );
 
   return (
-    <section aria-labelledby="waste-categories-heading" className="px-4">
-      <div className="grid grid-cols-2 gap-4">
+    <section aria-labelledby="waste-categories-heading">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
         {filteredCategories.map((category) => (
           <Link key={category.name} href={`/schedule-pickup/${encodeURIComponent(category.category)}`} className="block group">
             <Card className="flex flex-col overflow-hidden shadow-sm rounded-2xl transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95 border-gray-200/50 h-full">

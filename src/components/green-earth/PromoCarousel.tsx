@@ -65,12 +65,12 @@ export function PromoCarousel() {
   }, [api]);
 
   return (
-    <section aria-labelledby="promotions-heading" className="px-4">
+    <section aria-labelledby="promotions-heading">
       <div className="relative">
         <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
-          <CarouselContent>
+          <CarouselContent className="-ml-4">
             {promotions.map((promo, index) => (
-              <CarouselItem key={index}>
+              <CarouselItem key={index} className="pl-4">
                 <Card className="overflow-hidden shadow-lg h-full w-full rounded-2xl border-none aspect-[16/9]">
                   <CardContent className="relative p-0 w-full h-full">
                     <Image
@@ -82,10 +82,10 @@ export function PromoCarousel() {
                       priority={index === 0}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-0 left-0 p-4 md:p-6 text-white">
-                      <h3 className="text-xl md:text-2xl font-bold">{promo.title}</h3>
-                      <p className="mt-1 max-w-lg text-sm md:text-base">{promo.description}</p>
-                      <Button size="sm" className="mt-3 bg-accent text-accent-foreground font-semibold px-4 rounded-full shadow-md transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95">
+                    <div className="absolute bottom-0 left-0 p-4 text-white">
+                      <h3 className="text-lg sm:text-xl font-bold">{promo.title}</h3>
+                      <p className="mt-1 max-w-lg text-sm">{promo.description}</p>
+                      <Button size="sm" className="mt-3 bg-accent text-accent-foreground font-semibold px-4 py-2 text-xs sm:px-6 sm:py-2.5 sm:text-sm h-auto rounded-full shadow-md transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95">
                         Join Now
                       </Button>
                     </div>
@@ -95,14 +95,14 @@ export function PromoCarousel() {
             ))}
           </CarouselContent>
         </Carousel>
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center space-x-2">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center space-x-2">
           {promotions.map((_, index) => (
             <button
               key={index}
               onClick={() => api?.scrollTo(index)}
               className={cn(
                 "w-2 h-2 rounded-full",
-                current === index ? "bg-primary" : "bg-primary/30"
+                current === index ? "bg-white" : "bg-white/40"
               )}
               aria-label={`Go to slide ${index + 1}`}
             />

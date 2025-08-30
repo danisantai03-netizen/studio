@@ -14,18 +14,24 @@ export default function Home() {
       <div className="flex flex-col flex-grow pb-28">
         <Header />
         <main className="flex-grow space-y-6">
-          <PointsDashboard />
+          <div className="px-4">
+            <PointsDashboard />
+          </div>
           <PromoCarousel />
           <div className="px-4">
              <h2 className="text-xl font-bold mb-4">Features</h2>
              <FeatureLinks />
           </div>
-          <RecyclingTip />
+           <div className="px-4">
+            <RecyclingTip />
+          </div>
           <div className="px-4 space-y-4">
             <h2 className="text-xl font-bold">What are you recycling?</h2>
             <FilterBar />
           </div>
-          <WasteCategories />
+           <div className="px-4">
+             <WasteCategories />
+           </div>
         </main>
       </div>
       <BottomNav />
