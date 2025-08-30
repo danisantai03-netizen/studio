@@ -1,3 +1,5 @@
+
+"use client";
 import { Trophy, Newspaper, Gift, CalendarHeart, Users, History } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
@@ -12,7 +14,7 @@ const features = [
 
 export function FeatureLinks() {
   return (
-    <section aria-labelledby="features-heading">
+    <section aria-labelledby="features-heading" className="py-6">
       <h2 id="features-heading" className="text-xl font-bold mb-4 px-4">Features</h2>
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max space-x-4 px-4 pb-4">

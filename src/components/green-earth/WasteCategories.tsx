@@ -81,7 +81,7 @@ export function WasteCategories() {
         {filteredCategories.map((category) => (
           <Card key={category.name} className="flex flex-col overflow-hidden shadow-sm rounded-2xl transition-transform duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95 border-gray-200/50">
             <CardHeader className="p-0">
-              <div className="relative aspect-4/3 w-full">
+              <div className="relative aspect-[4/3] w-full">
                 <Image
                   src={category.image}
                   alt={category.name}
