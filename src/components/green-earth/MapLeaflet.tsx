@@ -8,6 +8,7 @@ import { ref as dbRef, onChildAdded, onChildChanged, onChildRemoved, set, onDisc
 import { fixLeafletDefaultIcon } from '@/lib/leafletFix';
 import throttle from 'lodash.throttle';
 import type { DriverLocation } from '@/types/location';
+import { cn } from '@/lib/utils';
 
 // Call the icon fix immediately
 fixLeafletDefaultIcon();
@@ -50,6 +51,7 @@ export default function MapLeaflet() {
             center: [-6.2088, 106.8456], // Default to Jakarta
             zoom: 13,
             scrollWheelZoom: true,
+            touchZoom: true, // This is crucial for pinch-to-zoom on touch devices
             zoomControl: false // Disable default zoom control
         });
         mapRef.current = map;
@@ -59,8 +61,12 @@ export default function MapLeaflet() {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
 
-        // Ensure map resizes correctly after initial render
-        setTimeout(() => map.invalidateSize(), 0);
+        // Ensure map resizes correctly after initial render. This is critical.
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 10);
+        });
 
         // Set a stable client ID for this session
         if (!clientIdRef.current) {
@@ -150,5 +156,6 @@ export default function MapLeaflet() {
   }, []); // The empty dependency array ensures this runs only once on mount and cleanup runs on unmount.
 
   // The component renders a simple div that will be used as the map container.
-  return <div ref={mapContainerRef} className="w-full h-full" />;
+  // The 'map-interactive' class prevents page-level zoom on touch devices.
+  return <div ref={mapContainerRef} className={cn('w-full h-full map-interactive')} />;
 }

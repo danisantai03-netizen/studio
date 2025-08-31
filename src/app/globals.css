@@ -88,4 +88,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  .map-interactive {
+    touch-action: none;
+    -ms-touch-action: none;
+  }
 }

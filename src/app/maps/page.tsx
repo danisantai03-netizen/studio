@@ -21,7 +21,7 @@ import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { BottomNav } from '@/components/green-earth/BottomNav';
 import { Skeleton } from '@/components/ui/skeleton';
 
-// Dynamically import the map component with SSR disabled for performance.
+// Dynamically import the map component with SSR disabled.
 const Map = dynamic(() => import('@/components/green-earth/MapLeaflet'), {
   loading: () => <Skeleton className="absolute inset-0 bg-muted z-0" />,
   ssr: false,
@@ -41,6 +41,7 @@ type TripStatus = keyof typeof tripStatuses;
 export default function MapsPage() {
   const [isSheetOpen, setIsSheetOpen] = React.useState(true);
   const [status, setStatus] = React.useState<TripStatus>('ON_THE_WAY');
+  const [showDriverInfo, setShowDriverInfo] = React.useState(true);
 
   React.useEffect(() => {
     // Simulate trip progress for demonstration
@@ -53,12 +54,21 @@ export default function MapsPage() {
     let currentIndex = 0;
 
     const interval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % sequence.length;
-      setStatus(sequence[currentIndex]);
+      currentIndex = (currentIndex + 1);
+      if (currentIndex < sequence.length) {
+         setStatus(sequence[currentIndex]);
+      } else {
+         clearInterval(interval);
+      }
     }, 8000); // Change status every 8 seconds
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleFeedbackSubmit = () => {
+    // Hide the driver info after feedback is submitted
+    setShowDriverInfo(false);
+  };
 
   return (
     <div className="flex h-screen flex-col bg-background">
@@ -71,39 +81,41 @@ export default function MapsPage() {
         </div>
 
         {/* Top Status Banner */}
-        <motion.div
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, type: 'spring', stiffness: 100 }}
-          className="absolute top-2 left-1/2 z-30 w-[90%] -translate-x-1/2"
-        >
-          <div className="flex items-center gap-3 rounded-full bg-background p-2 pr-4 text-sm font-medium shadow-lg">
-            <Avatar className="h-8 w-8">
-              <AvatarImage
-                src="https://i.pravatar.cc/150?u=driver"
-                alt="Driver"
-              />
-              <AvatarFallback>D</AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={status}
-                  initial={{ y: 10, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -10, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="truncate"
-                >
-                  {status === 'ON_THE_WAY' && 'Arriving in 5 mins...'}
-                  {status === 'ARRIVED' && 'Driver is waiting.'}
-                  {status === 'COMPLETED' && 'Pickup complete!'}
-                  {status === 'FEEDBACK' && 'How was the service?'}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-          </div>
-        </motion.div>
+         {showDriverInfo && (
+            <motion.div
+              initial={{ y: -100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, type: 'spring', stiffness: 100 }}
+              className="absolute top-2 left-1/2 z-30 w-[90%] -translate-x-1/2"
+            >
+              <div className="flex items-center gap-3 rounded-full bg-background p-2 pr-4 text-sm font-medium shadow-lg">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage
+                    src="https://i.pravatar.cc/150?u=driver"
+                    alt="Driver"
+                  />
+                  <AvatarFallback>D</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={status}
+                      initial={{ y: 10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -10, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="truncate"
+                    >
+                      {status === 'ON_THE_WAY' && 'Arriving in 5 mins...'}
+                      {status === 'ARRIVED' && 'Driver is waiting.'}
+                      {status === 'COMPLETED' && 'Pickup complete!'}
+                      {status === 'FEEDBACK' && 'How was the service?'}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.div>
+         )}
 
         {/* Floating Action Buttons */}
         <div className="absolute bottom-24 right-4 z-30 space-y-2">
@@ -117,7 +129,7 @@ export default function MapsPage() {
 
         {/* Bottom Sheet */}
         <AnimatePresence>
-          {isSheetOpen && (
+          {isSheetOpen && showDriverInfo && (
             <motion.div
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
@@ -145,7 +157,7 @@ export default function MapsPage() {
                     {status !== 'FEEDBACK' ? (
                       <DriverInfo status={status} />
                     ) : (
-                      <FeedbackSection />
+                      <FeedbackSection onSubmit={handleFeedbackSubmit} />
                     )}
                   </motion.div>
                 </AnimatePresence>
@@ -154,7 +166,7 @@ export default function MapsPage() {
           )}
         </AnimatePresence>
       </main>
-      {!isSheetOpen && (
+      {!isSheetOpen && showDriverInfo && (
         <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2">
           <Button
             onClick={() => setIsSheetOpen(true)}
@@ -242,27 +254,60 @@ const DriverInfo = ({ status }: { status: TripStatus }) => (
   </>
 );
 
-const FeedbackSection = () => {
+const FeedbackSection = ({ onSubmit }: { onSubmit: () => void }) => {
   const [rating, setRating] = React.useState(0);
+  const [submitted, setSubmitted] = React.useState(false);
+
+  const handleSubmit = () => {
+    if (rating === 0) return;
+    setSubmitted(true);
+    // Simulate API call and animation
+    setTimeout(() => {
+        onSubmit();
+    }, 1200);
+  };
+
   return (
     <div className="text-center">
       <h2 className="text-lg font-bold">Rate Your Pickup</h2>
       <p className="text-sm text-muted-foreground">
         Your feedback helps us improve our service.
       </p>
-      <div className="my-4 flex justify-center gap-2">
+      <motion.div 
+        className="my-4 flex justify-center gap-2"
+        variants={{
+            hidden: { opacity: 0 },
+            visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 }
+            }
+        }}
+        initial="hidden"
+        animate="visible"
+      >
         {[1, 2, 3, 4, 5].map((star) => (
-          <button key={star} onClick={() => setRating(star)}>
+          <motion.button 
+            key={star} 
+            onClick={() => setRating(star)}
+            variants={{
+                hidden: { opacity: 0, scale: 0.5 },
+                visible: { opacity: 1, scale: 1 }
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
             <Star
               className={cn(
                 'h-8 w-8 text-yellow-300 transition-all',
                 rating >= star ? 'fill-yellow-400' : 'fill-muted'
               )}
             />
-          </button>
+          </motion.button>
         ))}
-      </div>
-      <Button className="w-full">Submit Feedback</Button>
+      </motion.div>
+      <Button onClick={handleSubmit} disabled={rating === 0 || submitted} className="w-full">
+        {submitted ? "Submitting..." : "Submit Feedback"}
+      </Button>
     </div>
   );
 };
