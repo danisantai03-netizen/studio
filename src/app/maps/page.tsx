@@ -7,19 +7,15 @@ import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function MapsPage() {
-  const MapWithNoSSR = useMemo(
-    () =>
-      dynamic(
-        () => import('@/components/green-earth/MapLeaflet').then((mod) => mod.MapLeaflet),
-        {
-          ssr: false,
-          loading: () => <Skeleton className="w-full h-[calc(100vh-150px)] bg-muted" />,
-        }
-      ),
-    []
-  );
+const MapWithNoSSR = dynamic(
+  () => import('@/components/green-earth/MapLeaflet').then((mod) => mod.MapLeaflet),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[calc(100vh-150px)] bg-muted" />,
+  }
+);
 
+export default function MapsPage() {
   return (
     <div className="bg-background min-h-screen flex flex-col">
       <UniversalHeader title="Live Map" showBackButton={false} />

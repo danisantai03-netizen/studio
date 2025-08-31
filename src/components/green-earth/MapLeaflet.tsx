@@ -8,7 +8,6 @@ import { ref as dbRef, onChildAdded, onChildChanged, onChildRemoved, set, onDisc
 import { fixLeafletDefaultIcon } from '@/lib/leafletFix';
 import throttle from 'lodash.throttle';
 import type { DriverLocation } from '@/types/location';
-import { Skeleton } from '@/components/ui/skeleton';
 
 // ensure leaflet icons fixed
 fixLeafletDefaultIcon();
