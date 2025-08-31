@@ -57,7 +57,7 @@ const allCategories = [
     description: "Vegetable peels, coffee grounds.",
     points: "2 PTS/lb",
     image: "/assets/categories/organic.svg",
-    aiHint: "compost bin",
+aiHint: "compost bin",
     tags: ["All", "Organic"],
     category: "Organic"
   },
