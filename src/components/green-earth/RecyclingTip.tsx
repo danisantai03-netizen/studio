@@ -11,46 +11,51 @@ import { useToast } from "@/hooks/use-toast";
 
 export function RecyclingTip() {
   const [tip, setTip] = useState<RecyclingTipOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isPending, startTransition] = useTransition();
+  const [isFetching, setIsFetching] = useState(true);
   const { toast } = useToast();
 
-  const fetchTip = async () => {
-    startTransition(async () => {
-      try {
-        const newTip = await getRecyclingTip({});
-        setTip(newTip);
-      } catch (error) {
-        console.error("Failed to fetch recycling tip:", error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Could not load a new tip. Please try again later.",
-        });
-      }
-    });
+  const fetchTip = async (isRefresh = false) => {
+    if (!isRefresh) {
+      setIsFetching(true);
+    }
+    try {
+      const newTip = await getRecyclingTip({});
+      setTip(newTip);
+    } catch (error) {
+      console.error("Failed to fetch recycling tip:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not load a new tip. Please try again later.",
+      });
+      // Set a default tip on error
+      setTip({ tip: "Remember to rinse your containers before recycling to avoid contamination." });
+    } finally {
+        if (!isRefresh) {
+            setIsFetching(false);
+        }
+    }
   };
 
   useEffect(() => {
-    const loadInitialTip = async () => {
-      setIsLoading(true);
-      await fetchTip();
-      setIsLoading(false);
-    };
-    loadInitialTip();
+    fetchTip();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
+  const handleRefresh = () => {
+    fetchTip(true);
+  };
 
   return (
     <section aria-labelledby="recycling-tip-heading">
       <div className="flex items-center justify-between mb-2">
         <h2 id="recycling-tip-heading" className="text-lg font-bold">Daily Eco Tips</h2>
-        <Button variant="ghost" onClick={fetchTip} disabled={isPending} className="text-secondary h-auto p-0 text-xs">
-          <RefreshCw className={`mr-1 h-3 w-3 ${isPending ? "animate-spin" : ""}`} />
+        <Button variant="ghost" onClick={handleRefresh} disabled={isFetching} className="text-secondary h-auto p-0 text-xs">
+          <RefreshCw className={`mr-1 h-3 w-3 ${isFetching ? "animate-spin" : ""}`} />
           New Tip
         </Button>
       </div>
-        {isLoading ? (
+        {isFetching && !tip ? (
             <Card className="bg-secondary/10 text-secondary-foreground shadow-sm rounded-xl w-full border-secondary/20">
               <CardContent className="p-3 sm:p-4">
                 <div className="flex items-start gap-3">

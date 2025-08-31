@@ -1,12 +1,13 @@
 
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 
 const features = [
-  { name: "Donate", imgSrc: "/assets/mini-features/Donate.svg", href: "#" },
-  { name: "Leaderboard", imgSrc: "/assets/mini-features/Leaderboard.svg", href: "#" },
-  { name: "Article", imgSrc: "/assets/mini-features/Article.svg", href: "#" },
-  { name: "Community", imgSrc: "/assets/mini-features/Community.svg", href: "#" },
+  { name: "Donate", imgSrc: "/assets/mini-features/Donate.svg", href: "/features/donate" },
+  { name: "Leaderboard", imgSrc: "/assets/mini-features/Leaderboard.svg", href: "/features/leaderboard" },
+  { name: "Article", imgSrc: "/assets/mini-features/Article.svg", href: "/features/articles" },
+  { name: "Community", imgSrc: "/assets/mini-features/Community.svg", href: "/features/community" },
 ];
 
 export function FeatureLinks() {
@@ -15,7 +16,7 @@ export function FeatureLinks() {
       <h2 id="features-heading" className="sr-only">Features</h2>
       <div className="grid grid-cols-4 gap-3">
         {features.map((feature) => (
-          <a
+          <Link
             href={feature.href}
             key={feature.name}
             className="flex flex-col items-center justify-start text-center group"
@@ -24,7 +25,7 @@ export function FeatureLinks() {
               <Image src={feature.imgSrc} alt={feature.name} width={40} height={40} className="h-6 w-6 sm:h-7 sm:w-7" />
             </div>
             <p className="font-medium text-center text-xs text-foreground mt-2 w-full truncate sm:text-sm">{feature.name}</p>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
