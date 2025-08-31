@@ -14,45 +14,39 @@ export default function SecurityPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Security" showBackButton={true} />
-      <main className="p-4 space-y-4">
-        <Card>
-            <CardHeader>
-                <CardTitle>Account Security</CardTitle>
-                <CardDescription>Manage your account's security settings.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-                <div className="flex items-center justify-between p-4 rounded-lg bg-gray-50">
-                    <div className="flex items-center">
-                        <KeyRound className="w-5 h-5 mr-3 text-primary"/>
-                        <span className="font-medium">Change Password</span>
-                    </div>
-                    <Button variant="outline">Change</Button>
+      <UniversalHeader title="Security" />
+      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-4">
+        <div className="bg-card rounded-xl shadow-sm divide-y divide-border">
+            <div className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <KeyRound className="w-5 h-5 text-primary"/>
+                    <span className="font-medium text-sm">Change Password</span>
                 </div>
+                <Button variant="outline" size="sm">Change</Button>
+            </div>
 
-                <div className="flex items-center justify-between p-4 rounded-lg bg-gray-50">
-                    <div className="flex items-center">
-                        <ShieldCheck className="w-5 h-5 mr-3 text-primary"/>
-                        <div>
-                            <p className="font-medium">Two-Factor Authentication</p>
-                            <p className="text-xs text-muted-foreground">Keep your account extra secure.</p>
-                        </div>
+            <div className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <ShieldCheck className="w-5 h-5 text-primary"/>
+                    <div>
+                        <p className="font-medium text-sm">Two-Factor Authentication</p>
+                        <p className="text-xs text-muted-foreground">Keep your account extra secure.</p>
                     </div>
-                    <Switch checked={twoFactor} onCheckedChange={setTwoFactor} />
                 </div>
-                
-                 <div className="flex items-center justify-between p-4 rounded-lg bg-gray-50">
-                    <div className="flex items-center">
-                        <Fingerprint className="w-5 h-5 mr-3 text-primary"/>
-                         <div>
-                            <p className="font-medium">Biometric Login</p>
-                            <p className="text-xs text-muted-foreground">Use Face ID or fingerprint to log in.</p>
-                        </div>
+                <Switch checked={twoFactor} onCheckedChange={setTwoFactor} />
+            </div>
+            
+             <div className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <Fingerprint className="w-5 h-5 text-primary"/>
+                     <div>
+                        <p className="font-medium text-sm">Biometric Login</p>
+                        <p className="text-xs text-muted-foreground">Use Face ID or fingerprint.</p>
                     </div>
-                    <Switch checked={biometric} onCheckedChange={setBiometric} />
                 </div>
-            </CardContent>
-        </Card>
+                <Switch checked={biometric} onCheckedChange={setBiometric} />
+            </div>
+        </div>
       </main>
     </div>
   );

@@ -2,9 +2,9 @@
 'use client';
 
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 
 const transactionHistory = [
   { id: 1, type: 'credit', amount: 500, points: 50, description: 'Recycled Plastic Bottles (2.5kg)', date: '2023-10-25', status: 'Completed' },
@@ -17,34 +17,33 @@ const transactionHistory = [
 export default function HistoryPage() {
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Transaction History" showBackButton={true} />
-      <main className="p-4 space-y-4">
-        <Card>
-            <CardHeader>
-                <CardTitle>Recent Transactions</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-4">
-                    {transactionHistory.map((item) => (
-                        <div key={item.id} className="flex items-center">
-                            <div className={`p-2 rounded-full mr-4 ${item.type === 'credit' ? 'bg-green-100' : 'bg-red-100'}`}>
-                                {item.type === 'credit' ? <ArrowDownLeft className="w-5 h-5 text-green-600" /> : <ArrowUpRight className="w-5 h-5 text-red-600" />}
+      <UniversalHeader title="Transaction History" />
+      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-4">
+        <div className="bg-card rounded-xl shadow-sm">
+            <ul className="divide-y divide-border">
+                {transactionHistory.map((item) => (
+                    <li key={item.id}>
+                        <Link href="#" className="block p-4 hover:bg-white/5 active:scale-[0.99] transition-all duration-150">
+                             <div className="flex items-center">
+                                <div className={`p-2 rounded-full mr-4 ${item.type === 'credit' ? 'bg-green-100 dark:bg-green-900/50' : 'bg-red-100 dark:bg-red-900/50'}`}>
+                                    {item.type === 'credit' ? <ArrowDownLeft className="w-5 h-5 text-green-600" /> : <ArrowUpRight className="w-5 h-5 text-red-600" />}
+                                </div>
+                                <div className="flex-grow">
+                                    <p className="font-semibold text-sm">{item.description}</p>
+                                    <p className="text-xs text-muted-foreground">{item.date}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className={`font-bold text-sm ${item.type === 'credit' ? 'text-green-600' : 'text-red-600'}`}>
+                                        {item.type === 'credit' ? '+' : '-'} {item.points} pts
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">Rp {item.amount.toLocaleString('id-ID')}</p>
+                                </div>
                             </div>
-                            <div className="flex-grow">
-                                <p className="font-semibold">{item.description}</p>
-                                <p className="text-sm text-muted-foreground">{item.date}</p>
-                            </div>
-                            <div className="text-right">
-                                <p className={`font-bold ${item.type === 'credit' ? 'text-green-600' : 'text-red-600'}`}>
-                                    {item.type === 'credit' ? '+' : '-'} {item.points} pts
-                                </p>
-                                <p className="text-sm text-muted-foreground">Rp {item.amount.toLocaleString('id-ID')}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </CardContent>
-        </Card>
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
       </main>
     </div>
   );

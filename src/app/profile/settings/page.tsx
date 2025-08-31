@@ -7,17 +7,18 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Bell, Globe, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default function SettingsPage() {
   const [notifications, setNotifications] = React.useState(true);
 
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Settings" showBackButton={true} />
-      <main className="p-4 space-y-6">
+      <UniversalHeader title="Settings" />
+      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-6 space-y-6">
         <div className="space-y-2">
             <h2 className="text-sm font-semibold text-muted-foreground px-2">General</h2>
-            <div className="bg-card rounded-xl shadow-sm">
+            <div className="bg-card rounded-xl shadow-sm divide-y divide-border">
                  <SettingRowSwitch
                     icon={Bell}
                     title="Push Notifications"
@@ -29,7 +30,7 @@ export default function SettingsPage() {
 
         <div className="space-y-2">
             <h2 className="text-sm font-semibold text-muted-foreground px-2">Regional</h2>
-            <div className="bg-card rounded-xl shadow-sm">
+            <div className="bg-card rounded-xl shadow-sm divide-y divide-border">
                 <SettingRowSelect
                     icon={Globe}
                     title="Language"
@@ -41,9 +42,8 @@ export default function SettingsPage() {
 
         <div className="space-y-2">
             <h2 className="text-sm font-semibold text-muted-foreground px-2">About</h2>
-            <div className="bg-card rounded-xl shadow-sm">
+            <div className="bg-card rounded-xl shadow-sm divide-y divide-border">
                 <SettingRowLink title="Privacy Policy" href="/profile/terms" />
-                <div className="h-px bg-border mx-4" />
                 <SettingRowLink title="Terms of Service" href="/profile/terms" />
             </div>
         </div>
@@ -78,7 +78,7 @@ function SettingRowSelect({ icon: Icon, title, currentValue, options }: SettingR
       <Icon className="w-5 h-5 mr-3 text-primary" />
       <span className="flex-grow text-sm font-medium">{title}</span>
       <Select defaultValue={currentValue}>
-        <SelectTrigger className="w-auto border-none focus:ring-0 text-sm text-muted-foreground">
+        <SelectTrigger className="w-auto border-none focus:ring-0 text-sm text-muted-foreground bg-transparent">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -91,9 +91,9 @@ function SettingRowSelect({ icon: Icon, title, currentValue, options }: SettingR
 
 function SettingRowLink({ title, href }: { title: string, href: string }) {
     return (
-        <a href={href} className="flex items-center p-4 text-sm font-medium active:bg-gray-50 transition-colors">
+        <Link href={href} className="flex items-center p-4 text-sm font-medium active:bg-gray-50/5 transition-colors">
             <span className="flex-grow">{title}</span>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
-        </a>
+        </Link>
     )
 }

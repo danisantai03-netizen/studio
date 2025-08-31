@@ -25,8 +25,8 @@ export default function FeedbackPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Help & Feedback" showBackButton={true} />
-      <main className="p-4">
+      <UniversalHeader title="Help & Feedback" />
+      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-4">
         <Card>
             <CardHeader>
                 <CardTitle>Submit Feedback</CardTitle>

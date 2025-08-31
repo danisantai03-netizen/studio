@@ -23,8 +23,8 @@ export default function ReferralPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Refer a Friend" showBackButton={true} />
-      <main className="p-4 space-y-6 text-center">
+      <UniversalHeader title="Refer a Friend" />
+      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-6 space-y-6 text-center">
         <Card>
             <CardHeader>
                 <CardTitle>Invite Friends, Earn Points!</CardTitle>
@@ -33,7 +33,7 @@ export default function ReferralPage() {
             <CardContent className="space-y-4">
                 <p className="text-muted-foreground">Your unique referral code</p>
                 <div className="flex items-center justify-center gap-2">
-                    <Input value={referralCode} readOnly className="text-center font-bold text-2xl h-14 tracking-widest bg-gray-100" />
+                    <Input value={referralCode} readOnly className="text-center font-bold text-2xl h-14 tracking-widest bg-gray-100 dark:bg-gray-800" />
                     <Button size="icon" variant="outline" className="h-14 w-14" onClick={() => copyToClipboard(referralCode)}>
                         <Copy className="w-6 h-6" />
                     </Button>
@@ -44,7 +44,7 @@ export default function ReferralPage() {
                        <span className="w-full border-t" />
                    </div>
                    <div className="relative flex justify-center text-xs uppercase">
-                       <span className="bg-background px-2 text-muted-foreground">Or share link</span>
+                       <span className="bg-card px-2 text-muted-foreground">Or share link</span>
                    </div>
                 </div>
 

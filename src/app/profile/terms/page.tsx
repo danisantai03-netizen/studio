@@ -7,8 +7,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 export default function TermsPage() {
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Terms & Conditions" showBackButton={true} />
-      <main className="p-4">
+      <UniversalHeader title="Terms & Conditions" />
+      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-4">
         <div className="prose dark:prose-invert max-w-full text-sm text-muted-foreground">
             <p className="mb-4">Last updated: August 31, 2024</p>
             <p className="mb-6">

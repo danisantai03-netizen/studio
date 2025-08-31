@@ -125,10 +125,10 @@ export default function EditProfilePage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Edit Profile" showBackButton={true} />
+      <UniversalHeader title="Edit Profile" />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <main className="p-4 space-y-6 pb-24">
+        <main className="p-4 space-y-6 pb-24 max-w-full mx-0 px-4 sm:px-6 md:px-8">
           <div className="flex flex-col items-center gap-2 py-4">
             <div className="relative w-24 h-24">
               <Image

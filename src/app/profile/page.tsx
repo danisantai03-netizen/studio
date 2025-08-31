@@ -45,8 +45,8 @@ export default function ProfilePage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Profile" showBackButton={false} />
-      <div className="flex flex-col flex-grow pb-20">
-        <main className="flex-grow">
+      <div className="flex flex-col flex-grow pb-20 w-full max-w-full mx-0 px-4 sm:px-6 md:px-8">
+        <main className="flex-grow pt-4">
             <ProfileHeader 
                 name={name}
                 id={userId}
