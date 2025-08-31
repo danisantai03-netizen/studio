@@ -74,7 +74,8 @@ const ExpandableRow = ({ item }: { item: typeof transactionHistory[0] }) => {
 
     return (
        <li className="py-4">
-            <div className="flex items-start" onClick={() => setIsOpen(!isOpen)} role="button">
+          <Link href={`/profile/history/${item.id}`} className="block">
+            <div className="flex items-start" role="button" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}>
                 <div className="flex-grow">
                     <p className="font-semibold text-sm">Sale of {item.wasteType}</p>
                     <p className="text-xs text-muted-foreground">{format(item.date, 'dd MMM yyyy, HH:mm')}</p>
@@ -89,6 +90,7 @@ const ExpandableRow = ({ item }: { item: typeof transactionHistory[0] }) => {
                     </p>
                 </div>
             </div>
+           </Link>
 
              {isOpen && (
                 <div className="mt-4 pt-4 border-t border-dashed text-xs space-y-2">

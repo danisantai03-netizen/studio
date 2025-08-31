@@ -16,15 +16,12 @@ import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { ProfileHeader } from '@/components/green-earth/ProfileHeader';
 import { ProfileMenu, type MenuItem } from '@/components/green-earth/ProfileMenu';
 import { ProfileFooter } from '@/components/green-earth/ProfileFooter';
+import Link from 'next/link';
 
 
 export default function ProfilePage() {
     const router = useRouter();
     const { name, userId, avatarUrl } = useUserStore();
-
-    const handleNavigation = (path: string) => {
-        router.push(path);
-    };
 
     const menuItems: MenuItem[] = [
         { id: 'referral', title: 'Referral', icon: <Users className="w-5 h-5 text-primary" />, href: '/profile/referral' },
@@ -37,6 +34,8 @@ export default function ProfilePage() {
     const handleLogout = () => {
         // Handle logout logic here
         console.log("Logout clicked");
+        // In a real app, you'd likely redirect to a login page
+        // router.push('/login');
     };
 
   return (
@@ -48,13 +47,13 @@ export default function ProfilePage() {
                 name={name}
                 id={userId}
                 photoUrl={avatarUrl}
-                onEdit={() => handleNavigation('/profile/edit')}
+                onEdit={() => router.push('/profile/edit')}
             />
             <div className="mt-6">
                 <ProfileMenu menus={menuItems} />
             </div>
             <ProfileFooter 
-                onTermsClick={() => handleNavigation('/profile/terms')}
+                onTermsClick={() => router.push('/profile/terms')}
                 onLogoutClick={handleLogout}
             />
         </main>
