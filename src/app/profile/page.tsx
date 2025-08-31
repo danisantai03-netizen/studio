@@ -16,8 +16,6 @@ import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { ProfileHeader } from '@/components/green-earth/ProfileHeader';
 import { ProfileMenu, type MenuItem } from '@/components/green-earth/ProfileMenu';
 import { ProfileFooter } from '@/components/green-earth/ProfileFooter';
-import Link from 'next/link';
-
 
 export default function ProfilePage() {
     const router = useRouter();
