@@ -2,7 +2,6 @@
 'use client';
 
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { KeyRound, ShieldCheck, Fingerprint } from 'lucide-react';
@@ -15,17 +14,17 @@ export default function SecurityPage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Security" />
-      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-4">
-        <div className="bg-card rounded-xl shadow-sm divide-y divide-border">
-            <div className="p-4 flex items-center justify-between">
+      <main className="w-full max-w-full mx-0 px-0 sm:px-6 md:px-8 py-4">
+        <ul className="divide-y divide-border">
+            <li className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <KeyRound className="w-5 h-5 text-primary"/>
                     <span className="font-medium text-sm">Change Password</span>
                 </div>
                 <Button variant="outline" size="sm">Change</Button>
-            </div>
+            </li>
 
-            <div className="p-4 flex items-center justify-between">
+            <li className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <ShieldCheck className="w-5 h-5 text-primary"/>
                     <div>
@@ -34,9 +33,9 @@ export default function SecurityPage() {
                     </div>
                 </div>
                 <Switch checked={twoFactor} onCheckedChange={setTwoFactor} />
-            </div>
+            </li>
             
-             <div className="p-4 flex items-center justify-between">
+             <li className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Fingerprint className="w-5 h-5 text-primary"/>
                      <div>
@@ -45,8 +44,8 @@ export default function SecurityPage() {
                     </div>
                 </div>
                 <Switch checked={biometric} onCheckedChange={setBiometric} />
-            </div>
-        </div>
+            </li>
+        </ul>
       </main>
     </div>
   );

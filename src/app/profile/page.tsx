@@ -5,13 +5,10 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import {
   ShieldCheck,
-  FileText,
   MessageSquareHeart,
   Settings,
   History,
   Users,
-  LogOut,
-  ChevronRight,
 } from 'lucide-react';
 import { BottomNav } from '@/components/green-earth/BottomNav';
 import useUserStore from '@/hooks/useUserStore';
@@ -53,7 +50,9 @@ export default function ProfilePage() {
                 photoUrl={avatarUrl}
                 onEdit={() => handleNavigation('/profile/edit')}
             />
-            <ProfileMenu menus={menuItems} />
+            <div className="mt-6">
+                <ProfileMenu menus={menuItems} />
+            </div>
             <ProfileFooter 
                 onTermsClick={() => handleNavigation('/profile/terms')}
                 onLogoutClick={handleLogout}

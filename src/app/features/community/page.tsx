@@ -28,27 +28,25 @@ const events = [
 export default function CommunityPage() {
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Community Events" showBackButton={true} />
-      <main className="p-4 space-y-4">
-         <div className="text-center mb-6">
+      <UniversalHeader title="Community Events" />
+      <main className="p-4 space-y-6">
+         <div className="text-center mb-2">
             <h2 className="text-xl font-bold">Join an Event</h2>
             <p className="text-muted-foreground">Get involved and make an impact with your community.</p>
         </div>
         <div className="space-y-4">
           {events.map((event) => (
-            <Card key={event.name} className="overflow-hidden">
+            <div key={event.name} className="overflow-hidden rounded-xl border bg-card">
                  <div className="relative h-48 w-full">
                     <Image src={event.image} alt={event.name} fill className="object-cover" data-ai-hint={event.aiHint} />
                 </div>
-              <CardHeader>
-                <CardTitle>{event.name}</CardTitle>
-                <CardDescription>{event.date} • {event.location}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">{event.description}</p>
+              <div className="p-4">
+                <h3 className="font-semibold">{event.name}</h3>
+                <p className="text-sm text-muted-foreground">{event.date} • {event.location}</p>
+                <p className="text-sm text-muted-foreground my-3">{event.description}</p>
                 <Button className="w-full">RSVP Now</Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </main>

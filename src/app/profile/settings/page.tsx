@@ -15,40 +15,40 @@ export default function SettingsPage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Settings" />
-      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-6 space-y-6">
-        <div className="space-y-2">
-            <h2 className="text-sm font-semibold text-muted-foreground px-2">General</h2>
-            <div className="bg-card rounded-xl shadow-sm divide-y divide-border">
+      <main className="w-full max-w-full mx-0 px-0 sm:px-6 md:px-8 py-6 space-y-8">
+        <div className="space-y-2 px-4">
+            <h2 className="text-sm font-semibold text-muted-foreground">General</h2>
+            <ul className="divide-y divide-border border rounded-xl overflow-hidden bg-card">
                  <SettingRowSwitch
                     icon={Bell}
                     title="Push Notifications"
                     checked={notifications}
                     onCheckedChange={setNotifications}
                  />
-            </div>
+            </ul>
         </div>
 
-        <div className="space-y-2">
-            <h2 className="text-sm font-semibold text-muted-foreground px-2">Regional</h2>
-            <div className="bg-card rounded-xl shadow-sm divide-y divide-border">
+        <div className="space-y-2 px-4">
+            <h2 className="text-sm font-semibold text-muted-foreground">Regional</h2>
+            <ul className="divide-y divide-border border rounded-xl overflow-hidden bg-card">
                 <SettingRowSelect
                     icon={Globe}
                     title="Language"
                     currentValue="English"
                     options={["English", "Indonesian", "Spanish"]}
                 />
-            </div>
+            </ul>
         </div>
 
-        <div className="space-y-2">
-            <h2 className="text-sm font-semibold text-muted-foreground px-2">About</h2>
-            <div className="bg-card rounded-xl shadow-sm divide-y divide-border">
+        <div className="space-y-2 px-4">
+            <h2 className="text-sm font-semibold text-muted-foreground">About</h2>
+            <ul className="divide-y divide-border border rounded-xl overflow-hidden bg-card">
                 <SettingRowLink title="Privacy Policy" href="/profile/terms" />
                 <SettingRowLink title="Terms of Service" href="/profile/terms" />
-            </div>
+            </ul>
         </div>
         
-        <div className="pt-4">
+        <div className="pt-4 px-4">
             <Button variant="destructive" className="w-full">Delete Account</Button>
         </div>
       </main>
@@ -64,17 +64,17 @@ interface SettingRowProps {
 
 function SettingRowSwitch({ icon: Icon, title, checked, onCheckedChange }: SettingRowProps & { checked: boolean; onCheckedChange: (checked: boolean) => void; }) {
   return (
-    <div className="flex items-center p-4">
+    <li className="flex items-center p-4">
       <Icon className="w-5 h-5 mr-3 text-primary" />
       <span className="flex-grow text-sm font-medium">{title}</span>
       <Switch checked={checked} onCheckedChange={onCheckedChange} />
-    </div>
+    </li>
   );
 }
 
 function SettingRowSelect({ icon: Icon, title, currentValue, options }: SettingRowProps & { currentValue: string; options: string[]; }) {
   return (
-    <div className="flex items-center p-4">
+    <li className="flex items-center p-4">
       <Icon className="w-5 h-5 mr-3 text-primary" />
       <span className="flex-grow text-sm font-medium">{title}</span>
       <Select defaultValue={currentValue}>
@@ -85,15 +85,17 @@ function SettingRowSelect({ icon: Icon, title, currentValue, options }: SettingR
           {options.map(opt => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
         </SelectContent>
       </Select>
-    </div>
+    </li>
   );
 }
 
 function SettingRowLink({ title, href }: { title: string, href: string }) {
     return (
-        <Link href={href} className="flex items-center p-4 text-sm font-medium active:bg-gray-50/5 transition-colors">
-            <span className="flex-grow">{title}</span>
-            <ChevronRight className="w-5 h-5 text-muted-foreground" />
-        </Link>
+        <li>
+            <Link href={href} className="flex items-center p-4 text-sm font-medium active:bg-gray-50/5 transition-colors">
+                <span className="flex-grow">{title}</span>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </Link>
+        </li>
     )
 }

@@ -10,6 +10,7 @@ import { formatDistanceToNow } from "date-fns";
 import type { NotificationItem } from "@/hooks/use-notifications";
 import { useNotifications } from "@/hooks/use-notifications";
 import { cn } from "@/lib/utils";
+import { UniversalHeader } from "@/components/green-earth/UniversalHeader";
 
 export default function NotificationsPage() {
   const {
@@ -31,27 +32,19 @@ export default function NotificationsPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <div className="p-4 flex justify-between items-center">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-xl font-bold"
-          aria-label="Go back to home"
-        >
-          <ArrowLeft className="w-6 h-6" />
-          <span>Notification</span>
-        </Link>
+      <UniversalHeader title="Notifications">
         <Button
           variant="link"
           size="sm"
-          className="text-primary h-auto p-0"
+          className="text-primary h-auto p-0 text-xs absolute right-4"
           onClick={() => markAllAsRead.mutate()}
           disabled={totalUnread === 0}
         >
           Mark all as read
         </Button>
-      </div>
+      </UniversalHeader>
 
-      <main className="px-4">
+      <main className="px-4 pt-4">
         <div className="space-y-3">
           {isLoading ? (
             <NotificationSkeleton />
@@ -88,7 +81,7 @@ function NotificationCard({
 }) {
     const content = (
       <div className={cn(
-        "flex items-start gap-3 p-3 rounded-xl transition-all duration-150 cursor-pointer hover:shadow-md active:scale-[0.98]",
+        "flex items-start gap-3 p-3 rounded-xl transition-all duration-150 cursor-pointer active:scale-[0.98]",
         notification.read ? "bg-card" : "bg-primary/5 border border-primary/20"
       )}>
         <div className={cn(

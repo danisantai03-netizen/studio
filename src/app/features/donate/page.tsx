@@ -30,26 +30,24 @@ const causes = [
 export default function DonatePage() {
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Donate" showBackButton={true} />
-      <main className="p-4 space-y-4">
-        <div className="text-center mb-6">
+      <UniversalHeader title="Donate" />
+      <main className="p-4 space-y-6">
+        <div className="text-center mb-2">
             <h2 className="text-xl font-bold">Support a Cause</h2>
             <p className="text-muted-foreground">Use your earnings to make a difference.</p>
         </div>
         <div className="space-y-4">
           {causes.map((cause) => (
-            <Card key={cause.name} className="overflow-hidden">
+            <div key={cause.name} className="overflow-hidden rounded-xl border bg-card">
                 <div className="relative h-40 w-full">
                     <Image src={cause.image} alt={cause.name} fill className="object-cover" data-ai-hint={cause.aiHint} />
                 </div>
-                <CardHeader>
-                    <CardTitle>{cause.name}</CardTitle>
-                    <CardDescription>{cause.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Button className="w-full">Donate Now</Button>
-                </CardContent>
-            </Card>
+                <div className="p-4">
+                    <h3 className="font-semibold">{cause.name}</h3>
+                    <p className="text-sm text-muted-foreground">{cause.description}</p>
+                    <Button className="w-full mt-4">Donate Now</Button>
+                </div>
+            </div>
           ))}
         </div>
       </main>

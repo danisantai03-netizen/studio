@@ -15,24 +15,20 @@ const articles = [
 export default function ArticlesPage() {
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Articles" showBackButton={true} />
+      <UniversalHeader title="Articles" />
       <main className="p-4 space-y-4">
         {articles.map((article) => (
-          <Link href="#" key={article.id}>
-            <Card className="flex flex-col md:flex-row overflow-hidden transition-all duration-200 hover:shadow-lg">
+          <Link href="#" key={article.id} className="block group">
+            <div className="flex flex-col md:flex-row overflow-hidden transition-all duration-200 group-hover:bg-muted/40 rounded-xl border">
               <div className="md:w-1/3 h-40 md:h-auto relative">
                 <Image src={article.image} alt={article.title} fill className="object-cover" data-ai-hint={article.aiHint} />
               </div>
-              <div className="md:w-2/3">
-                <CardHeader>
-                  <CardTitle className="text-lg">{article.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>{article.excerpt}</CardDescription>
+              <div className="md:w-2/3 p-4">
+                  <h3 className="text-base font-semibold">{article.title}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{article.excerpt}</p>
                   <p className="text-xs text-muted-foreground mt-2">{article.author} • {article.date}</p>
-                </CardContent>
               </div>
-            </Card>
+            </div>
           </Link>
         ))}
       </main>

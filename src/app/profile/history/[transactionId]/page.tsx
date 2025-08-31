@@ -3,7 +3,6 @@
 
 import { useParams } from 'next/navigation';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 
@@ -35,19 +34,17 @@ export default function TransactionDetailPage() {
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Transaction Detail" />
       <main className="p-4">
-        <Card>
-          <CardHeader>
-            <div className="flex justify-between items-start">
+        <div className="p-4 rounded-xl border bg-card">
+            <div className="flex justify-between items-start mb-4">
               <div>
-                <CardTitle className="text-lg">{transaction.description}</CardTitle>
-                <CardDescription>{new Date(transaction.date).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' })}</CardDescription>
+                <h2 className="text-lg font-semibold">{transaction.description}</h2>
+                <p className="text-sm text-muted-foreground">{new Date(transaction.date).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' })}</p>
               </div>
               <Badge variant={transaction.status === 'Completed' ? 'default' : 'secondary'} className={transaction.status === 'Completed' ? 'bg-green-600' : ''}>
                 {transaction.status}
               </Badge>
             </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            
             <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
               <div className="flex items-center">
                 <div className={`p-2 rounded-full mr-4 ${transaction.type === 'credit' ? 'bg-green-100 dark:bg-green-900/50' : 'bg-red-100 dark:bg-red-900/50'}`}>
@@ -66,7 +63,7 @@ export default function TransactionDetailPage() {
               </div>
             </div>
             
-            <div className="text-sm space-y-2 pt-4 border-t">
+            <div className="text-sm space-y-2 pt-4 mt-4 border-t">
               <h3 className="font-semibold mb-2">Details</h3>
               {Object.entries(transaction.details).map(([key, value]) => (
                 <div key={key} className="flex justify-between">
@@ -75,8 +72,7 @@ export default function TransactionDetailPage() {
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+        </div>
       </main>
     </div>
   );

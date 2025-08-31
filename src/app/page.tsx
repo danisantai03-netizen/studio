@@ -13,7 +13,7 @@ export default function Home() {
     <div className="bg-background text-foreground min-h-screen">
       <div className="flex flex-col flex-grow pb-20 w-full max-w-full mx-0 px-4 sm:px-6 md:px-8">
         <Header />
-        <main className="flex-grow space-y-6 mt-4">
+        <main className="flex-grow space-y-6">
           <PointsDashboard />
           <PromoCarousel />
           <div>

@@ -15,17 +15,16 @@ type Props = { menus: MenuItem[] };
 
 const MemoizedProfileMenu: React.FC<Props> = ({ menus }) => {
   return (
-    <div className="mt-6">
-      <div className="bg-card rounded-lg shadow-sm divide-y divide-border">
-        {menus.map((m) => (
+    <ul className="divide-y divide-border border-y">
+      {menus.map((m) => (
+        <li key={m.id}>
           <Link
-            key={m.id}
             href={m.href}
-            className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-white/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[0.99] transition-all duration-150"
+            className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-muted/40 focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[0.99] transition-all duration-150"
             role="menuitem"
           >
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-md">{m.icon}</div>
+              <div className="grid place-items-center w-8 h-8 bg-primary/10 rounded-lg">{m.icon}</div>
               <div>
                 <div className="text-sm font-semibold text-foreground">{m.title}</div>
                 {m.subtitle && (
@@ -35,9 +34,9 @@ const MemoizedProfileMenu: React.FC<Props> = ({ menus }) => {
             </div>
             <ChevronRight className="h-4 w-4 text-muted-foreground" />
           </Link>
-        ))}
-      </div>
-    </div>
+        </li>
+      ))}
+    </ul>
   );
 };
 
