@@ -4,14 +4,15 @@
 import { BottomNav } from '@/components/green-earth/BottomNav';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const MapWithNoSSR = dynamic(
-  () => import('@/components/green-earth/MapLeaflet').then((mod) => mod.MapLeaflet),
+// Dynamically import the map component with SSR disabled.
+// This is the standard and correct way to use Leaflet in Next.js.
+const Map = dynamic(
+  () => import('@/components/green-earth/MapLeaflet'),
   {
-    ssr: false,
     loading: () => <Skeleton className="w-full h-[calc(100vh-150px)] bg-muted" />,
+    ssr: false,
   }
 );
 
@@ -22,7 +23,7 @@ export default function MapsPage() {
 
       <main className="flex-grow p-3">
         <div className="w-full h-[calc(100vh-150px)] rounded-lg overflow-hidden shadow-md">
-            <MapWithNoSSR />
+           <Map />
         </div>
       </main>
 
