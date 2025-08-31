@@ -23,7 +23,7 @@ export default function HistoryPage() {
             <ul className="divide-y divide-border">
                 {transactionHistory.map((item) => (
                     <li key={item.id}>
-                        <Link href="#" className="block p-4 hover:bg-white/5 active:scale-[0.99] transition-all duration-150">
+                        <Link href={`/profile/history/${item.id}`} className="block p-4 hover:bg-white/5 active:scale-[0.99] transition-all duration-150">
                              <div className="flex items-center">
                                 <div className={`p-2 rounded-full mr-4 ${item.type === 'credit' ? 'bg-green-100 dark:bg-green-900/50' : 'bg-red-100 dark:bg-red-900/50'}`}>
                                     {item.type === 'credit' ? <ArrowDownLeft className="w-5 h-5 text-green-600" /> : <ArrowUpRight className="w-5 h-5 text-red-600" />}
