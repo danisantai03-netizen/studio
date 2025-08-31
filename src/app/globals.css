@@ -6,35 +6,35 @@
 
 @layer base {
   :root {
-    --background: 240 5% 96%; /* #F5F5F4 - Sand */
-    --foreground: 222 47% 11%; /* #111827 - Text Primary */
+    --background: 44 33% 92%; /* #F5F5DC Light Beige */
+    --foreground: 240 10% 3.9%;
 
-    --card: 0 0% 100%; /* #FFFFFF - Surface */
-    --card-foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
  
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 240 10% 3.9%;
  
-    --primary: 145 63% 24%; /* #166534 - Pine Green */
+    --primary: 145 28% 34%; /* #3F704D Forest Green */
     --primary-foreground: 0 0% 100%;
  
-    --secondary: 174 84% 31%; /* #0D9488 - Teal */
+    --secondary: 145 28% 44%; /* Lighter Forest Green for accents */
     --secondary-foreground: 0 0% 100%;
  
-    --muted: 220 9% 43%; /* #374151 - Text Muted */
-    --muted-foreground: 220 9% 43%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
  
-    --accent: 38 92% 50%; /* #F59E0B - Amber */
-    --accent-foreground: 222 47% 11%;
+    --accent: 14 74% 63%; /* #E2725B Terracotta */
+    --accent-foreground: 0 0% 100%;
  
-    --destructive: 0 84% 60%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%; /* #E5E7EB */
-    --input: 220 13% 91%;
-    --ring: 145 63% 24%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 145 28% 34%;
  
-    --radius: 0.75rem; /* rounded-lg */
+    --radius: 1rem;
   }
 
   .dark {
@@ -56,7 +56,7 @@
     --muted: 215 28% 83%; /* #CBD5E1 */
     --muted-foreground: 215 20% 65%;
  
-    --accent: 38 92% 50%;
+    --accent: 14 80% 70%;
     --accent-foreground: 222 47% 11%;
  
     --destructive: 0 63% 31%;
@@ -72,6 +72,10 @@
   * {
     @apply border-border;
     -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+  }
+  html, body, #__next {
+    height: 100%;
   }
   html {
     -webkit-text-size-adjust: 100%;
@@ -80,5 +84,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }

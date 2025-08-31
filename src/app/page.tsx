@@ -11,27 +11,25 @@ import { FilterBar } from "@/components/green-earth/FilterBar";
 export default function Home() {
   return (
     <div className="bg-background text-foreground min-h-screen">
-      <div className="flex flex-col flex-grow pb-20">
+      <div className="flex flex-col flex-grow pb-20 w-full max-w-full mx-0 px-4 sm:px-6 md:px-8">
         <Header />
-        <main className="flex-grow space-y-4">
-          <div className="px-3">
-            <PointsDashboard />
-          </div>
+        <main className="flex-grow space-y-6 mt-4">
+          <PointsDashboard />
           <PromoCarousel />
-          <div className="px-3">
+          <div>
              <h2 className="text-lg font-bold mb-3">Features</h2>
              <FeatureLinks />
           </div>
-           <div className="px-3">
+          <div>
             <RecyclingTip />
           </div>
-          <div className="px-3 space-y-3">
+          <div className="space-y-3">
             <h2 className="text-lg font-bold">What are you recycling?</h2>
             <FilterBar />
           </div>
-           <div className="px-3">
+          <div>
              <WasteCategories />
-           </div>
+          </div>
         </main>
       </div>
       <BottomNav />

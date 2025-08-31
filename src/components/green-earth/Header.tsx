@@ -23,7 +23,7 @@ export function Header() {
 
 
   return (
-    <header className="relative bg-background p-3">
+    <header className="relative bg-background pt-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Link href="/profile" className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-card shadow-sm">

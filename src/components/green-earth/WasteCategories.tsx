@@ -57,7 +57,7 @@ const allCategories = [
     description: "Vegetable peels, coffee grounds.",
     points: "2 PTS/lb",
     image: "/assets/categories/organic.svg",
-aiHint: "compost bin",
+    aiHint: "compost bin",
     tags: ["All", "Organic"],
     category: "Organic"
   },
@@ -92,8 +92,14 @@ export function WasteCategories() {
     <section aria-labelledby="waste-categories-heading">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {filteredCategories.map((category) => (
-          <Link key={category.name} href={`/schedule-pickup/${encodeURIComponent(category.category)}`} className="block group">
-            <Card className="flex flex-col overflow-hidden shadow-sm rounded-xl transition-all duration-200 ease-in-out hover:shadow-md active:scale-95 border-gray-200/50 h-full">
+          <Link 
+            key={category.name} 
+            href={`/schedule-pickup/${encodeURIComponent(category.category)}`} 
+            className="block group rounded-xl overflow-hidden shadow-sm transition-all duration-200 ease-in-out hover:shadow-md active:scale-95 border-gray-200/50"
+            aria-label={`Schedule pickup for ${category.name}`}
+            role="link"
+          >
+            <Card className="flex flex-col h-full w-full border-0 shadow-none rounded-none">
               <CardHeader className="p-0">
                 <div className="relative aspect-[4/3] w-full">
                   <Image
