@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function MapsPage() {
-  const MapLeaflet = useMemo(
+  const Map = useMemo(
     () =>
       dynamic(() => import('@/components/green-earth/MapLeaflet').then(mod => mod.MapLeaflet), {
         ssr: false,
@@ -22,9 +22,7 @@ export default function MapsPage() {
       <UniversalHeader title="Live Map" showBackButton={false} />
 
       <main className="flex-grow p-3">
-        <div className="w-full h-[calc(100vh-150px)]">
-          <MapLeaflet />
-        </div>
+        <Map />
       </main>
 
       <BottomNav />

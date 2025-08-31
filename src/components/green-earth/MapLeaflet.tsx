@@ -1,4 +1,4 @@
-// components/green-earth/MapLeaflet.tsx
+{// components/green-earth/MapLeaflet.tsx
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
@@ -16,26 +16,15 @@ if (typeof window !== 'undefined') fixLeafletDefaultIcon();
 type Props = {
   center?: [number, number] | null;
   zoom?: number;
-  // optionally pass a function for when a location is clicked
   onMarkerClick?: (loc: DriverLocation) => void;
 };
 
-function Recenter({ latlng }: { latlng: [number, number] | null }) {
+// This component will contain all the map logic that uses the map instance
+function MapEvents({ onMarkerClick }: { onMarkerClick?: (loc: DriverLocation) => void }) {
   const map = useMap();
-  useEffect(() => {
-    if (!latlng) return;
-    map.setView(latlng, map.getZoom(), { animate: true });
-  }, [latlng, map]);
-  return null;
-}
-
-export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
-  const [position, setPosition] = useState<[number, number] | null>(center);
   const markersRef = useRef<Map<string, L.Marker>>(new Map());
-  const mapRef = useRef<L.Map | null>(null);
   const watchIdRef = useRef<number | null>(null);
 
-  // keep a stable client id for non-auth flows
   const clientIdRef = useRef<string>(
     (() => {
       if (typeof window !== 'undefined') {
@@ -50,8 +39,7 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
     })()
   );
 
-  // helper: animate marker
-  const animateMarker = useCallback((marker: L.Marker, toLatLng: L.LatLngExpression, ms = 400) => {
+  const animateMarker = useCallback((marker: L.Marker, toLatLng: L.LatLngExpression, ms = 2000) => {
     try {
       const from = marker.getLatLng();
       const to = L.latLng(toLatLng as any);
@@ -67,23 +55,21 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
       }
       requestAnimationFrame(step);
     } catch (e) {
-        console.error("Animation failed", e);
+      console.error("Animation failed", e);
       marker.setLatLng(toLatLng);
     }
   }, []);
 
-  // subscribe to Realtime DB: drivers locations
   useEffect(() => {
-    if (!mapRef.current) return;
     const locationsRef = dbRef(rtdb, 'locations/drivers');
     
     const handleAdded = (snap: any) => {
       const val: DriverLocation = snap.val();
       const id = snap.key!;
-      if (!val || !val.lat || !val.lng || !mapRef.current) return;
-      if (markersRef.current.has(id)) return; // already exists
+      if (!val || !val.lat || !val.lng) return;
+      if (markersRef.current.has(id)) return;
       const marker = L.marker([val.lat, val.lng]);
-      marker.addTo(mapRef.current!);
+      marker.addTo(map);
       if (onMarkerClick) {
         marker.on('click', () => onMarkerClick(val));
       }
@@ -107,19 +93,20 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
       }
     };
 
-    onChildAdded(locationsRef, handleAdded);
-    onChildChanged(locationsRef, handleChanged);
-    onChildRemoved(locationsRef, handleRemoved);
+    const addedListener = onChildAdded(locationsRef, handleAdded);
+    const changedListener = onChildChanged(locationsRef, handleChanged);
+    const removedListener = onChildRemoved(locationsRef, handleRemoved);
 
-    // In a real app with auth, you'd manage listener cleanup more granularly.
-    // For this dev component, listeners are cleaned up on component unmount.
     return () => {
+      // Detach listeners
+      addedListener.unsubscribe();
+      changedListener.unsubscribe();
+      removedListener.unsubscribe();
       markersRef.current.forEach(marker => marker.remove());
       markersRef.current.clear();
     };
-  }, [onMarkerClick, animateMarker]);
+  }, [map, onMarkerClick, animateMarker]);
 
-  // geolocation: center map on user and optionally write location as "driver"
   useEffect(() => {
     if (!('geolocation' in navigator)) {
         console.log("Geolocation not supported");
@@ -129,12 +116,11 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
     navigator.geolocation.getCurrentPosition(
       (p) => {
         const latlng: [number, number] = [p.coords.latitude, p.coords.longitude];
-        setPosition(latlng);
+        map.setView(latlng, map.getZoom(), { animate: true });
       },
       (err) => {
         console.warn('getCurrentPosition error', err);
-        // Fallback to a default location if permission is denied
-        setPosition([-6.2088, 106.8456]); // Jakarta
+        map.setView([-6.2088, 106.8456], map.getZoom()); // Fallback to Jakarta
       },
       { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
     );
@@ -150,7 +136,6 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
       };
       
       const dbPathRef = dbRef(rtdb, path);
-
       set(dbPathRef, locationData).catch(e => console.error("Write failed", e));
       onDisconnect(dbPathRef).remove().catch(e => console.error("onDisconnect failed", e));
     }, 3000, { leading: true, trailing: true });
@@ -159,7 +144,7 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
       (p) => {
         const lat = p.coords.latitude;
         const lng = p.coords.longitude;
-        setPosition([lat, lng]);
+        map.setView([lat, lng]);
         writeLocationThrottled(lat, lng);
       },
       (err) => {
@@ -169,53 +154,37 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
     );
 
     watchIdRef.current = watchId;
-    return () => {
-      if (watchIdRef.current !== null) navigator.geolocation.clearWatch(watchIdRef.current);
-      writeLocationThrottled.cancel();
-      // Also remove my marker on unmount
-       const myId = clientIdRef.current;
-       const path = `locations/drivers/${myId}`;
-       const dbPathRef = dbRef(rtdb, path);
-       set(dbPathRef, null); // remove from db
-       const marker = markersRef.current.get(myId);
-        if (marker) {
-            marker.remove();
-            markersRef.current.delete(myId);
-        }
-    };
-  }, []);
 
-  // Add cleanup effect for map instance itself
-  useEffect(() => {
     return () => {
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
       }
+      writeLocationThrottled.cancel();
+      const myId = clientIdRef.current;
+      const path = `locations/drivers/${myId}`;
+      const dbPathRef = dbRef(rtdb, path);
+      set(dbPathRef, null);
     };
-  }, []);
+  }, [map]);
 
+  return null; // This component does not render anything itself
+}
+
+export function MapLeaflet({ center = [-6.2088, 106.8456], zoom = 15, onMarkerClick }: Props) {
   return (
     <div className="w-full h-[calc(100vh-150px)] rounded-lg overflow-hidden shadow-md">
-      {position ? (
-        <MapContainer
-          center={position}
-          zoom={zoom}
-          whenCreated={mapInstance => { mapRef.current = mapInstance; }}
-          className="w-full h-full"
-          scrollWheelZoom={true}
-        >
-          <TileLayer 
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' 
-          />
-          <Recenter latlng={position} />
-        </MapContainer>
-      ) : (
-        <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground">
-            <p>Locating you...</p>
-        </div>
-      )}
+      <MapContainer
+        center={center}
+        zoom={zoom}
+        className="w-full h-full"
+        scrollWheelZoom={true}
+      >
+        <TileLayer 
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' 
+        />
+        <MapEvents onMarkerClick={onMarkerClick} />
+      </MapContainer>
     </div>
   );
 }
