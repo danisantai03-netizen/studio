@@ -24,7 +24,7 @@ export function PointsDashboard() {
             </p>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <Link href="/profile/history" className="w-full">
+            <Link href="/home/point-history" className="w-full">
                 <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-primary-foreground w-full h-9 text-xs">
                   <History className="mr-2 h-4 w-4" /> History
                 </Button>
