@@ -46,15 +46,31 @@ export default function MapLeaflet() {
     // 1. --- INITIALIZATION ---
     // Only run if the container ref exists and the map isn't already initialized.
     if (mapContainerRef.current && !mapRef.current) {
+        const initialZoom = 15;
+        const jakartaCenter: L.LatLngExpression = [-6.2088, 106.8456];
+        
+        // Define service area bounds (example for Jakarta)
+        const southWest = L.latLng(-6.36, 106.70);
+        const northEast = L.latLng(-6.09, 106.95);
+        const serviceBounds = L.latLngBounds(southWest, northEast);
+
         // Initialize the map on the container
         const map = L.map(mapContainerRef.current, {
-            center: [-6.2088, 106.8456], // Default to Jakarta
-            zoom: 13,
-            scrollWheelZoom: true,
-            touchZoom: true, // This is crucial for pinch-to-zoom on touch devices
+            center: jakartaCenter,
+            zoom: initialZoom,
+            minZoom: initialZoom,
+            maxZoom: initialZoom + 3,
+            scrollWheelZoom: false,
+            touchZoom: true,
             zoomControl: false // Disable default zoom control
         });
         mapRef.current = map;
+
+        // Set map bounds
+        map.setMaxBounds(serviceBounds);
+        map.on('drag', function() {
+            map.panInsideBounds(serviceBounds, { animate: false });
+        });
 
         // Add the OpenStreetMap tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -157,5 +173,5 @@ export default function MapLeaflet() {
 
   // The component renders a simple div that will be used as the map container.
   // The 'map-interactive' class prevents page-level zoom on touch devices.
-  return <div ref={mapContainerRef} className={cn('w-full h-full map-interactive')} />;
+  return <div ref={mapContainerRef} className={cn('w-full h-full map-interactive')} style={{touchAction: 'none'}} />;
 }

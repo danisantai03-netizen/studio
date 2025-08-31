@@ -8,7 +8,6 @@ import {
   Phone,
   MessageCircle,
   LocateFixed,
-  X,
   ChevronUp,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -18,7 +17,6 @@ import { Progress } from '@/components/ui/progress';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
-import { BottomNav } from '@/components/green-earth/BottomNav';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // Dynamically import the map component with SSR disabled.
@@ -37,9 +35,11 @@ const tripStatuses = {
 };
 
 type TripStatus = keyof typeof tripStatuses;
+type SheetMode = 'pickup' | 'dropoff' | 'closed';
 
 export default function MapsPage() {
   const [isSheetOpen, setIsSheetOpen] = React.useState(true);
+  const [sheetMode, setSheetMode] = React.useState<SheetMode>('pickup');
   const [status, setStatus] = React.useState<TripStatus>('ON_THE_WAY');
   const [showDriverInfo, setShowDriverInfo] = React.useState(true);
 
@@ -64,17 +64,31 @@ export default function MapsPage() {
 
     return () => clearInterval(interval);
   }, []);
+  
+  const handleToggleSheet = (mode: SheetMode) => {
+    if (sheetMode === mode) {
+      setSheetMode('closed');
+      setIsSheetOpen(false);
+    } else {
+      setSheetMode(mode);
+      setIsSheetOpen(true);
+    }
+  }
 
   const handleFeedbackSubmit = () => {
     // Hide the driver info after feedback is submitted
     setShowDriverInfo(false);
+    setIsSheetOpen(false);
+    setSheetMode('closed');
   };
+  
+  const isPickupActive = isSheetOpen && sheetMode === 'pickup';
 
   return (
-    <div className="flex h-screen flex-col bg-background">
+    <div className="maps-page grid h-screen w-screen grid-rows-[auto_1fr_auto] overflow-x-hidden" style={{touchAction: 'pan-y'}}>
       <UniversalHeader title="Live Tracking" showBackButton={false} />
 
-      <main className="relative flex-1">
+      <main className="relative flex-1 overflow-hidden">
         {/* Map Container */}
         <div className="absolute inset-0 z-10 h-full w-full">
           <Map />
@@ -118,7 +132,7 @@ export default function MapsPage() {
          )}
 
         {/* Floating Action Buttons */}
-        <div className="absolute bottom-24 right-4 z-30 space-y-2">
+        <div className="absolute bottom-4 right-4 z-30 space-y-2">
           <Button
             size="icon"
             className="h-12 w-12 rounded-full bg-background text-foreground shadow-lg hover:bg-muted"
@@ -126,8 +140,10 @@ export default function MapsPage() {
             <LocateFixed className="h-5 w-5" />
           </Button>
         </div>
-
-        {/* Bottom Sheet */}
+      </main>
+      
+      {/* Bottom Sheet Area */}
+      <div className="relative z-40">
         <AnimatePresence>
           {isSheetOpen && showDriverInfo && (
             <motion.div
@@ -135,15 +151,9 @@ export default function MapsPage() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 250 }}
-              className="absolute bottom-0 z-40 w-full rounded-t-2xl bg-background shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.2)]"
+              className="w-full rounded-t-2xl bg-background shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.2)]"
             >
-              <div className="relative p-4 pt-3">
-                <button
-                  onClick={() => setIsSheetOpen(false)}
-                  className="absolute right-3 top-3 rounded-full bg-muted p-1"
-                >
-                  <X className="h-4 w-4" />
-                </button>
+              <div className="p-4 pt-3">
                 <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-muted" />
 
                 <AnimatePresence mode="out-in">
@@ -165,21 +175,22 @@ export default function MapsPage() {
             </motion.div>
           )}
         </AnimatePresence>
-      </main>
-      {!isSheetOpen && showDriverInfo && (
-        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2">
+      </div>
+
+       {/* Bottom Control Bar */}
+      <div className="bottom-controls flex gap-3 justify-center p-3 bg-background border-t">
           <Button
-            onClick={() => setIsSheetOpen(true)}
-            className="h-10 rounded-full pl-4 pr-3 shadow-lg"
+            className={cn("w-full h-12 rounded-full text-sm font-semibold", isPickupActive ? '' : 'bg-muted text-muted-foreground')}
+            aria-label="Show pickup details"
+            onClick={() => handleToggleSheet('pickup')}
           >
-            Show Details <ChevronUp className="ml-1 h-4 w-4" />
+            Pickup Details
           </Button>
-        </div>
-      )}
-      <BottomNav />
+      </div>
     </div>
   );
 }
+
 
 // Sub-components for better organization
 
