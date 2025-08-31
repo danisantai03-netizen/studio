@@ -50,6 +50,7 @@ export default function MapLeaflet() {
             center: [-6.2088, 106.8456], // Default to Jakarta
             zoom: 13,
             scrollWheelZoom: true,
+            zoomControl: false // Disable default zoom control
         });
         mapRef.current = map;
 
@@ -57,6 +58,9 @@ export default function MapLeaflet() {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
+
+        // Ensure map resizes correctly after initial render
+        setTimeout(() => map.invalidateSize(), 0);
 
         // Set a stable client ID for this session
         if (!clientIdRef.current) {
@@ -121,7 +125,6 @@ export default function MapLeaflet() {
             watchId = navigator.geolocation.watchPosition(
                 (pos) => {
                     const { latitude, longitude } = pos.coords;
-                    mapRef.current?.setView([latitude, longitude], 15);
                     writeLocationThrottled(latitude, longitude);
                 },
                 () => {}, // Error handler

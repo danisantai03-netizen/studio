@@ -23,7 +23,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 // Dynamically import the map component with SSR disabled for performance.
 const Map = dynamic(() => import('@/components/green-earth/MapLeaflet'), {
-  loading: () => <Skeleton className="absolute inset-0 bg-muted" />,
+  loading: () => <Skeleton className="absolute inset-0 bg-muted z-0" />,
   ssr: false,
 });
 
@@ -65,7 +65,8 @@ export default function MapsPage() {
       <UniversalHeader title="Live Tracking" showBackButton={false} />
 
       <main className="relative flex-1">
-        <div className="relative h-full w-full">
+        {/* Map Container */}
+        <div className="absolute inset-0 z-10 h-full w-full">
           <Map />
         </div>
 
@@ -74,7 +75,7 @@ export default function MapsPage() {
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, type: 'spring', stiffness: 100 }}
-          className="absolute top-2 left-1/2 z-10 w-[90%] -translate-x-1/2"
+          className="absolute top-2 left-1/2 z-30 w-[90%] -translate-x-1/2"
         >
           <div className="flex items-center gap-3 rounded-full bg-background p-2 pr-4 text-sm font-medium shadow-lg">
             <Avatar className="h-8 w-8">
@@ -105,7 +106,7 @@ export default function MapsPage() {
         </motion.div>
 
         {/* Floating Action Buttons */}
-        <div className="absolute bottom-24 right-4 z-10 space-y-2">
+        <div className="absolute bottom-24 right-4 z-30 space-y-2">
           <Button
             size="icon"
             className="h-12 w-12 rounded-full bg-background text-foreground shadow-lg hover:bg-muted"
@@ -122,7 +123,7 @@ export default function MapsPage() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 250 }}
-              className="absolute bottom-0 z-20 w-full rounded-t-2xl bg-background shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.2)]"
+              className="absolute bottom-0 z-40 w-full rounded-t-2xl bg-background shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.2)]"
             >
               <div className="relative p-4 pt-3">
                 <button
@@ -154,7 +155,7 @@ export default function MapsPage() {
         </AnimatePresence>
       </main>
       {!isSheetOpen && (
-        <div className="fixed bottom-20 left-1/2 z-30 -translate-x-1/2">
+        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2">
           <Button
             onClick={() => setIsSheetOpen(true)}
             className="h-10 rounded-full pl-4 pr-3 shadow-lg"
