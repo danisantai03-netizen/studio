@@ -4,12 +4,18 @@
 import { useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Camera } from 'lucide-react';
+import { Camera, Info, TrendingUp, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SuccessAnimation } from '@/components/green-earth/SuccessAnimation';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // In a real app, this data would come from a database or a config file
 const categoryData: { [key: string]: any } = {
@@ -22,6 +28,7 @@ const categoryData: { [key: string]: any } = {
       'Saves energy compared to producing new plastic.',
       'Can be recycled into new bottles, clothing fibers, and more.',
     ],
+    lastMonthPrice: 1800,
   },
   'Paper': {
     imgSrc: '/assets/categories/paper.svg',
@@ -32,6 +39,7 @@ const categoryData: { [key: string]: any } = {
         'Uses significantly less water and energy than making new paper.',
         'Reduces greenhouse gas emissions.',
     ],
+    lastMonthPrice: 950,
   },
     'Cardboard': {
     imgSrc: '/assets/categories/paper.svg',
@@ -42,6 +50,7 @@ const categoryData: { [key: string]: any } = {
         'Reduces the need for virgin wood pulp.',
         'Breaks down much faster than plastic.',
     ],
+    lastMonthPrice: 750,
   },
   'Glass': {
     imgSrc: '/assets/categories/glass.svg',
@@ -52,6 +61,7 @@ const categoryData: { [key: string]: any } = {
         'Reduces sand extraction and saves natural resources.',
         'Lowers energy consumption in manufacturing.',
     ],
+    lastMonthPrice: 1100,
   },
   'Aluminum Cans': {
     imgSrc: '/assets/categories/aluminum.svg',
@@ -62,6 +72,7 @@ const categoryData: { [key: string]: any } = {
         'One of the most valuable recyclable materials.',
         'Can be back on the shelf as a new can in just 60 days.',
     ],
+    lastMonthPrice: 9500,
   },
     'Electronics': {
     imgSrc: '/assets/categories/electronics.svg',
@@ -72,6 +83,7 @@ const categoryData: { [key: string]: any } = {
         'Recovers valuable materials like gold, silver, and copper.',
         'Reduces the need for mining raw materials.',
     ],
+    lastMonthPrice: null,
   },
    'Organic': {
     imgSrc: '/assets/categories/organic.svg',
@@ -82,8 +94,25 @@ const categoryData: { [key: string]: any } = {
         'Reduces methane emissions from landfills.',
         'Improves soil structure and water retention.',
     ],
+    lastMonthPrice: 250,
   }
 };
+
+const PriceTooltip = ({ content }: { content: React.ReactNode }) => (
+  <TooltipProvider delayDuration={200}>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button type="button" className="ml-1.5 text-muted-foreground hover:text-primary">
+          <Info className="w-3.5 h-3.5" />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent className="max-w-xs text-center" side="top">
+        <p>{content}</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+);
+
 
 export default function SchedulePickupPage() {
   const router = useRouter();
@@ -133,7 +162,6 @@ export default function SchedulePickupPage() {
   const displayCleanPrice = data.cleanPrice > 0 ? `Rp. ${data.cleanPrice.toLocaleString('id-ID')} / kg` : 'Varies';
   const displayDirtyPrice = data.dirtyPrice > 0 ? `Rp. ${data.dirtyPrice.toLocaleString('id-ID')} / kg` : 'Varies';
 
-
   return (
     <div className="bg-background min-h-screen relative">
        {isSubmitted && (
@@ -158,12 +186,18 @@ export default function SchedulePickupPage() {
         {/* Pricing Info */}
         <div className="grid grid-cols-2 gap-4 text-center">
             <div className="bg-card p-4 rounded-xl shadow-sm">
-                <p className="text-sm text-muted-foreground">Clean Price</p>
-                <p className="font-bold text-primary">{displayCleanPrice}</p>
+                <div className="flex items-center justify-center text-sm text-muted-foreground">
+                    <span>Clean Price</span>
+                    <PriceTooltip content="Items are clean, sorted, and match the category. E.g., clean plastic bottles without labels." />
+                </div>
+                <p className="font-bold text-primary mt-1">{displayCleanPrice}</p>
             </div>
             <div className="bg-card p-4 rounded-xl shadow-sm">
-                <p className="text-sm text-muted-foreground">Dirty Price</p>
-                <p className="font-bold text-primary">{displayDirtyPrice}</p>
+                <div className="flex items-center justify-center text-sm text-muted-foreground">
+                    <span>Dirty Price</span>
+                    <PriceTooltip content="Items are mixed, dirty, or have labels/contaminants. E.g., bottles with liquid inside." />
+                </div>
+                <p className="font-bold text-primary mt-1">{displayDirtyPrice}</p>
             </div>
         </div>
 
@@ -183,7 +217,7 @@ export default function SchedulePickupPage() {
                 </label>
                 <Input type="file" id="photo-upload" accept="image/*" className="hidden" onChange={handleImageChange} />
                 <p className="text-xs text-muted-foreground flex-1">
-                    Please upload a clear photo of your items.
+                    Upload clear photos of your items. Clear photos help us verify category and speed up pickup approval.
                 </p>
             </div>
           </div>
@@ -200,22 +234,59 @@ export default function SchedulePickupPage() {
             />
           </div>
            {estimatedEarnings > 0 && (
-            <div className="bg-primary/5 p-3 rounded-xl text-center">
-              <p className="text-sm text-primary font-medium">
-                Estimated Earnings: <span className="font-bold">Rp. {estimatedEarnings.toLocaleString('id-ID')}</span>
-              </p>
+            <div className="bg-primary/5 p-3 rounded-xl space-y-2">
+                <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Estimated Weight</span>
+                    <span className="font-medium">{parseFloat(weight).toLocaleString('id-ID')} kg</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Price per kg</span>
+                    <span className="font-medium">Rp. {data.cleanPrice.toLocaleString('id-ID')}</span>
+                </div>
+                <div className="h-px bg-border my-2" />
+                <div className="flex justify-between items-center text-base">
+                    <span className="font-semibold text-primary">Estimated Earnings</span>
+                    <span className="font-bold text-primary">Rp. {estimatedEarnings.toLocaleString('id-ID')}</span>
+                </div>
+                 <div className="flex justify-between items-center text-sm">
+                    <span className="text-secondary-dark">+ Reward Points</span>
+                    <span className="font-semibold text-secondary-dark">{Math.floor(estimatedEarnings / 100).toLocaleString('id-ID')} pts</span>
+                </div>
             </div>
           )}
+           {estimatedEarnings > 0 && (
+             <p className="text-xs text-muted-foreground text-center px-4">
+                This is only an estimate. Final earnings will be based on actual verified weight and item condition at pickup.
+            </p>
+           )}
         </div>
 
         {/* Benefits Section */}
         <div className="bg-card p-4 rounded-xl shadow-sm">
-            <h2 className="font-bold mb-2">Benefits & Tips</h2>
+            <h2 className="font-bold mb-3">Benefits & Tips</h2>
             <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
                 {data.benefits.map((tip: string, index: number) => (
                     <li key={index}>{tip}</li>
                 ))}
             </ul>
+             {data.lastMonthPrice && (
+                 <div className="mt-4 pt-3 border-t border-dashed">
+                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                         <TrendingUp className="w-4 h-4 text-secondary"/>
+                         <span>Last month’s average price for {categoryName.toLowerCase()} was <b>Rp {data.lastMonthPrice.toLocaleString('id-ID')}/kg</b>.</span>
+                     </div>
+                 </div>
+             )}
+        </div>
+
+        {/* Security Note */}
+         <div className="bg-card p-4 rounded-xl shadow-sm">
+             <div className="flex items-center gap-3">
+                 <Wallet className="w-6 h-6 text-primary" />
+                 <p className="flex-1 text-xs text-muted-foreground">
+                     All confirmed transactions will be recorded in your wallet. You can withdraw your balance anytime to your eWallet.
+                 </p>
+             </div>
         </div>
 
         {/* CTA Button */}
@@ -228,3 +299,4 @@ export default function SchedulePickupPage() {
     </div>
   );
 }
+
