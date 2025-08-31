@@ -36,17 +36,19 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
   const watchIdRef = useRef<number | null>(null);
 
   // keep a stable client id for non-auth flows
-  const clientIdRef = useRef<string>(() => {
-    if (typeof window !== 'undefined') {
-      let id = localStorage.getItem('client_id');
-      if (!id) {
-        id = 'c_' + Math.random().toString(36).slice(2, 9);
-        localStorage.setItem('client_id', id);
+  const clientIdRef = useRef<string>(
+    (() => {
+      if (typeof window !== 'undefined') {
+        let id = localStorage.getItem('client_id');
+        if (!id) {
+          id = 'c_' + Math.random().toString(36).slice(2, 9);
+          localStorage.setItem('client_id', id);
+        }
+        return id;
       }
-      return id;
-    }
-    return 'c_anonymous';
-  }) as React.MutableRefObject<string>;
+      return 'c_anonymous';
+    })()
+  );
 
   // helper: animate marker
   const animateMarker = useCallback((marker: L.Marker, toLatLng: L.LatLngExpression, ms = 400) => {
@@ -72,6 +74,7 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
 
   // subscribe to Realtime DB: drivers locations
   useEffect(() => {
+    if (!mapRef.current) return;
     const locationsRef = dbRef(rtdb, 'locations/drivers');
     
     const handleAdded = (snap: any) => {
@@ -171,6 +174,9 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
       writeLocationThrottled.cancel();
       // Also remove my marker on unmount
        const myId = clientIdRef.current;
+       const path = `locations/drivers/${myId}`;
+       const dbPathRef = dbRef(rtdb, path);
+       set(dbPathRef, null); // remove from db
        const marker = markersRef.current.get(myId);
         if (marker) {
             marker.remove();
@@ -184,6 +190,7 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
+        mapRef.current = null;
       }
     };
   }, []);
