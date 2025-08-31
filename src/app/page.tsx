@@ -11,7 +11,7 @@ import { FilterBar } from "@/components/green-earth/FilterBar";
 export default function Home() {
   return (
     <div className="bg-background text-foreground min-h-screen">
-      <div className="flex flex-col flex-grow pb-20 w-full max-w-full mx-0 px-4 sm:px-6 md:px-8">
+      <div className="flex flex-col flex-grow pb-24 w-full max-w-full mx-0 px-4 sm:px-6 md:px-8">
         <Header />
         <main className="flex-grow space-y-6">
           <PointsDashboard />
