@@ -167,7 +167,7 @@ export default function EditProfilePage() {
              <div className="grid w-full items-center gap-1.5">
                  <Label htmlFor="phone">Phone Number</Label>
                  <div className="flex items-center">
-                    <span className="inline-flex items-center px-3 h-12 rounded-l-md border border-r-0 border-input bg-gray-100 text-sm">+62</span>
+                    <span className="inline-flex items-center px-3 h-12 rounded-l-md border border-r-0 border-input bg-gray-100 text-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600">+62</span>
                     <Controller
                         name="phone"
                         control={control}

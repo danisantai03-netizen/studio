@@ -28,12 +28,11 @@ export const ProfileHeader: React.FC<Props> = ({ name, id, photoUrl, onEdit }) =
       </div>
 
       <div className="bg-card rounded-xl shadow-sm p-4 flex items-center gap-4 relative z-10">
-        <div className="h-16 w-16 rounded-full overflow-hidden ring-1 ring-border">
+        <div className="relative h-16 w-16 rounded-full overflow-hidden ring-1 ring-border shrink-0">
           <Image
             src={photoUrl}
             alt={`${name} avatar`}
-            width={64}
-            height={64}
+            fill
             className="object-cover"
             priority
           />
