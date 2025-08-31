@@ -1,61 +1,56 @@
 
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
-import { getRecyclingTip, type RecyclingTipOutput } from "@/ai/flows/recycling-tips";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lightbulb, RefreshCw } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useToast } from "@/hooks/use-toast";
+
+const staticTips = [
+  "Rinse containers before recycling to avoid contamination and pests.",
+  "Flatten cardboard boxes to save space in your recycling bin and at the facility.",
+  "Check local recycling guidelines; not all plastics are recyclable everywhere.",
+  "Keep plastic bags out of recycling bins; they jam machinery. Return them to a grocery store.",
+  "Compost food scraps to reduce landfill waste and create nutrient-rich soil.",
+  "Recycle old electronics at designated e-waste centers to recover valuable materials safely.",
+  "Remove lids from plastic bottles before recycling; they are often made of a different type of plastic.",
+  "Avoid recycling items smaller than a credit card, as they can fall through sorting machinery.",
+];
 
 export function RecyclingTip() {
-  const [tip, setTip] = useState<RecyclingTipOutput | null>(null);
-  const [isFetching, setIsFetching] = useState(true);
-  const { toast } = useToast();
+  const [tip, setTip] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchTip = async (isRefresh = false) => {
-    if (!isRefresh) {
-      setIsFetching(true);
-    }
-    try {
-      const newTip = await getRecyclingTip({});
-      setTip(newTip);
-    } catch (error) {
-      console.error("Failed to fetch recycling tip:", error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Could not load a new tip. Please try again later.",
-      });
-      // Set a default tip on error
-      setTip({ tip: "Remember to rinse your containers before recycling to avoid contamination." });
-    } finally {
-        if (!isRefresh) {
-            setIsFetching(false);
-        }
-    }
-  };
+  const getNewTip = useCallback(() => {
+    setIsLoading(true);
+    const randomIndex = Math.floor(Math.random() * staticTips.length);
+    const newTip = staticTips[randomIndex];
+    // Simulate a brief loading period
+    setTimeout(() => {
+        setTip(newTip);
+        setIsLoading(false);
+    }, 300);
+  }, []);
 
   useEffect(() => {
-    fetchTip();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
+    getNewTip();
+  }, [getNewTip]);
+
   const handleRefresh = () => {
-    fetchTip(true);
+    getNewTip();
   };
 
   return (
     <section aria-labelledby="recycling-tip-heading">
       <div className="flex items-center justify-between mb-2">
         <h2 id="recycling-tip-heading" className="text-lg font-bold">Daily Eco Tips</h2>
-        <Button variant="ghost" onClick={handleRefresh} disabled={isFetching} className="text-secondary h-auto p-0 text-xs">
-          <RefreshCw className={`mr-1 h-3 w-3 ${isFetching ? "animate-spin" : ""}`} />
+        <Button variant="ghost" onClick={handleRefresh} disabled={isLoading} className="text-secondary h-auto p-0 text-xs">
+          <RefreshCw className={`mr-1 h-3 w-3 ${isLoading ? "animate-spin" : ""}`} />
           New Tip
         </Button>
       </div>
-        {isFetching && !tip ? (
+        {isLoading ? (
             <Card className="bg-secondary/10 text-secondary-foreground shadow-sm rounded-xl w-full border-secondary/20">
               <CardContent className="p-3 sm:p-4">
                 <div className="flex items-start gap-3">
@@ -75,7 +70,7 @@ export function RecyclingTip() {
                   <div className="bg-secondary/20 p-1.5 rounded-full mt-0.5">
                     <Lightbulb className="w-5 h-5 text-secondary"/>
                   </div>
-                  <p className="text-sm whitespace-normal flex-1 text-secondary-dark font-medium">{tip.tip}</p>
+                  <p className="text-sm whitespace-normal flex-1 text-secondary-dark font-medium">{tip}</p>
                 </div>
               </CardContent>
             </Card>
