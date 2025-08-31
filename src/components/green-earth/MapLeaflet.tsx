@@ -179,13 +179,22 @@ export function MapLeaflet({ center = null, zoom = 15, onMarkerClick }: Props) {
     };
   }, []);
 
+  // Add cleanup effect for map instance itself
+  useEffect(() => {
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+      }
+    };
+  }, []);
+
   return (
     <div className="w-full h-[calc(100vh-150px)] rounded-lg overflow-hidden shadow-md">
       {position ? (
         <MapContainer
           center={position}
           zoom={zoom}
-          ref={mapRef}
+          whenCreated={mapInstance => { mapRef.current = mapInstance; }}
           className="w-full h-full"
           scrollWheelZoom={true}
         >
