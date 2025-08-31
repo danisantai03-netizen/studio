@@ -14,7 +14,7 @@ import type { DriverLocation } from '@/types/location';
 if (typeof window !== 'undefined') fixLeafletDefaultIcon();
 
 type Props = {
-  center?: [number, number] | null;
+  center?: [number, number];
   zoom?: number;
   onMarkerClick?: (loc: DriverLocation) => void;
 };
@@ -98,7 +98,7 @@ function MapEvents({ onMarkerClick }: { onMarkerClick?: (loc: DriverLocation) =>
     const removedListener = onChildRemoved(locationsRef, handleRemoved);
 
     return () => {
-      // Detach listeners
+      // Detach listeners - crucial for preventing memory leaks
       addedListener.unsubscribe();
       changedListener.unsubscribe();
       removedListener.unsubscribe();
@@ -120,7 +120,7 @@ function MapEvents({ onMarkerClick }: { onMarkerClick?: (loc: DriverLocation) =>
       },
       (err) => {
         console.warn('getCurrentPosition error', err);
-        map.setView([-6.2088, 106.8456], map.getZoom()); // Fallback to Jakarta
+        // Fallback to Jakarta is handled by the initial center prop of MapContainer
       },
       { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
     );
