@@ -9,6 +9,7 @@ import { ref as dbRef, onChildAdded, onChildChanged, onChildRemoved, set, onDisc
 import { fixLeafletDefaultIcon } from '@/lib/leafletFix';
 import throttle from 'lodash.throttle';
 import type { DriverLocation } from '@/types/location';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // ensure leaflet icons fixed
 if (typeof window !== 'undefined') fixLeafletDefaultIcon();
@@ -171,20 +172,46 @@ function MapEvents({ onMarkerClick }: { onMarkerClick?: (loc: DriverLocation) =>
 }
 
 export function MapLeaflet({ center = [-6.2088, 106.8456], zoom = 15, onMarkerClick }: Props) {
+  const [position, setPosition] = useState<[number, number] | null>(null);
+
+  useEffect(() => {
+    if (!('geolocation' in navigator)) {
+        console.log("Geolocation not supported, using default center.");
+        setPosition(center);
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (p) => {
+        setPosition([p.coords.latitude, p.coords.longitude]);
+      },
+      (err) => {
+        console.warn('Could not get position, using default.', err);
+        setPosition(center);
+      },
+      { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
+    );
+  }, [center]);
+
+
   return (
     <div className="w-full h-[calc(100vh-150px)] rounded-lg overflow-hidden shadow-md">
-      <MapContainer
-        center={center}
-        zoom={zoom}
-        className="w-full h-full"
-        scrollWheelZoom={true}
-      >
-        <TileLayer 
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' 
-        />
-        <MapEvents onMarkerClick={onMarkerClick} />
-      </MapContainer>
+      {position ? (
+        <MapContainer
+          center={position}
+          zoom={zoom}
+          className="w-full h-full"
+          scrollWheelZoom={true}
+        >
+          <TileLayer 
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' 
+          />
+          <MapEvents onMarkerClick={onMarkerClick} />
+        </MapContainer>
+      ) : (
+        <Skeleton className="w-full h-full bg-muted" />
+      )}
     </div>
   );
 }
