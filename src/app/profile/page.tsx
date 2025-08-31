@@ -30,11 +30,11 @@ export default function ProfilePage() {
     };
 
     const menuItems: MenuItem[] = [
-        { id: 'referral', title: 'Referral', icon: <Users className="w-5 h-5 text-primary" />, onClick: () => handleNavigation('/profile/referral') },
-        { id: 'history', title: 'Transaction History', icon: <History className="w-5 h-5 text-primary" />, onClick: () => handleNavigation('/profile/history') },
-        { id: 'settings', title: 'Settings', icon: <Settings className="w-5 h-5 text-primary" />, onClick: () => handleNavigation('/profile/settings') },
-        { id: 'security', title: 'Security', icon: <ShieldCheck className="w-5 h-5 text-primary" />, onClick: () => handleNavigation('/profile/security') },
-        { id: 'help', title: 'Help & Feedback', icon: <MessageSquareHeart className="w-5 h-5 text-primary" />, onClick: () => handleNavigation('/profile/feedback') },
+        { id: 'referral', title: 'Referral', icon: <Users className="w-5 h-5 text-primary" />, href: '/profile/referral' },
+        { id: 'history', title: 'Transaction History', icon: <History className="w-5 h-5 text-primary" />, href: '/profile/history' },
+        { id: 'settings', title: 'Settings', icon: <Settings className="w-5 h-5 text-primary" />, href: '/profile/settings' },
+        { id: 'security', title: 'Security', icon: <ShieldCheck className="w-5 h-5 text-primary" />, href: '/profile/security' },
+        { id: 'help', title: 'Help & Feedback', icon: <MessageSquareHeart className="w-5 h-5 text-primary" />, href: '/profile/feedback' },
     ];
 
     const handleLogout = () => {

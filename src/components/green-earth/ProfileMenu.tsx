@@ -1,5 +1,6 @@
 
 import React from "react";
+import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 
 export type MenuItem = {
@@ -7,7 +8,7 @@ export type MenuItem = {
   title: string;
   subtitle?: string;
   icon: React.ReactNode;
-  onClick: () => void;
+  href: string;
 };
 
 type Props = { menus: MenuItem[] };
@@ -17,10 +18,11 @@ const MemoizedProfileMenu: React.FC<Props> = ({ menus }) => {
     <div className="mt-6">
       <div className="bg-card rounded-lg shadow-sm divide-y divide-border">
         {menus.map((m) => (
-          <button
+          <Link
             key={m.id}
-            onClick={m.onClick}
+            href={m.href}
             className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-white/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[0.99] transition-all duration-150"
+            role="menuitem"
           >
             <div className="flex items-center gap-3">
               <div className="p-2 bg-primary/10 rounded-md">{m.icon}</div>
@@ -32,7 +34,7 @@ const MemoizedProfileMenu: React.FC<Props> = ({ menus }) => {
               </div>
             </div>
             <ChevronRight className="h-4 w-4 text-muted-foreground" />
-          </button>
+          </Link>
         ))}
       </div>
     </div>
