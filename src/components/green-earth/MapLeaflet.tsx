@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
@@ -12,13 +11,7 @@ import type { DriverLocation } from '@/types/location';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // ensure leaflet icons fixed
-if (typeof window !== 'undefined') fixLeafletDefaultIcon();
-
-type Props = {
-  center?: [number, number];
-  zoom?: number;
-  onMarkerClick?: (loc: DriverLocation) => void;
-};
+fixLeafletDefaultIcon();
 
 // This component will contain all the map logic that uses the map instance
 function MapEvents({ onMarkerClick }: { onMarkerClick?: (loc: DriverLocation) => void }) {
@@ -93,19 +86,21 @@ function MapEvents({ onMarkerClick }: { onMarkerClick?: (loc: DriverLocation) =>
         markersRef.current.delete(id);
       }
     };
-
-    const addedListener = onChildAdded(locationsRef, handleAdded);
+    
+    const listener = onChildAdded(locationsRef, handleAdded);
     const changedListener = onChildChanged(locationsRef, handleChanged);
     const removedListener = onChildRemoved(locationsRef, handleRemoved);
-
-    return () => {
+    
+    const cleanup = () => {
       // Detach listeners - crucial for preventing memory leaks
-      addedListener.unsubscribe();
+      listener.unsubscribe();
       changedListener.unsubscribe();
       removedListener.unsubscribe();
       markersRef.current.forEach(marker => marker.remove());
       markersRef.current.clear();
-    };
+    }
+
+    return cleanup;
   }, [map, onMarkerClick, animateMarker]);
 
   useEffect(() => {
@@ -121,7 +116,6 @@ function MapEvents({ onMarkerClick }: { onMarkerClick?: (loc: DriverLocation) =>
       },
       (err) => {
         console.warn('getCurrentPosition error', err);
-        // Fallback to Jakarta is handled by the initial center prop of MapContainer
       },
       { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
     );
@@ -171,47 +165,34 @@ function MapEvents({ onMarkerClick }: { onMarkerClick?: (loc: DriverLocation) =>
   return null; // This component does not render anything itself
 }
 
-export function MapLeaflet({ center = [-6.2088, 106.8456], zoom = 15, onMarkerClick }: Props) {
-  const [position, setPosition] = useState<[number, number] | null>(null);
+export function MapLeaflet() {
+    const mapRef = useRef<L.Map | null>(null);
+    // Unmount effect
+    useEffect(() => {
+        return () => {
+            if (mapRef.current) {
+                mapRef.current.remove();
+            }
+        };
+    }, []);
 
-  useEffect(() => {
-    if (!('geolocation' in navigator)) {
-        console.log("Geolocation not supported, using default center.");
-        setPosition(center);
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (p) => {
-        setPosition([p.coords.latitude, p.coords.longitude]);
-      },
-      (err) => {
-        console.warn('Could not get position, using default.', err);
-        setPosition(center);
-      },
-      { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
-    );
-  }, [center]);
-
-
-  return (
-    <div className="w-full h-[calc(100vh-150px)] rounded-lg overflow-hidden shadow-md">
-      {position ? (
+    return (
         <MapContainer
-          center={position}
-          zoom={zoom}
-          className="w-full h-full"
-          scrollWheelZoom={true}
+            center={[-6.2088, 106.8456]}
+            zoom={15}
+            ref={(instance) => {
+                if (instance) {
+                    mapRef.current = instance;
+                }
+            }}
+            className="w-full h-full"
+            scrollWheelZoom={true}
         >
-          <TileLayer 
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' 
-          />
-          <MapEvents onMarkerClick={onMarkerClick} />
+            <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <MapEvents />
         </MapContainer>
-      ) : (
-        <Skeleton className="w-full h-full bg-muted" />
-      )}
-    </div>
-  );
+    );
 }
