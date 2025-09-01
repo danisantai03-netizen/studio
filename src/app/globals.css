@@ -93,3 +93,12 @@
     -ms-touch-action: none;
   }
 }
+
+/* Custom Animations */
+@keyframes check-pop {
+  0% { transform: scale(.6); opacity:0; }
+  70% { transform: scale(1.1); opacity:1; }
+  100% { transform: scale(1); opacity:1; }
+}
+.animate-check { animation: check-pop 900ms cubic-bezier(.2,.8,.2,1); }
+
