@@ -10,6 +10,7 @@ import BottomPane from '@/components/green-earth/BottomPane';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { DriverRT, TripPhase } from '@/types/location';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
+import { rtdb } from '@/lib/firebase';
 
 // Dynamically import the map component to prevent SSR issues and improve performance
 const MapLeaflet = dynamic(() => import('@/components/green-earth/MapLeaflet'), {
