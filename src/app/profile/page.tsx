@@ -10,6 +10,7 @@ import {
   History,
   Users,
   LogOut,
+  ChevronRight
 } from 'lucide-react';
 import {
   AlertDialog,
@@ -76,21 +77,19 @@ export default function ProfilePage() {
                 photoUrl={avatarUrl}
                 onEdit={() => router.push('/profile/edit')}
             />
-            <div className="mt-8 space-y-2">
+            <div className="mt-8 space-y-4">
                 <ProfileMenu menus={menuItems} />
                 
                  <AlertDialog>
                     <AlertDialogTrigger asChild>
-                         <button
-                            className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-muted/40 focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[0.99] transition-all duration-150 rounded-lg text-destructive"
-                            role="menuitem"
-                          >
+                        <button className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-muted/40 focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[0.99] transition-all duration-150 rounded-lg text-destructive border-t">
                             <div className="flex items-center gap-3">
-                                <div className="grid place-items-center w-8 h-8 bg-destructive/10 rounded-lg">
+                                <div className="grid place-items-center w-8 h-8">
                                     <LogOut className="w-5 h-5" />
                                 </div>
                                 <div className="text-sm font-semibold">Logout</div>
                             </div>
+                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
                         </button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
