@@ -56,7 +56,7 @@ export default function MapsPage() {
     });
 
     // Mock driver appearance after 3 seconds for demo
-    setTimeout(() => {
+    const timer = setTimeout(() => {
         if (!driver) {
              setDriver({
                 id: 'drv_001',
@@ -74,6 +74,7 @@ export default function MapsPage() {
 
 
     return () => {
+      clearTimeout(timer);
       unsubDriver();
       unsubPhase();
     };
@@ -89,17 +90,17 @@ export default function MapsPage() {
   };
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden flex flex-col">
-       <div className="absolute top-0 left-0 right-0 z-20 h-24 bg-gradient-to-b from-background to-transparent pointer-events-none" />
-        <button 
-            onClick={() => router.back()}
-            className="absolute top-4 left-4 z-30 bg-card/80 backdrop-blur-sm p-2 rounded-full shadow-md"
-            aria-label="Go back"
+    <div className="h-screen w-screen flex flex-col bg-background">
+      <div className="relative flex-1 w-full">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="absolute top-4 left-4 z-20 bg-card/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-card/95"
+          aria-label="Go back"
         >
-          &#x2190;
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
         </button>
 
-      <div className="flex-grow w-full h-full">
         <MapLeaflet
           userLat={userLocation.lat}
           userLng={userLocation.lng}
@@ -109,7 +110,7 @@ export default function MapsPage() {
         />
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex justify-center">
+      <div className="relative z-10">
          <BottomPane
             phase={phase}
             driver={driver}
