@@ -3,15 +3,15 @@ import React from "react";
 
 type Props = {
     onTermsClick: () => void;
-    onLogoutClick: () => void;
 }
 
-export const ProfileFooter: React.FC<Props> = ({ onTermsClick, onLogoutClick }) => {
+export const ProfileFooter: React.FC<Props> = ({ onTermsClick }) => {
+  const currentYear = new Date().getFullYear();
   return (
-    <div className="px-3 mt-6 mb-4 text-center text-xs text-muted-foreground">
+    <div className="px-3 mt-8 mb-4 text-center text-xs text-muted-foreground">
       <button onClick={onTermsClick} className="underline hover:text-foreground transition-colors">Terms & Conditions</button>
       <span className="mx-2">•</span>
-      <button onClick={onLogoutClick} className="underline hover:text-foreground transition-colors">Logout</button>
+      <span>© {currentYear} GreenEarth. All rights reserved.</span>
     </div>
   );
 };
