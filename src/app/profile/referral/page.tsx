@@ -5,6 +5,7 @@ import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { Button } from '@/components/ui/button';
 import { useToast } from "@/hooks/use-toast";
 import { Copy, Share2, Gift, Users } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 const referralCode = 'ALEXG25';
 const referralLink = `https://greenearth.app/join?ref=${referralCode}`;
@@ -45,15 +46,12 @@ export default function ReferralPage() {
       try {
         await navigator.share(shareData);
       } catch (error) {
-        // Handle cases where user cancels the share dialog or other errors occur
         if ((error as DOMException).name !== 'AbortError') {
           console.error('Error sharing:', error);
-          // Fallback to copy link if share fails for reasons other than user cancellation
           copyToClipboard(referralLink, 'Link');
         }
       }
     } else {
-      // Fallback for browsers that don't support Web Share API
       copyToClipboard(referralLink, 'Link');
     }
   };
@@ -74,7 +72,7 @@ export default function ReferralPage() {
         </div>
 
         {/* Reward Info Banner */}
-        <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-center">
+        <div className="p-4 rounded-xl bg-primary/5 text-center">
             <p className="text-sm text-primary-dark font-medium">
                 You and your friend will each get <span className="font-bold text-primary">1,000 bonus points!</span>
             </p>
@@ -82,8 +80,8 @@ export default function ReferralPage() {
 
         {/* Referral Code & Link */}
         <div className="space-y-4">
-            <div className="p-4 rounded-xl border bg-card space-y-4">
-                <p className="text-sm text-muted-foreground text-center">Your unique referral code</p>
+            <div className="space-y-2">
+                <p className="text-sm text-muted-foreground font-medium">Your unique referral code</p>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-muted">
                     <span className="text-xl font-bold tracking-widest">{referralCode}</span>
                     <Button size="icon" variant="ghost" className="shrink-0" onClick={() => copyToClipboard(referralCode, 'Code')}>
@@ -91,8 +89,8 @@ export default function ReferralPage() {
                     </Button>
                 </div>
             </div>
-             <div className="p-4 rounded-xl border bg-card space-y-4">
-                <p className="text-sm text-muted-foreground text-center">Or share your invite link</p>
+             <div className="space-y-2">
+                <p className="text-sm text-muted-foreground font-medium">Your invite link</p>
                 <div className="flex items-center justify-between p-2 pl-4 rounded-lg bg-muted">
                     <span className="text-sm text-muted-foreground truncate">{referralLink}</span>
                     <div className="flex items-center shrink-0">
@@ -106,15 +104,17 @@ export default function ReferralPage() {
                 </div>
             </div>
         </div>
+        
+        <Separator />
 
         {/* Referral History */}
         <div className="space-y-3">
           <h3 className="text-lg font-bold">Referral History</h3>
           {referralHistory.length > 0 ? (
-            <div className="border rounded-xl overflow-hidden bg-card">
+            <div>
               <ul className="divide-y">
                 {referralHistory.map(ref => (
-                  <li key={ref.id} className="flex items-center justify-between p-4">
+                  <li key={ref.id} className="flex items-center justify-between py-3">
                     <div>
                       <p className="font-semibold text-sm">{ref.name}</p>
                       <p className={`text-xs ${ref.status === 'Completed' ? 'text-green-600' : 'text-muted-foreground'}`}>{ref.status}</p>
