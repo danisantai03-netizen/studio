@@ -4,7 +4,6 @@
 import * as React from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { rtdb } from '@/lib/firebase';
 import { onValue, ref as dbRef } from 'firebase/database';
 import useUserStore from '@/hooks/useUserStore';
 import BottomPane from '@/components/green-earth/BottomPane';
@@ -12,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { DriverRT, TripPhase } from '@/types/location';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 
-// Dynamically import the map component to prevent SSR issues
+// Dynamically import the map component to prevent SSR issues and improve performance
 const MapLeaflet = dynamic(() => import('@/components/green-earth/MapLeaflet'), {
   ssr: false,
   loading: () => <MapSkeleton />,
@@ -102,7 +101,7 @@ export default function MapsPage() {
   return (
     <div className="h-screen w-screen flex flex-col bg-background">
       <UniversalHeader title="Live Tracking" />
-      <div className="relative flex-1 w-full -mt-12 pt-12">
+      <div className="relative flex-1 w-full">
         <MapLeaflet
           userLat={userLocation.lat}
           userLng={userLocation.lng}
@@ -112,12 +111,13 @@ export default function MapsPage() {
         />
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-50">
          <BottomPane
             phase={phase}
             driver={driver}
             dropoffs={dropoffLocations}
             showDriverInfo={showDriverInfo}
+            setShowDriverInfo={setShowDriverInfo}
             onCall={() => console.log('Calling driver...')}
             onChat={() => console.log('Opening chat...')}
             onCancel={() => { console.log('Cancelling...'); router.push('/'); }}

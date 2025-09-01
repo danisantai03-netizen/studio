@@ -84,6 +84,7 @@ type BottomPaneProps = {
   driver: DriverRT | null;
   dropoffs: Dropoff[];
   showDriverInfo: boolean;
+  setShowDriverInfo: (visible: boolean) => void;
   onCall: () => void;
   onChat: () => void;
   onCancel: () => void;
@@ -91,21 +92,10 @@ type BottomPaneProps = {
 };
 
 export default function BottomPane({
-  phase, driver, dropoffs, showDriverInfo, onCall, onChat, onCancel, onFeedbackSubmit
+  phase, driver, dropoffs, showDriverInfo, setShowDriverInfo, onCall, onChat, onCancel, onFeedbackSubmit
 }: BottomPaneProps) {
   const [tab, setTab] = useState<'pickup' | 'dropoff'>('pickup');
-  const [isPaneVisible, setIsPaneVisible] = useState(true);
-
-  // When the trip completes, ensure the pane is visible for feedback
-  useEffect(() => {
-    if (phase === 'COMPLETED' || showDriverInfo) {
-      setIsPaneVisible(true);
-    }
-    if (!showDriverInfo) {
-      setIsPaneVisible(false);
-    }
-  }, [phase, showDriverInfo]);
-
+  
   const isTripActive = phase !== 'COMPLETED' && phase !== 'CANCELED' && phase !== 'REQUESTED';
 
   const renderPickupContent = () => {
@@ -159,14 +149,14 @@ export default function BottomPane({
       {/* --- Segmented Control --- */}
       <div className="mb-2 p-1 flex w-fit max-w-md items-center justify-center gap-1 rounded-full bg-card shadow-md border">
         <Button
-          onClick={() => { setTab('pickup'); setIsPaneVisible(true); }}
+          onClick={() => { setTab('pickup'); setShowDriverInfo(true); }}
           variant={tab === 'pickup' ? 'secondary' : 'ghost'}
           className="rounded-full h-9 px-6 text-sm"
         >
           Pickup
         </Button>
         <Button
-          onClick={() => { setTab('dropoff'); setIsPaneVisible(true); }}
+          onClick={() => { setTab('dropoff'); setShowDriverInfo(true); }}
           variant={tab === 'dropoff' ? 'secondary' : 'ghost'}
           className="rounded-full h-9 px-6 text-sm"
         >
@@ -176,7 +166,7 @@ export default function BottomPane({
 
       {/* --- Sliding Content Sheet --- */}
       <AnimatePresence>
-      {isPaneVisible && showDriverInfo && (
+      {showDriverInfo && (
         <motion.div
             className="w-full rounded-t-2xl bg-card/95 backdrop-blur-sm border-t shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.1)]"
             initial={{ y: '100%' }}
@@ -187,7 +177,7 @@ export default function BottomPane({
           <div className="relative">
              {isTripActive && (
               <button 
-                onClick={() => setIsPaneVisible(false)}
+                onClick={() => setShowDriverInfo(false)}
                 className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-muted/50 hover:bg-muted"
                 aria-label="Close panel"
               >
