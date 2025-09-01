@@ -65,10 +65,18 @@ export default function LiveMap({ userLat, userLng, tripId, driverLocation, isDr
     });
     mapRef.current = map;
 
+    // Base Layer (Original) - kept intact
     L.tileLayer(
         'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         { maxZoom: 20, attribution: '© OpenStreetMap, © CartoDB' }
     ).addTo(map);
+
+    // New Voyager Layer (added on top)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+    }).addTo(map);
 
     // Add user marker
     userMarkerRef.current = L.marker([userLat, userLng]).addTo(map);
