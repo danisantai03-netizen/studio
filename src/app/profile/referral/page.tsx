@@ -5,7 +5,6 @@ import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { Button } from '@/components/ui/button';
 import { useToast } from "@/hooks/use-toast";
 import { Copy, Share2, Gift, Users } from 'lucide-react';
-import Image from 'next/image';
 
 const referralCode = 'ALEXG25';
 const referralLink = `https://greenearth.app/join?ref=${referralCode}`;
@@ -15,32 +14,43 @@ const referralHistory = [
   { id: 2, name: 'Citra W.', status: 'Pending', points: 0 },
   { id: 3, name: 'David K.', status: 'Completed', points: 1000 },
 ];
-// const referralHistory: any[] = [];
-
 
 export default function ReferralPage() {
   const { toast } = useToast();
 
   const copyToClipboard = (text: string, type: string) => {
-    navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied to clipboard!",
-      description: `${type} copied: ${text}`,
+    navigator.clipboard.writeText(text).then(() => {
+        toast({
+            title: "Copied to clipboard!",
+            description: `${type} copied: ${text}`,
+        });
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        toast({
+            variant: 'destructive',
+            title: "Copy failed",
+            description: "Could not copy text to clipboard.",
+        });
     });
   };
 
   const handleShare = async () => {
-    if (navigator.share) {
+    const shareData = {
+      title: 'Join GreenEarth!',
+      text: `Join me on GreenEarth and let's make a difference. Use my referral code: ${referralCode}`,
+      url: referralLink,
+    };
+
+    if (navigator.share && navigator.canShare(shareData)) {
       try {
-        await navigator.share({
-          title: 'Join GreenEarth!',
-          text: `Join me on GreenEarth and let's make a difference. Use my referral code: ${referralCode}`,
-          url: referralLink,
-        });
+        await navigator.share(shareData);
       } catch (error) {
-        console.error('Error sharing:', error);
-        // Fallback to copy link if share fails
-        copyToClipboard(referralLink, 'Link');
+        // Handle cases where user cancels the share dialog or other errors occur
+        if ((error as DOMException).name !== 'AbortError') {
+          console.error('Error sharing:', error);
+          // Fallback to copy link if share fails for reasons other than user cancellation
+          copyToClipboard(referralLink, 'Link');
+        }
       }
     } else {
       // Fallback for browsers that don't support Web Share API
