@@ -10,6 +10,7 @@ import useUserStore from '@/hooks/useUserStore';
 import BottomPane from '@/components/green-earth/BottomPane';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { DriverRT, TripPhase } from '@/types/location';
+import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 
 // Dynamically import the map component to prevent SSR issues
 const MapLeaflet = dynamic(() => import('@/components/green-earth/MapLeaflet'), {
@@ -55,30 +56,35 @@ export default function MapsPage() {
         }
     });
 
-    // Mock driver appearance after 3 seconds for demo
-    const timer = setTimeout(() => {
-        if (!driver) {
-             setDriver({
-                id: 'drv_001',
-                lat: -6.2110,
-                lng: 106.8490,
-                bearing: 145,
-                name: 'Budi Santoso',
-                vehicle: 'Honda Vario',
-                plate: 'B 1234 XYZ',
-                avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704e',
-            });
-            setPhase('ACCEPTED');
-        }
-    }, 3000);
+    // Mock driver appearance and phase changes for demo
+    const timers: NodeJS.Timeout[] = [];
+    if (phase === 'REQUESTED') {
+      timers.push(setTimeout(() => {
+        setDriver({
+            id: 'drv_001',
+            lat: -6.2110,
+            lng: 106.8490,
+            bearing: 145,
+            name: 'Budi Santoso',
+            vehicle: 'Honda Vario',
+            plate: 'B 1234 XYZ',
+            avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704e',
+        });
+        setPhase('ACCEPTED');
+      }, 4000));
+    }
+    if (phase === 'ACCEPTED') timers.push(setTimeout(() => setPhase('ON_THE_WAY'), 3000));
+    if (phase === 'ON_THE_WAY') timers.push(setTimeout(() => setPhase('ARRIVED'), 5000));
+    if (phase === 'ARRIVED') timers.push(setTimeout(() => setPhase('IN_PROGRESS'), 4000));
+    if (phase === 'IN_PROGRESS') timers.push(setTimeout(() => setPhase('COMPLETED'), 5000));
 
 
     return () => {
-      clearTimeout(timer);
+      timers.forEach(clearTimeout);
       unsubDriver();
       unsubPhase();
     };
-  }, [tripId, driver]);
+  }, [tripId, phase]);
 
   const handleFeedbackSubmit = () => {
       // Logic to submit feedback to backend
@@ -91,16 +97,8 @@ export default function MapsPage() {
 
   return (
     <div className="h-screen w-screen flex flex-col bg-background">
-      <div className="relative flex-1 w-full">
-        {/* Back Button */}
-        <button
-          onClick={() => router.back()}
-          className="absolute top-4 left-4 z-20 bg-card/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-card/95"
-          aria-label="Go back"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-        </button>
-
+      <UniversalHeader title="Live Tracking" />
+      <div className="relative flex-1 w-full -mt-12 pt-12">
         <MapLeaflet
           userLat={userLocation.lat}
           userLng={userLocation.lng}
