@@ -11,7 +11,6 @@ import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import type { TripPhase, DriverRT, Dropoff } from '@/types/location';
 import BottomPane from '@/components/green-earth/BottomPane';
 
-
 const LiveMap = dynamic(() => import('@/components/green-earth/MapLeaflet'), {
   ssr: false,
   loading: () => <Skeleton className="w-full h-full bg-muted" />,
@@ -38,6 +37,11 @@ export default function MapsPage() {
       const nextPhase = (snap.val() || 'ACCEPTED') as TripPhase;
       startTransition(() => {
         setPhase(nextPhase);
+        if (nextPhase === 'COMPLETED') {
+           // Keep driver info shown for feedback, will be hidden by BottomPane
+        } else {
+           setShowDriverInfo(true);
+        }
       });
     });
 
@@ -95,7 +99,7 @@ export default function MapsPage() {
           userLat={MOCK_USER_LOCATION.lat}
           userLng={MOCK_USER_LOCATION.lng}
           tripId={tripId}
-          driverLocation={driver ? { lat: driver.lat, lng: driver.lng, bearing: driver.bearing } : null}
+          driverLocation={driver}
           isDriverInfoVisible={showDriverInfo}
         />
       </main>
@@ -130,4 +134,3 @@ export default function MapsPage() {
     </div>
   );
 }
-
