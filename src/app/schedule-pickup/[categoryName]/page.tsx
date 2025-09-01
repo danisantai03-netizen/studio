@@ -148,7 +148,7 @@ export default function SchedulePickupPage() {
   }
   
   const onAnimationComplete = () => {
-      router.push('/');
+      router.push('/maps');
   }
 
   if (!data) {

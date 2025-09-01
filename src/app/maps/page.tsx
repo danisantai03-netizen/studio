@@ -38,6 +38,11 @@ export default function MapsPage() {
   // Subscribe to real-time updates from Firebase
   React.useEffect(() => {
     if (!tripId) return;
+    
+    // Always start in the 'REQUESTED' phase when the page loads
+    setPhase('REQUESTED');
+    setDriver(null);
+    setShowDriverInfo(true);
 
     const driverRef = dbRef(rtdb, `trips/${tripId}/driver`);
     const phaseRef = dbRef(rtdb, `trips/${tripId}/phase`);
@@ -58,25 +63,24 @@ export default function MapsPage() {
 
     // Mock driver appearance and phase changes for demo
     const timers: NodeJS.Timeout[] = [];
-    if (phase === 'REQUESTED') {
-      timers.push(setTimeout(() => {
-        setDriver({
-            id: 'drv_001',
-            lat: -6.2110,
-            lng: 106.8490,
-            bearing: 145,
-            name: 'Budi Santoso',
-            vehicle: 'Honda Vario',
-            plate: 'B 1234 XYZ',
-            avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704e',
-        });
-        setPhase('ACCEPTED');
-      }, 4000));
-    }
-    if (phase === 'ACCEPTED') timers.push(setTimeout(() => setPhase('ON_THE_WAY'), 3000));
-    if (phase === 'ON_THE_WAY') timers.push(setTimeout(() => setPhase('ARRIVED'), 5000));
-    if (phase === 'ARRIVED') timers.push(setTimeout(() => setPhase('IN_PROGRESS'), 4000));
-    if (phase === 'IN_PROGRESS') timers.push(setTimeout(() => setPhase('COMPLETED'), 5000));
+    timers.push(setTimeout(() => {
+      setDriver({
+          id: 'drv_001',
+          lat: -6.2110,
+          lng: 106.8490,
+          bearing: 145,
+          name: 'Budi Santoso',
+          vehicle: 'Honda Vario',
+          plate: 'B 1234 XYZ',
+          avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704e',
+      });
+      setPhase('ACCEPTED');
+    }, 4000));
+    
+    timers.push(setTimeout(() => setPhase('ON_THE_WAY'), 7000));
+    timers.push(setTimeout(() => setPhase('ARRIVED'), 12000));
+    timers.push(setTimeout(() => setPhase('IN_PROGRESS'), 16000));
+    timers.push(setTimeout(() => setPhase('COMPLETED'), 21000));
 
 
     return () => {
@@ -84,7 +88,7 @@ export default function MapsPage() {
       unsubDriver();
       unsubPhase();
     };
-  }, [tripId, phase]);
+  }, [tripId]);
 
   const handleFeedbackSubmit = () => {
       // Logic to submit feedback to backend
