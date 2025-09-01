@@ -31,22 +31,18 @@ export default function SecurityPage() {
       <UniversalHeader title="Login & Security" />
       <main className="w-full max-w-full mx-0 py-6 space-y-8">
         
-        {/* Account Management Section */}
-        <div className="px-4 space-y-2">
-            <h2 className="text-sm font-semibold text-muted-foreground">Account</h2>
-            <div className="border rounded-xl overflow-hidden bg-card">
-              <ul className="divide-y divide-border">
+        <div className="space-y-2">
+            <h2 className="text-sm font-semibold text-muted-foreground px-4">Account</h2>
+            <ul className="divide-y divide-border">
                 <SecurityLinkItem href="/profile/security/change-password" icon={KeyRound} text="Change Password" />
                 <SecurityLinkItem href="/profile/security/change-email" icon={Mail} text="Change Email" />
                 <SecurityLinkItem href="/profile/security/change-phone" icon={Smartphone} text="Change Phone Number" />
-              </ul>
-            </div>
+            </ul>
         </div>
 
-        {/* Active Sessions Section */}
-        <div className="px-4 space-y-2">
-            <h2 className="text-sm font-semibold text-muted-foreground">Active Sessions</h2>
-             <div className="border rounded-xl overflow-hidden bg-card divide-y divide-border">
+        <div className="space-y-2">
+            <h2 className="text-sm font-semibold text-muted-foreground px-4">Active Sessions</h2>
+             <div className="divide-y divide-border">
                 {activeSessions.map(session => (
                     <div key={session.id} className="p-4">
                         <div className="flex items-start gap-4">
@@ -69,15 +65,14 @@ export default function SecurityPage() {
                     </div>
                 ))}
             </div>
-            <div className="pt-2">
+            <div className="pt-2 px-4">
                 <Button variant="outline" className="w-full">Log out from all devices</Button>
             </div>
         </div>
 
-        {/* Login History Section */}
-        <div className="px-4 space-y-2">
-            <h2 className="text-sm font-semibold text-muted-foreground">Login History</h2>
-             <div className="border rounded-xl overflow-hidden bg-card divide-y divide-border">
+        <div className="space-y-2">
+            <h2 className="text-sm font-semibold text-muted-foreground px-4">Login History</h2>
+             <div className="divide-y divide-border">
                 {loginHistory.map(item => (
                      <div key={item.id} className="p-4 flex items-center gap-4">
                         {getDeviceIcon(item.device)}
@@ -85,7 +80,7 @@ export default function SecurityPage() {
                             <p className="font-semibold text-sm">{item.device}</p>
                             <p className="text-xs text-muted-foreground">{item.location} • {item.time}</p>
                         </div>
-                        <Badge variant={item.status === 'Success' ? 'secondary' : 'destructive'} className={item.status === 'Success' ? 'text-green-700 bg-green-100 border-none' : 'bg-red-100 border-none'}>
+                        <Badge variant={item.status === 'Success' ? 'secondary' : 'destructive'} className={item.status === 'Success' ? 'text-green-700 bg-green-100 border-none' : 'text-red-100 border-none'}>
                             {item.status}
                         </Badge>
                     </div>

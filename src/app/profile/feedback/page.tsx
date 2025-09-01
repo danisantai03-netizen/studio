@@ -41,9 +41,8 @@ const faqItems = [
   }
 ];
 
-// TODO: Move to a config file or environment variables
 const SUPPORT_EMAIL = "support@greenearth.app";
-const SUPPORT_WHATSAPP_NUMBER = "+6281234567890"; // Example number
+const SUPPORT_WHATSAPP_NUMBER = "+6281234567890";
 
 export default function FeedbackPage() {
   const { toast } = useToast();
@@ -52,8 +51,6 @@ export default function FeedbackPage() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement backend submission logic here.
-    // For now, we simulate success and log to console.
     const formData = new FormData(e.target as HTMLFormElement);
     const data = Object.fromEntries(formData.entries());
     console.log("Feedback Submitted:", data);
@@ -80,23 +77,21 @@ export default function FeedbackPage() {
       <UniversalHeader title="Help & Feedback" />
       <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-6 space-y-8">
         
-        {/* FAQ Section */}
         <div className="space-y-3">
           <h2 className="text-lg font-bold">Frequently Asked Questions</h2>
-          <Accordion type="single" collapsible className="w-full rounded-xl border px-4 bg-card">
+          <Accordion type="single" collapsible className="w-full">
             {faqItems.map((item, index) => (
               <AccordionItem key={index} value={`item-${index + 1}`} className={index === faqItems.length - 1 ? 'border-b-0' : ''}>
-                <AccordionTrigger className="text-left text-sm">{item.question}</AccordionTrigger>
+                <AccordionTrigger className="text-left text-sm py-3">{item.question}</AccordionTrigger>
                 <AccordionContent className="text-xs text-muted-foreground">{item.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
 
-        {/* Feedback Form Section */}
         <div className="space-y-3">
           <h2 className="text-lg font-bold">Submit Feedback</h2>
-          <form onSubmit={handleFormSubmit} className="space-y-4 p-4 border rounded-xl bg-card">
+          <form onSubmit={handleFormSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <Label htmlFor="category">Category</Label>
               <Select name="category" required>
@@ -121,16 +116,15 @@ export default function FeedbackPage() {
           </form>
         </div>
 
-        {/* Customer Support Section */}
         <div className="space-y-3">
             <h2 className="text-lg font-bold">Contact Support</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Button variant="outline" size="lg" className="h-14" onClick={handleEmailSupport}>
-                    <Mail className="mr-2 h-5 w-5" />
+                <Button variant="outline" size="lg" className="h-14 justify-start" onClick={handleEmailSupport}>
+                    <Mail className="mr-3 h-5 w-5" />
                     Email Support
                 </Button>
-                <Button variant="outline" size="lg" className="h-14" onClick={handleWhatsAppSupport}>
-                    <MessageCircle className="mr-2 h-5 w-5" />
+                <Button variant="outline" size="lg" className="h-14 justify-start" onClick={handleWhatsAppSupport}>
+                    <MessageCircle className="mr-3 h-5 w-5" />
                     WhatsApp
                 </Button>
             </div>

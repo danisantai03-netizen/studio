@@ -15,10 +15,10 @@ export default function SettingsPage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Settings" />
-      <main className="w-full max-w-full mx-0 px-0 sm:px-6 md:px-8 py-6 space-y-8">
-        <div className="space-y-2 px-4">
-            <h2 className="text-sm font-semibold text-muted-foreground">General</h2>
-            <ul className="divide-y divide-border border rounded-xl overflow-hidden bg-card">
+      <main className="w-full max-w-full mx-0 py-6 space-y-8">
+        <div className="space-y-2">
+            <h2 className="text-sm font-semibold text-muted-foreground px-4">General</h2>
+            <ul className="divide-y divide-border">
                  <SettingRowSwitch
                     icon={Bell}
                     title="Push Notifications"
@@ -28,9 +28,9 @@ export default function SettingsPage() {
             </ul>
         </div>
 
-        <div className="space-y-2 px-4">
-            <h2 className="text-sm font-semibold text-muted-foreground">Regional</h2>
-            <ul className="divide-y divide-border border rounded-xl overflow-hidden bg-card">
+        <div className="space-y-2">
+            <h2 className="text-sm font-semibold text-muted-foreground px-4">Regional</h2>
+            <ul className="divide-y divide-border">
                 <SettingRowSelect
                     icon={Globe}
                     title="Language"
@@ -40,9 +40,9 @@ export default function SettingsPage() {
             </ul>
         </div>
 
-        <div className="space-y-2 px-4">
-            <h2 className="text-sm font-semibold text-muted-foreground">About</h2>
-            <ul className="divide-y divide-border border rounded-xl overflow-hidden bg-card">
+        <div className="space-y-2">
+            <h2 className="text-sm font-semibold text-muted-foreground px-4">About</h2>
+            <ul className="divide-y divide-border">
                 <SettingRowLink title="Privacy Policy" href="/profile/terms" />
                 <SettingRowLink title="Terms of Service" href="/profile/terms" />
             </ul>
@@ -92,7 +92,7 @@ function SettingRowSelect({ icon: Icon, title, currentValue, options }: SettingR
 function SettingRowLink({ title, href }: { title: string, href: string }) {
     return (
         <li>
-            <Link href={href} className="flex items-center p-4 text-sm font-medium active:bg-gray-50/5 transition-colors">
+            <Link href={href} className="flex items-center p-4 text-sm font-medium active:bg-muted/50 transition-colors">
                 <span className="flex-grow">{title}</span>
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
             </Link>

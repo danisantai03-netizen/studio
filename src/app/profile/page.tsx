@@ -48,19 +48,9 @@ export default function ProfilePage() {
     const handleLogout = async () => {
         const auth = getAuth();
         try {
-            // TODO: Log analytics event for logout
-            // analytics.logEvent('user_logout', { userId });
-            
             await signOut(auth);
-
-            // Clear local user state
             clearUser();
-            
-            // TODO: Clear any other sensitive cached data
-            
-            // Redirect to home/login page
             router.push('/');
-            
             toast({
                 title: "Logged Out",
                 description: "You have been successfully signed out.",
@@ -86,11 +76,9 @@ export default function ProfilePage() {
                 photoUrl={avatarUrl}
                 onEdit={() => router.push('/profile/edit')}
             />
-            <div className="mt-6">
+            <div className="mt-8 space-y-2">
                 <ProfileMenu menus={menuItems} />
-            </div>
-
-            <div className="mt-4">
+                
                  <AlertDialog>
                     <AlertDialogTrigger asChild>
                          <button

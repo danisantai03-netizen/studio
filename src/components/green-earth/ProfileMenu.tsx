@@ -15,7 +15,7 @@ type Props = { menus: MenuItem[] };
 
 const MemoizedProfileMenu: React.FC<Props> = ({ menus }) => {
   return (
-    <ul className="divide-y divide-border border rounded-xl overflow-hidden bg-card">
+    <ul className="divide-y divide-border rounded-xl border bg-card">
       {menus.map((m) => (
         <li key={m.id}>
           <Link
