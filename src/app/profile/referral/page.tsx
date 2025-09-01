@@ -62,7 +62,7 @@ export default function ReferralPage() {
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Refer a Friend" />
-      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-6 space-y-8 pb-24">
+      <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-6 space-y-8 pb-8">
         
         {/* Header Section */}
         <div className="text-center space-y-2">
@@ -136,15 +136,6 @@ export default function ReferralPage() {
             </div>
           )}
         </div>
-
-        {/* Floating CTA */}
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm border-t">
-            <Button size="lg" className="w-full h-12" onClick={handleShare}>
-                <Share2 className="w-5 h-5 mr-2" />
-                Invite More Friends
-            </Button>
-        </div>
-
       </main>
     </div>
   );
