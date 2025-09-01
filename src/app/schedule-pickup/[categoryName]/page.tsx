@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Camera, Info, TrendingUp, Wallet } from 'lucide-react';
@@ -10,12 +10,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SuccessAnimation } from '@/components/green-earth/SuccessAnimation';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+
 
 // In a real app, this data would come from a database or a config file
 const categoryData: { [key: string]: any } = {
@@ -98,20 +95,72 @@ const categoryData: { [key: string]: any } = {
   }
 };
 
-const PriceTooltip = ({ content }: { content: React.ReactNode }) => (
-  <TooltipProvider delayDuration={200}>
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <button type="button" className="ml-1.5 text-muted-foreground hover:text-primary">
-          <Info className="w-3.5 h-3.5" />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent className="max-w-xs text-center" side="top">
-        <p>{content}</p>
-      </TooltipContent>
-    </Tooltip>
-  </TooltipProvider>
-);
+const PriceTooltip = ({ content }: { content: React.ReactNode }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const tooltipId = useMemo(() => `tooltip-${Math.random().toString(36).substr(2, 9)}`, []);
+  
+  // Handlers are wrapped in useCallback to prevent re-creation on every render
+  const showTooltip = useCallback(() => setIsVisible(true), []);
+  const hideTooltip = useCallback(() => setIsVisible(false), []);
+
+  // Keyboard accessibility handlers
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      showTooltip();
+    }
+  }, [showTooltip]);
+
+  const handleKeyUp = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      hideTooltip();
+    }
+  }, [hideTooltip]);
+
+  return (
+    <div className="relative flex items-center">
+      <button
+        type="button"
+        className="ml-1.5 text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring rounded-full"
+        // Pointer events for press-and-hold (touch) and click-and-hold (mouse)
+        onPointerDown={showTooltip}
+        onPointerUp={hideTooltip}
+        onPointerLeave={hideTooltip} // Hide if pointer leaves while pressed
+        // Hover events for desktop
+        onMouseEnter={showTooltip}
+        onMouseLeave={hideTooltip}
+        // Keyboard events
+        onFocus={showTooltip}
+        onBlur={hideTooltip}
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+        // Accessibility attributes
+        aria-describedby={isVisible ? tooltipId : undefined}
+        aria-label="More information"
+      >
+        <Info className="w-3.5 h-3.5" />
+      </button>
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            id={tooltipId}
+            role="tooltip"
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 5 }}
+            transition={{ duration: 0.15 }}
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs z-10"
+          >
+            <div className="bg-popover text-popover-foreground rounded-md px-3 py-1.5 text-sm shadow-md border">
+              {content}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 
 export default function SchedulePickupPage() {
