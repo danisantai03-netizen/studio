@@ -99,6 +99,7 @@ const PriceTooltip = ({ content }: { content: React.ReactNode }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useMemo(() => `tooltip-${Math.random().toString(36).substr(2, 9)}`, []);
   
+  // Use pointer events for consistent behavior across mouse, touch, and pen.
   const showTooltip = useCallback(() => setIsVisible(true), []);
   const hideTooltip = useCallback(() => setIsVisible(false), []);
 
@@ -175,7 +176,7 @@ export default function SchedulePickupPage() {
   }
   
   const onAnimationComplete = () => {
-      router.push('/maps');
+      router.push('/maps/trip_123');
   }
 
   if (!data) {
