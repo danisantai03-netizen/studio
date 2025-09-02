@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { Separator } from '@/components/ui/separator';
 import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 // Mock data, in a real app this would be fetched from your backend
 const mockTransactionData: { [key: string]: any } = {
@@ -15,7 +16,9 @@ const mockTransactionData: { [key: string]: any } = {
     category: 'Plastic Bottles',
     weight: 5.2, // kg
     pricePerKg: 2000,
-    estimatedEarnings: 10400,
+    grossEarnings: 10400,
+    serviceFee: 1040,
+    netEarnings: 9360,
     pickupDate: new Date(),
     driver: {
       name: 'Budi Santoso',
@@ -25,10 +28,10 @@ const mockTransactionData: { [key: string]: any } = {
   }
 };
 
-const DetailRow = ({ label, value }: { label: string, value: string | number }) => (
+const DetailRow = ({ label, value, valueClassName }: { label: string, value: string | number, valueClassName?: string }) => (
   <div className="flex justify-between items-center py-3">
     <p className="text-sm text-muted-foreground">{label}</p>
-    <p className="text-sm font-medium text-foreground text-right">{value}</p>
+    <p className={cn("text-sm font-medium text-foreground text-right", valueClassName)}>{value}</p>
   </div>
 );
 
@@ -78,15 +81,17 @@ export default function TransactionDetailsPage() {
            <Separator />
 
           <div>
-            <h2 className="text-lg font-bold mb-2">Item Details</h2>
+            <h2 className="text-lg font-bold mb-2">Earnings Details</h2>
             <div className="divide-y divide-border/60">
                 <DetailRow label="Category" value={transaction.category} />
-                <DetailRow label="Weight" value={`${transaction.weight} kg`} />
+                <DetailRow label="Verified Weight" value={`${transaction.weight} kg`} />
                 <DetailRow label="Price per kg" value={`Rp ${transaction.pricePerKg.toLocaleString('id-ID')}`} />
+                <DetailRow label="Gross Earnings" value={`Rp ${transaction.grossEarnings.toLocaleString('id-ID')}`} />
+                <DetailRow label="Service Fee (10%)" value={`- Rp ${transaction.serviceFee.toLocaleString('id-ID')}`} valueClassName="text-red-600"/>
                 <Separator className="my-2"/>
                 <div className="flex justify-between items-center py-3">
                     <p className="text-base font-bold text-primary">Total Earnings</p>
-                    <p className="text-base font-bold text-primary text-right">Rp {transaction.estimatedEarnings.toLocaleString('id-ID')}</p>
+                    <p className="text-base font-bold text-primary text-right">Rp {transaction.netEarnings.toLocaleString('id-ID')}</p>
                 </div>
             </div>
           </div>
@@ -106,3 +111,5 @@ export default function TransactionDetailsPage() {
     </div>
   );
 }
+
+    

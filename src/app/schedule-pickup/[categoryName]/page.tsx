@@ -4,7 +4,7 @@
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Camera, Info, TrendingUp, Wallet } from 'lucide-react';
+import { Camera, Info, TrendingUp, Wallet, Minus, Percent } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -99,7 +99,6 @@ const PriceTooltip = ({ content }: { content: React.ReactNode }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useMemo(() => `tooltip-${Math.random().toString(36).substr(2, 9)}`, []);
   
-  // Use pointer events for consistent behavior across mouse, touch, and pen.
   const showTooltip = useCallback(() => setIsVisible(true), []);
   const hideTooltip = useCallback(() => setIsVisible(false), []);
 
@@ -163,12 +162,15 @@ export default function SchedulePickupPage() {
     }
   };
 
-  const estimatedEarnings = useMemo(() => {
+  const { grossEarnings, serviceFee, netEarnings } = useMemo(() => {
     const numericWeight = parseFloat(weight);
     if (!data || !numericWeight || isNaN(numericWeight) || numericWeight <= 0) {
-      return 0;
+      return { grossEarnings: 0, serviceFee: 0, netEarnings: 0 };
     }
-    return numericWeight * data.cleanPrice;
+    const gross = numericWeight * data.cleanPrice;
+    const fee = gross * 0.1;
+    const net = gross - fee;
+    return { grossEarnings: gross, serviceFee: fee, netEarnings: net };
   }, [weight, data]);
   
   const handleSchedule = () => {
@@ -261,7 +263,7 @@ export default function SchedulePickupPage() {
                 min="0"
             />
           </div>
-           {estimatedEarnings > 0 && (
+           {netEarnings > 0 && (
             <div className="bg-primary/5 p-3 rounded-xl space-y-2">
                 <div className="flex justify-between items-center text-sm">
                     <span className="text-muted-foreground">Estimated Weight</span>
@@ -269,20 +271,24 @@ export default function SchedulePickupPage() {
                 </div>
                 <div className="flex justify-between items-center text-sm">
                     <span className="text-muted-foreground">Price per kg</span>
-                    <span className="font-medium">Rp. {data.cleanPrice.toLocaleString('id-ID')}</span>
+                    <span className="font-medium">Rp {data.cleanPrice.toLocaleString('id-ID')}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Service Fee (10%)</span>
+                    <span className="font-medium text-red-600">- Rp {serviceFee.toLocaleString('id-ID')}</span>
                 </div>
                 <div className="h-px bg-border my-2" />
                 <div className="flex justify-between items-center text-base">
                     <span className="font-semibold text-primary">Estimated Earnings</span>
-                    <span className="font-bold text-primary">Rp. {estimatedEarnings.toLocaleString('id-ID')}</span>
+                    <span className="font-bold text-primary">Rp {netEarnings.toLocaleString('id-ID')}</span>
                 </div>
                  <div className="flex justify-between items-center text-sm">
                     <span className="text-secondary-dark">+ Reward Points</span>
-                    <span className="font-semibold text-secondary-dark">{Math.floor(estimatedEarnings / 100).toLocaleString('id-ID')} pts</span>
+                    <span className="font-semibold text-secondary-dark">{Math.floor(netEarnings / 100).toLocaleString('id-ID')} pts</span>
                 </div>
             </div>
           )}
-           {estimatedEarnings > 0 && (
+           {netEarnings > 0 && (
              <p className="text-xs text-muted-foreground text-center px-4">
                 This is only an estimate. Final earnings will be based on actual verified weight and item condition at pickup.
             </p>
@@ -327,3 +333,5 @@ export default function SchedulePickupPage() {
     </div>
   );
 }
+
+    
