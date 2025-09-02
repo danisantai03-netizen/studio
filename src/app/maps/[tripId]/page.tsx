@@ -7,6 +7,7 @@ import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { Separator } from '@/components/ui/separator';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { useState, useEffect } from 'react';
 
 // Mock data, in a real app this would be fetched from your backend
 const mockTransactionData: { [key: string]: any } = {
@@ -16,10 +17,7 @@ const mockTransactionData: { [key: string]: any } = {
     category: 'Plastic Bottles',
     weight: 5.2, // kg
     pricePerKg: 2000,
-    grossEarnings: 10400,
-    serviceFee: 1040,
-    netEarnings: 9360,
-    pickupDate: new Date(),
+    pickupDate: '2024-09-03T10:30:00Z', // Using a static ISO string to prevent hydration errors
     driver: {
       name: 'Budi Santoso',
       vehicle: 'Honda Vario',
@@ -39,6 +37,12 @@ export default function TransactionDetailsPage() {
   const params = useParams();
   const tripId = params.tripId as string;
   const transaction = mockTransactionData[tripId];
+  
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   if (!transaction) {
     return (
@@ -50,6 +54,14 @@ export default function TransactionDetailsPage() {
       </div>
     );
   }
+
+  const { grossEarnings, serviceFee, netEarnings } = {
+      grossEarnings: transaction.weight * transaction.pricePerKg,
+      serviceFee: (transaction.weight * transaction.pricePerKg) * 0.1,
+      netEarnings: (transaction.weight * transaction.pricePerKg) * 0.9,
+  };
+  
+  const pickupDate = new Date(transaction.pickupDate);
 
   return (
     <div className="bg-background min-h-screen">
@@ -73,8 +85,10 @@ export default function TransactionDetailsPage() {
             <h2 className="text-lg font-bold mb-2">Pickup Information</h2>
             <div className="divide-y divide-border/60">
               <DetailRow label="Transaction ID" value={transaction.transactionId} />
-              <DetailRow label="Pickup Date" value={format(transaction.pickupDate, 'EEEE, dd MMMM yyyy')} />
-              <DetailRow label="Time" value={format(transaction.pickupDate, 'HH:mm')} />
+              {isClient && <>
+                <DetailRow label="Pickup Date" value={format(pickupDate, 'EEEE, dd MMMM yyyy')} />
+                <DetailRow label="Time" value={format(pickupDate, 'HH:mm')} />
+              </>}
             </div>
           </div>
           
@@ -86,12 +100,12 @@ export default function TransactionDetailsPage() {
                 <DetailRow label="Category" value={transaction.category} />
                 <DetailRow label="Verified Weight" value={`${transaction.weight} kg`} />
                 <DetailRow label="Price per kg" value={`Rp ${transaction.pricePerKg.toLocaleString('id-ID')}`} />
-                <DetailRow label="Gross Earnings" value={`Rp ${transaction.grossEarnings.toLocaleString('id-ID')}`} />
-                <DetailRow label="Service Fee (10%)" value={`- Rp ${transaction.serviceFee.toLocaleString('id-ID')}`} valueClassName="text-red-600"/>
+                <DetailRow label="Gross Earnings" value={`Rp ${grossEarnings.toLocaleString('id-ID')}`} />
+                <DetailRow label="Service Fee (10%)" value={`- Rp ${serviceFee.toLocaleString('id-ID')}`} valueClassName="text-red-600"/>
                 <Separator className="my-2"/>
                 <div className="flex justify-between items-center py-3">
                     <p className="text-base font-bold text-primary">Total Earnings</p>
-                    <p className="text-base font-bold text-primary text-right">Rp {transaction.netEarnings.toLocaleString('id-ID')}</p>
+                    <p className="text-base font-bold text-primary text-right">Rp {netEarnings.toLocaleString('id-ID')}</p>
                 </div>
             </div>
           </div>
@@ -111,5 +125,3 @@ export default function TransactionDetailsPage() {
     </div>
   );
 }
-
-    
