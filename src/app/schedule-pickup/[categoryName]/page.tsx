@@ -99,44 +99,22 @@ const PriceTooltip = ({ content }: { content: React.ReactNode }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useMemo(() => `tooltip-${Math.random().toString(36).substr(2, 9)}`, []);
   
-  // Handlers are wrapped in useCallback to prevent re-creation on every render
   const showTooltip = useCallback(() => setIsVisible(true), []);
   const hideTooltip = useCallback(() => setIsVisible(false), []);
-
-  // Keyboard accessibility handlers
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      showTooltip();
-    }
-  }, [showTooltip]);
-
-  const handleKeyUp = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      hideTooltip();
-    }
-  }, [hideTooltip]);
 
   return (
     <div className="relative flex items-center">
       <button
         type="button"
         className="ml-1.5 text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring rounded-full"
-        // Pointer events for press-and-hold (touch) and click-and-hold (mouse)
         onPointerDown={showTooltip}
         onPointerUp={hideTooltip}
-        onPointerLeave={hideTooltip} // Hide if pointer leaves while pressed
-        // Hover events for desktop
-        onMouseEnter={showTooltip}
-        onMouseLeave={hideTooltip}
-        // Keyboard events
+        onPointerLeave={hideTooltip}
         onFocus={showTooltip}
         onBlur={hideTooltip}
-        onKeyDown={handleKeyDown}
-        onKeyUp={handleKeyUp}
-        // Accessibility attributes
-        aria-describedby={isVisible ? tooltipId : undefined}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') showTooltip(); }}
+        onKeyUp={(e) => { if (e.key === 'Enter' || e.key === ' ') hideTooltip(); }}
+        aria-describedby={tooltipId}
         aria-label="More information"
       >
         <Info className="w-3.5 h-3.5" />

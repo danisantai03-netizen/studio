@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import type { Dropoff, TripPhase, DriverRT } from '@/types/location';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -80,6 +81,7 @@ const FeedbackSection = ({ onSubmit }: { onSubmit: () => void }) => {
 // --- Main Component ---
 
 type BottomPaneProps = {
+  tripId?: string;
   phase: TripPhase;
   driver: DriverRT | null;
   dropoffs: Dropoff[];
@@ -92,9 +94,10 @@ type BottomPaneProps = {
 };
 
 export default function BottomPane({
-  phase, driver, dropoffs, showDriverInfo, setShowDriverInfo, onCall, onChat, onCancel, onFeedbackSubmit
+  tripId, phase, driver, dropoffs, showDriverInfo, setShowDriverInfo, onCall, onChat, onCancel, onFeedbackSubmit
 }: BottomPaneProps) {
   const [tab, setTab] = useState<'pickup' | 'dropoff'>('pickup');
+  const router = useRouter();
   
   const isTripActive = phase !== 'COMPLETED' && phase !== 'CANCELED' && phase !== 'REQUESTED';
 
@@ -136,6 +139,7 @@ export default function BottomPane({
               >
                   {statusConfig[phase]}
              </motion.div>
+             <Button onClick={() => router.push(`/maps/${tripId}`)} variant="default" className="w-full">View Details</Button>
             <Button onClick={onCancel} variant="outline" className="w-full">Cancel Pickup</Button>
           </div>
       );

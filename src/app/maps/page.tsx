@@ -114,6 +114,7 @@ export default function MapsPage() {
 
       <div className="relative z-50">
          <BottomPane
+            tripId={tripId}
             phase={phase}
             driver={driver}
             dropoffs={dropoffLocations}
