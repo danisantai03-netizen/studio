@@ -1,9 +1,9 @@
 
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -24,7 +24,7 @@ export default function OtpForm({ mode }: { mode: Mode }) {
   const { toast } = useToast();
   const email = params.get('email') || '';
 
-  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } =
+  const { register, handleSubmit, formState: { errors, isSubmitting } } =
     useForm<Values>({
       resolver: zodResolver(otpSchema),
       defaultValues: { email, otp: '' },
@@ -89,25 +89,20 @@ export default function OtpForm({ mode }: { mode: Mode }) {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <input {...register('email')} type="hidden" />
         <div className="space-y-1.5">
-            <Controller
-                name="otp"
-                control={register.control}
-                render={({ field }) => (
-                     <Input
-                        {...field}
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        maxLength={6}
-                        className="h-14 text-2xl tracking-[0.5em] text-center"
-                        placeholder="••••••"
-                        aria-invalid={!!errors.otp}
-                        onChange={(e) => {
-                            const value = e.target.value.replace(/\D/g, '');
-                            field.onChange(value);
-                        }}
-                     />
-                )}
+            <Input
+                {...register('otp')}
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={6}
+                className="h-14 text-2xl tracking-[0.5em] text-center"
+                placeholder="••••••"
+                aria-invalid={!!errors.otp}
+                onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '');
+                    // setValue('otp', value) is handled by react-hook-form through register
+                    e.target.value = value;
+                }}
             />
             {errors.otp && <p className="text-sm text-destructive text-center">{errors.otp.message}</p>}
         </div>
