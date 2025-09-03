@@ -60,8 +60,11 @@ const OtpInput = ({ length = 6, onOtpChange }: { length?: number; onOtpChange: (
   useEffect(() => {
     // Autofill with mock OTP in development
     if (process.env.NODE_ENV === 'development') {
-        setValues(MOCK_OTP.split(''));
+        const mockValues = MOCK_OTP.split('');
+        setValues(mockValues);
         onOtpChange(MOCK_OTP);
+        // Focus the last input for quick submission
+        inputRefs.current[length - 1]?.focus();
     }
   }, [onOtpChange, length]);
 
@@ -75,9 +78,10 @@ const OtpInput = ({ length = 6, onOtpChange }: { length?: number; onOtpChange: (
           inputMode="numeric"
           maxLength={1}
           value={digit}
-          onChange={(e) => handleChange(e.target, index)}
+          onChange={(e) => handleChange(e.target as HTMLInputElement, index)}
           onKeyDown={(e) => handleKeyDown(e, index)}
           className="w-12 h-14 text-center text-2xl font-bold"
+          aria-label={`Digit ${index + 1}`}
         />
       ))}
     </div>

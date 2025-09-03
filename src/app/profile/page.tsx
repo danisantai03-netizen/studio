@@ -44,24 +44,8 @@ export default function ProfilePage() {
         { id: 'help', title: 'Bantuan & Masukan', icon: <MessageSquareHeart className="w-5 h-5 text-primary" />, href: '/profile/feedback' },
     ];
 
-    const handleLogout = async () => {
-        logoutMutation.mutate(undefined, {
-            onSuccess: () => {
-                router.push('/');
-                toast({
-                    title: "Berhasil Keluar",
-                    description: "Anda telah berhasil keluar dari akun Anda.",
-                });
-            },
-            onError: (error) => {
-                console.error("Logout failed:", error);
-                toast({
-                    variant: "destructive",
-                    title: "Gagal Keluar",
-                    description: "Terjadi kesalahan saat mencoba keluar. Silakan coba lagi.",
-                });
-            }
-        });
+    const handleLogout = () => {
+        logoutMutation.mutate();
     };
 
   return (

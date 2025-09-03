@@ -55,13 +55,11 @@ export const verifyLoginOtp = async (payload: VerifyOtpPayload) => {
     // Here we simulate it by setting a value in localStorage.
     // This is NOT secure for production.
     if (typeof window !== 'undefined') {
-        const user = findByCredentials(payload.email, ""); // We need the user data again. This is a flaw in this mock design but works.
         const users = JSON.parse(localStorage.getItem("mock_users_v1") || "[]");
         const storedUser = users.find((u: any) => u.email === payload.email.toLowerCase());
         
         if (storedUser) {
             localStorage.setItem("session_token", `mock_token_${storedUser.id}`);
-            // Let tanstack-query know the user has changed
         }
     }
     return { message: 'Login successful' };

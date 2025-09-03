@@ -41,21 +41,21 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    // If loading is done and there's an error (e.g., 401 Unauthorized), redirect to login
+    // If loading is done and there's an error (e.g., "Not authenticated"), redirect to login
     if (!isLoading && isError) {
       router.replace('/login');
     }
   }, [isLoading, isError, router]);
 
-  // To prevent hydration errors, we render the page structure immediately.
-  // The loading state is handled by skeletons within the child components (Header, PointsDashboard).
-  // If the user is not authenticated, the effect will redirect them.
-  // This ensures the initial render matches between server and client.
+  // While loading, or if an error occurred (which will trigger redirect), show the skeleton.
+  // This prevents content flashing and ensures a smooth loading experience.
   if (isLoading || isError) {
     return (
        <div className="bg-background min-h-screen">
-          <HomePageSkeleton />
-          <BottomNav />
+          <div className="flex flex-col flex-grow">
+            <HomePageSkeleton />
+            <BottomNav />
+          </div>
       </div>
     );
   }

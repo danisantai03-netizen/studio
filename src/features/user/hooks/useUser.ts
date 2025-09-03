@@ -11,7 +11,7 @@ export function useUser() {
         staleTime: 1000 * 60 * 5, // 5 minutes
         retry: (failureCount, error: any) => {
             // Do not retry on auth errors (e.g. 401)
-            if (error?.status === 401) {
+            if (error?.message === "Not authenticated") {
                 return false;
             }
             return failureCount < 3;
