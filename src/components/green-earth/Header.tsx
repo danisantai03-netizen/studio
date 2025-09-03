@@ -27,31 +27,33 @@ export function Header() {
     <header className="relative bg-background pt-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            {isUserLoading ? (
-                <>
-                    <Skeleton className="w-11 h-11 rounded-full" />
-                    <div className="space-y-1">
-                        <Skeleton className="h-4 w-20" />
-                        <Skeleton className="h-5 w-24" />
-                    </div>
-                </>
-            ) : (
-                <>
-                    <Link href="/profile" className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-card shadow-sm">
-                      <Image
+            <Link href="/profile" className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-card shadow-sm">
+                {isUserLoading ? (
+                    <Skeleton className="h-full w-full" />
+                ) : (
+                    <Image
                         src={user?.avatarUrl ?? '/assets/avatars/alex-green.jpg'}
                         alt={user?.name ?? 'User'}
                         fill
                         className="object-cover"
                         data-ai-hint="profile person"
+                        priority
                       />
-                    </Link>
-                    <div>
-                      <p className="text-xs text-muted-foreground">Welcome back,</p>
-                      <h1 className="text-base font-bold text-foreground">{user?.name ?? 'Guest'}</h1>
-                    </div>
+                )}
+            </Link>
+            <div>
+              {isUserLoading ? (
+                  <div className="space-y-1">
+                      <Skeleton className="h-4 w-20" />
+                      <Skeleton className="h-5 w-24" />
+                  </div>
+              ) : (
+                <>
+                  <p className="text-xs text-muted-foreground">Welcome back,</p>
+                  <h1 className="text-base font-bold text-foreground">{user?.name ?? 'Guest'}</h1>
                 </>
-            )}
+              )}
+            </div>
           </div>
           <div className="flex items-center gap-1">
             {isMounted && (
