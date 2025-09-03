@@ -5,7 +5,7 @@ import * as React from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { onValue, ref as dbRef } from 'firebase/database';
-import useUserStore from '@/hooks/useUserStore';
+import { useUser } from '@/features/user/hooks/useUser';
 import BottomPane from '@/components/green-earth/BottomPane';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { DriverRT, TripPhase } from '@/types/location';
@@ -25,7 +25,7 @@ const dropoffLocations = [
 
 export default function MapsPage() {
   const router = useRouter();
-  const { name } = useUserStore();
+  const { data: user } = useUser();
 
   const [tripId] = React.useState('trip_123'); // Assume this is the active trip ID
   const [driver, setDriver] = React.useState<DriverRT | null>(null);
