@@ -2,39 +2,37 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { History, Gift } from 'lucide-react';
-import { formatPointsAsCurrency } from '@/lib/utils';
+import { History, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
 export function PointsDashboard() {
+  const balance = 137000;
   const points = 1370;
 
   return (
-    <section>
-      <Card className="bg-primary text-primary-foreground shadow-lg rounded-xl w-full">
-        <CardContent className="p-4">
-          <div className="flex justify-between items-center mb-3">
-            <div>
-              <p className="text-sm opacity-80">Your Points</p>
-              <p className="text-2xl font-bold">{points.toLocaleString('id-ID')}</p>
-            </div>
-            <p className="text-xs font-semibold bg-white/20 px-3 py-1 rounded-full">
-              {formatPointsAsCurrency(points)}
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <Link href="/home/point-history" className="w-full">
-                <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-primary-foreground w-full h-9 text-xs">
-                  <History className="mr-2 h-4 w-4" /> History
-                </Button>
-            </Link>
-            <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground h-9 text-xs">
-              <Gift className="mr-2 h-4 w-4" /> Redeem
+    <section className="bg-primary text-primary-foreground p-4 rounded-xl shadow-lg w-full">
+      <div className="flex justify-between items-start">
+        <div className="flex-1">
+          <p className="text-sm opacity-80">Balance</p>
+          <p className="text-2xl font-bold tracking-tight">Rp{balance.toLocaleString('id-ID')}</p>
+        </div>
+        <div className="text-right pl-4">
+          <p className="text-sm opacity-80">Points</p>
+          <p className="text-lg font-bold">{points.toLocaleString('id-ID')}</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-3 mt-4">
+        <Link href="/home/point-history" className="w-full">
+            <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-primary-foreground w-full h-10 text-xs font-semibold">
+              <History className="mr-2 h-4 w-4" /> History
             </Button>
-          </div>
-        </CardContent>
-      </Card>
+        </Link>
+        <Link href="/withdraw" className="w-full">
+            <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground h-10 text-xs font-semibold">
+              <ArrowUpRight className="mr-2 h-4 w-4" /> Withdraw
+            </Button>
+        </Link>
+      </div>
     </section>
   );
 }
