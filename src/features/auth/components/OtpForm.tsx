@@ -1,9 +1,9 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -13,9 +13,77 @@ import { verifyEmail, verifyLoginOtp, resendOtp } from '../services/authService'
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 type Values = z.infer<typeof otpSchema>;
 type Mode = 'register' | 'login';
+
+const MOCK_OTP = "123456";
+
+// A custom OTP input component
+const OtpInput = ({ length = 6, onOtpChange }: { length?: number; onOtpChange: (otp: string) => void }) => {
+  const [values, setValues] = useState(Array(length).fill(''));
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const handleChange = (element: HTMLInputElement, index: number) => {
+    const value = element.value;
+    if (!/^[0-9]$/.test(value) && value !== '') return;
+
+    const newValues = [...values];
+    newValues[index] = value;
+    setValues(newValues);
+    onOtpChange(newValues.join(''));
+
+    if (value !== '' && index < length - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === 'Backspace' && !values[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+  
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const paste = e.clipboardData.getData('text').slice(0, length);
+    if (/^\d+$/.test(paste)) {
+        const newValues = paste.split('').concat(Array(length).fill('')).slice(0, length);
+        setValues(newValues);
+        onOtpChange(newValues.join(''));
+        const nextFocusIndex = Math.min(length - 1, paste.length);
+        inputRefs.current[nextFocusIndex]?.focus();
+    }
+  };
+
+  useEffect(() => {
+    // Autofill with mock OTP in development
+    if (process.env.NODE_ENV === 'development') {
+        setValues(MOCK_OTP.split(''));
+        onOtpChange(MOCK_OTP);
+    }
+  }, [onOtpChange, length]);
+
+  return (
+    <div className="flex justify-center gap-2" onPaste={handlePaste}>
+      {values.map((digit, index) => (
+        <Input
+          key={index}
+          ref={(el) => (inputRefs.current[index] = el)}
+          type="text"
+          inputMode="numeric"
+          maxLength={1}
+          value={digit}
+          onChange={(e) => handleChange(e.target, index)}
+          onKeyDown={(e) => handleKeyDown(e, index)}
+          className="w-12 h-14 text-center text-2xl font-bold"
+        />
+      ))}
+    </div>
+  );
+};
+
 
 export default function OtpForm({ mode }: { mode: Mode }) {
   const router = useRouter();
@@ -24,7 +92,7 @@ export default function OtpForm({ mode }: { mode: Mode }) {
   const { toast } = useToast();
   const email = params.get('email') || '';
 
-  const { register, handleSubmit, formState: { errors, isSubmitting } } =
+  const { handleSubmit, setValue, control, formState: { errors, isSubmitting } } =
     useForm<Values>({
       resolver: zodResolver(otpSchema),
       defaultValues: { email, otp: '' },
@@ -60,6 +128,9 @@ export default function OtpForm({ mode }: { mode: Mode }) {
     onSuccess: () => {
       toast({ title: 'New Code Sent', description: 'A new OTP has been sent to your email.' });
       setSeconds(60);
+      if (process.env.NODE_ENV === 'development') {
+        setValue('otp', MOCK_OTP); // Refill on resend for dev
+      }
     },
     onError: (error: Error) => {
         toast({ variant: 'destructive', title: 'Failed to Resend', description: error.message });
@@ -87,25 +158,16 @@ export default function OtpForm({ mode }: { mode: Mode }) {
             Enter the 6-digit code we sent to <br /> <b className="text-foreground">{email}</b>
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <input {...register('email')} type="hidden" />
-        <div className="space-y-1.5">
-            <Input
-                {...register('otp')}
-                type="text"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                maxLength={6}
-                className="h-14 text-2xl tracking-[0.5em] text-center"
-                placeholder="••••••"
-                aria-invalid={!!errors.otp}
-                onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, '');
-                    // setValue('otp', value) is handled by react-hook-form through register
-                    e.target.value = value;
-                }}
-            />
-            {errors.otp && <p className="text-sm text-destructive text-center">{errors.otp.message}</p>}
-        </div>
+        <input name="email" type="hidden" value={email} />
+        <Controller
+            name="otp"
+            control={control}
+            render={({ field }) => (
+                <OtpInput onOtpChange={field.onChange} />
+            )}
+        />
+        {errors.otp && <p className="text-sm text-destructive text-center pt-2">{errors.otp.message}</p>}
+        
         <Button type="submit" disabled={isSubmitting || verifyMutation.isPending} className="w-full">
             {isSubmitting || verifyMutation.isPending ? 'Verifying...' : 'Verify'}
         </Button>

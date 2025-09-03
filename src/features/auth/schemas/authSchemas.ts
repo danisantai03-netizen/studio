@@ -22,5 +22,5 @@ export const loginSchema = z.object({
 
 export const otpSchema = z.object({
   email: z.string().email(),
-  otp: z.string().regex(/^\d{6}$/, "Please enter the 6-digit code."),
+  otp: z.string().length(6, "Please enter the 6-digit code."),
 });
