@@ -35,6 +35,7 @@ export default function RegisterForm() {
         title: 'Account Created!',
         description: "We've sent a verification code to your email.",
       });
+      console.debug("[mock] registered:", variables.email);
       router.push(`/verify-email?email=${encodeURIComponent(variables.email)}`);
     },
     onError: (error: Error) => {

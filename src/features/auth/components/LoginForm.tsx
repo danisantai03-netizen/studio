@@ -32,14 +32,10 @@ export default function LoginForm() {
   const mutation = useMutation({ 
       mutationFn: loginAPI,
       onSuccess: async (data, variables) => {
-        if (data.otpRequired) {
-            router.push(`/verify-login?email=${encodeURIComponent(variables.email)}`);
-        } else {
-            // If OTP is not required, backend has set the session cookie.
-            // Invalidate user queries to refetch user data and redirect.
-            await queryClient.invalidateQueries({ queryKey: ['user'] });
-            router.push('/');
-        }
+        // In our mock, login always succeeds and gives us a "token"
+        // In a real app, the backend might respond that OTP is needed.
+        // For this mock, we will just proceed to OTP verification.
+        router.push(`/verify-login?email=${encodeURIComponent(variables.email)}`);
       },
       onError: (error: Error) => {
         toast({
@@ -52,6 +48,7 @@ export default function LoginForm() {
   });
 
   const onSubmit = (values: FormValues) => {
+    console.debug("[mock] login attempt:", values.email);
     mutation.mutate(values);
   };
 

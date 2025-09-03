@@ -9,7 +9,13 @@ export function useUser() {
         queryKey: ['user'],
         queryFn: getCurrentUser,
         staleTime: 1000 * 60 * 5, // 5 minutes
-        retry: false, // Do not retry on auth errors (e.g. 401)
+        retry: (failureCount, error: any) => {
+            // Do not retry on auth errors (e.g. 401)
+            if (error?.status === 401) {
+                return false;
+            }
+            return failureCount < 3;
+        },
     });
 }
 
