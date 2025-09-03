@@ -83,7 +83,7 @@ export default function LoginForm() {
       <Button type="submit" disabled={isSubmitting} className="w-full">
         {isSubmitting ? 'Signing in...' : 'Sign In'}
       </Button>
-       <p className="text-center text-sm">
+       <p className="text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
             <Link href="/register" className="font-medium text-primary hover:underline">
                 Sign up

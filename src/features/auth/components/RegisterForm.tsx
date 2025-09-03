@@ -110,7 +110,7 @@ export default function RegisterForm() {
       <Button type="submit" disabled={isSubmitting} className="w-full">
         {isSubmitting ? 'Creating account...' : 'Create Account'}
       </Button>
-      <p className="text-center text-sm">
+      <p className="text-center text-sm text-muted-foreground">
             Already have an account?{' '}
             <Link href="/login" className="font-medium text-primary hover:underline">
                 Sign in
