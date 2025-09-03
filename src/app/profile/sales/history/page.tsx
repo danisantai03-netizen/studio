@@ -27,7 +27,7 @@ const ExpandableRow = ({ item }: { item: TransactionHistoryItem }) => {
        <li className="py-4">
           <div className="flex items-start" role="button" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}>
               <div className="flex-grow">
-                  <p className="font-semibold text-sm">Sale of {item.wasteType}</p>
+                  <p className="font-semibold text-sm">Penjualan {item.wasteType}</p>
                   <p className="text-xs text-muted-foreground">{format(new Date(item.date), 'dd MMM yyyy, HH:mm')}</p>
                   <Badge className={cn("mt-2 text-xs", statusConfig[item.status])}>{item.status}</Badge>
               </div>
@@ -36,7 +36,7 @@ const ExpandableRow = ({ item }: { item: TransactionHistoryItem }) => {
                       Rp {item.earnings.toLocaleString('id-ID')}
                   </p>
                    <p className="text-xs text-muted-foreground mt-1 flex items-center justify-end">
-                      Details <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                      Detail <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                   </p>
               </div>
           </div>
@@ -44,19 +44,19 @@ const ExpandableRow = ({ item }: { item: TransactionHistoryItem }) => {
            {isOpen && (
               <div className="mt-4 pt-4 border-t border-dashed text-xs space-y-2">
                   <div className="flex justify-between">
-                      <span className="text-muted-foreground">Invoice ID</span>
+                      <span className="text-muted-foreground">ID Invoice</span>
                       <span className="font-mono">{item.id}</span>
                   </div>
                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Weight</span>
+                      <span className="text-muted-foreground">Berat</span>
                       <span>{item.weight} kg</span>
                   </div>
                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Price per Kg</span>
+                      <span className="text-muted-foreground">Harga per Kg</span>
                       <span>Rp {item.pricePerKg.toLocaleString('id-ID')}</span>
                   </div>
                    {item.driver && <div className="flex justify-between">
-                      <span className="text-muted-foreground">Pickup Partner</span>
+                      <span className="text-muted-foreground">Mitra Penjemput</span>
                       <span>{item.driver}</span>
                   </div>}
               </div>
@@ -86,7 +86,7 @@ const HistorySkeleton = () => (
 );
 
 
-export default function HistoryPage() {
+export default function SalesHistoryPage() {
     const { data: history, isLoading, isError } = useQuery({
         queryKey: ['transactionHistory'],
         queryFn: getTransactionHistory
@@ -94,12 +94,12 @@ export default function HistoryPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <UniversalHeader title="Transaction History" />
+      <UniversalHeader title="Riwayat Penjualan" />
       <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-4">
         {isLoading ? (
             <HistorySkeleton />
         ) : isError ? (
-            <p className="text-center text-red-500">Failed to load history.</p>
+            <p className="text-center text-red-500">Gagal memuat riwayat.</p>
         ) : (
             <ul className="divide-y divide-border">
                 {history?.map((item) => (

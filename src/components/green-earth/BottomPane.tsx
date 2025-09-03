@@ -34,13 +34,13 @@ const LoadingDots = () => (
 
 
 const statusConfig: Record<TripPhase, string> = {
-  REQUESTED: 'Searching for a nearby driver...',
-  ACCEPTED: 'Driver has accepted your request',
-  ON_THE_WAY: 'Driver is on the way to your location',
-  ARRIVED: 'Driver has arrived at the pickup point',
-  IN_PROGRESS: 'Pickup is currently in progress',
-  COMPLETED: 'Pickup successfully completed!',
-  CANCELED: 'Pickup has been canceled.',
+  REQUESTED: 'Mencari driver terdekat...',
+  ACCEPTED: 'Driver telah menerima permintaan Anda',
+  ON_THE_WAY: 'Driver sedang dalam perjalanan ke lokasi Anda',
+  ARRIVED: 'Driver telah tiba di titik penjemputan',
+  IN_PROGRESS: 'Penjemputan sedang berlangsung',
+  COMPLETED: 'Penjemputan berhasil diselesaikan!',
+  CANCELED: 'Penjemputan telah dibatalkan.',
 };
 
 const FeedbackSection = ({ onSubmit }: { onSubmit: () => void }) => {
@@ -53,7 +53,7 @@ const FeedbackSection = ({ onSubmit }: { onSubmit: () => void }) => {
       exit={{ opacity: 0, y: -20 }}
       className="text-center p-4 space-y-3"
     >
-      <h3 className="font-semibold">Rate Your Pickup</h3>
+      <h3 className="font-semibold">Beri Nilai Penjemputan Anda</h3>
       <div className="flex justify-center gap-2">
         {[1, 2, 3, 4, 5].map((star) => (
           <motion.button
@@ -72,7 +72,7 @@ const FeedbackSection = ({ onSubmit }: { onSubmit: () => void }) => {
         ))}
       </div>
       <Button onClick={onSubmit} disabled={rating === 0} className="w-full">
-        Submit Feedback
+        Kirim Umpan Balik
       </Button>
     </motion.div>
   );
@@ -106,7 +106,7 @@ export default function BottomPane({
       return (
          <div className="flex items-center gap-3 p-4">
            <div className="w-14 h-14 rounded-full bg-muted grid place-items-center"><LoadingDots /></div>
-           <p className="font-semibold text-muted-foreground">Searching for drivers...</p>
+           <p className="font-semibold text-muted-foreground">Mencari driver...</p>
          </div>
       );
     }
@@ -139,8 +139,8 @@ export default function BottomPane({
               >
                   {statusConfig[phase]}
              </motion.div>
-             <Button onClick={() => router.push(`/maps/${tripId}`)} variant="default" className="w-full">View Details</Button>
-            <Button onClick={onCancel} variant="outline" className="w-full">Cancel Pickup</Button>
+             <Button onClick={() => router.push(`/profile/sales/${tripId}`)} variant="default" className="w-full">Detail Penjualan</Button>
+            <Button onClick={onCancel} variant="outline" className="w-full">Batalkan Penjemputan</Button>
           </div>
       );
     }
@@ -157,7 +157,7 @@ export default function BottomPane({
           variant={tab === 'pickup' ? 'secondary' : 'ghost'}
           className="rounded-full h-9 px-6 text-sm"
         >
-          Pickup
+          Penjemputan
         </Button>
         <Button
           onClick={() => { setTab('dropoff'); setShowDriverInfo(true); }}
@@ -196,17 +196,17 @@ export default function BottomPane({
                 </motion.div>
               ) : (
                 <motion.div key="dropoff" className="p-4 pt-4 grid gap-2 max-h-[40vh] overflow-y-auto">
-                    <h3 className="font-semibold text-center pb-2">Drop-off Locations</h3>
+                    <h3 className="font-semibold text-center pb-2">Lokasi Drop-off</h3>
                     {dropoffs.length > 0 ? dropoffs.map(d => (
                     <div key={d.id} className="flex items-center justify-between py-3 border-b last:border-b-0">
                         <div>
                             <p className="text-sm font-semibold">{d.label}</p>
-                            <p className="text-xs text-muted-foreground">Drop-off Point</p>
+                            <p className="text-xs text-muted-foreground">Titik Drop-off</p>
                         </div>
                         {d.distanceM != null && <div className="text-sm font-medium text-primary">{(d.distanceM / 1000).toFixed(1)} km</div>}
                     </div>
                     )) : (
-                        <p className="text-center text-muted-foreground py-4">No drop-off locations found.</p>
+                        <p className="text-center text-muted-foreground py-4">Tidak ada lokasi drop-off ditemukan.</p>
                     )}
                 </motion.div>
               )}

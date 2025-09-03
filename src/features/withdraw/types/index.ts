@@ -17,3 +17,11 @@ export interface WithdrawalDetails {
     method: string;
     date: string; // ISO string
 }
+
+export interface WithdrawalHistoryItem {
+    id: string;
+    date: string; // ISO string
+    amount: number;
+    status: 'Success' | 'In Progress' | 'Failed';
+    method: string;
+}

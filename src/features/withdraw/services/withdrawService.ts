@@ -1,6 +1,6 @@
 
 import { apiClient } from "@/services/apiClient";
-import type { PaymentMethod, Voucher, WithdrawalDetails } from "@/features/withdraw/types";
+import type { PaymentMethod, Voucher, WithdrawalDetails, WithdrawalHistoryItem } from "@/features/withdraw/types";
 
 export async function getPaymentMethods(): Promise<PaymentMethod[]> {
     return apiClient('/withdraw/methods');
@@ -26,4 +26,8 @@ export async function confirmWithdrawal(payload: ConfirmWithdrawalPayload): Prom
 
 export async function getWithdrawalDetails(id: string): Promise<WithdrawalDetails> {
     return apiClient(`/withdraw/${id}`);
+}
+
+export async function getWithdrawalHistory(): Promise<WithdrawalHistoryItem[]> {
+    return apiClient('/withdraw/history');
 }
