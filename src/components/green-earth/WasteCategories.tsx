@@ -11,7 +11,7 @@ const allCategories = [
     name: "PET Bottles",
     description: "Clear plastic bottles.",
     points: "20 PTS/item",
-    image: "/assets/categories/plastics.svg",
+    image: "/images/icons/plastics.png",
     aiHint: "plastic bottles",
     tags: ["All", "Plastics"],
     category: "Plastic Bottles"
@@ -20,7 +20,7 @@ const allCategories = [
     name: "Newspapers",
     description: "Daily and weekly papers.",
     points: "5 PTS/lb",
-    image: "/assets/categories/paper.svg",
+    image: "/images/icons/paper.png",
     aiHint: "stack paper",
     tags: ["All", "Paper"],
     category: "Paper"
@@ -29,7 +29,7 @@ const allCategories = [
     name: "Glass Jars",
     description: "Food jars, colored bottles.",
     points: "15 PTS/item",
-    image: "/assets/categories/glass.svg",
+    image: "/images/icons/glass.png",
     aiHint: "glass jars",
     tags: ["All", "Glass"],
     category: "Glass"
@@ -38,7 +38,7 @@ const allCategories = [
     name: "Old Phones",
     description: "Smartphones, feature phones.",
     points: "150 PTS/item",
-    image: "/assets/categories/electronics.svg",
+    image: "/images/icons/electronics.png",
     aiHint: "old electronics",
     tags: ["All", "Electronics"],
     category: "Electronics"
@@ -47,7 +47,7 @@ const allCategories = [
     name: "Soda Cans",
     description: "Aluminum beverage cans.",
     points: "5 PTS/can",
-    image: "/assets/categories/aluminum.svg",
+    image: "/images/icons/aluminum.png",
     aiHint: "aluminum cans",
     tags: ["All", "Aluminum", "Metal"],
     category: "Aluminum Cans"
@@ -56,7 +56,7 @@ const allCategories = [
     name: "Food Scraps",
     description: "Vegetable peels, coffee grounds.",
     points: "2 PTS/lb",
-    image: "/assets/categories/organic.svg",
+    image: "/images/icons/organic.png",
     aiHint: "compost bin",
     tags: ["All", "Organic"],
     category: "Organic"
@@ -65,7 +65,7 @@ const allCategories = [
     name: "HDPE Containers",
     description: "Milk jugs, detergent bottles.",
     points: "15 PTS/item",
-    image: "/assets/categories/plastics.svg",
+    image: "/images/icons/plastics.png",
     aiHint: "plastic containers",
     tags: ["All", "Plastics"],
     category: "Plastic Bottles"
@@ -74,7 +74,7 @@ const allCategories = [
     name: "Cardboard",
     description: "Shipping boxes, packaging.",
     points: "8 PTS/lb",
-    image: "/assets/categories/paper.svg",
+    image: "/images/icons/paper.png",
     aiHint: "cardboard boxes",
     tags: ["All", "Paper", "Cardboard"],
     category: "Cardboard"

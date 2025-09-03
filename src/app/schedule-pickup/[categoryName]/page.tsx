@@ -17,7 +17,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // In a real app, this data would come from a database or a config file
 const categoryData: { [key: string]: any } = {
   'Plastic Bottles': {
-    imgSrc: '/assets/categories/plastics.svg',
+    imgSrc: '/images/icons/plastics.png',
     cleanPrice: 2000,
     dirtyPrice: 1500,
     benefits: [
@@ -28,7 +28,7 @@ const categoryData: { [key: string]: any } = {
     lastMonthPrice: 1800,
   },
   'Paper': {
-    imgSrc: '/assets/categories/paper.svg',
+    imgSrc: '/images/icons/paper.png',
     cleanPrice: 1000,
     dirtyPrice: 700,
     benefits: [
@@ -39,7 +39,7 @@ const categoryData: { [key: string]: any } = {
     lastMonthPrice: 950,
   },
     'Cardboard': {
-    imgSrc: '/assets/categories/paper.svg',
+    imgSrc: '/images/icons/paper.png',
     cleanPrice: 800,
     dirtyPrice: 500,
     benefits: [
@@ -50,7 +50,7 @@ const categoryData: { [key: string]: any } = {
     lastMonthPrice: 750,
   },
   'Glass': {
-    imgSrc: '/assets/categories/glass.svg',
+    imgSrc: '/images/icons/glass.png',
     cleanPrice: 1200,
     dirtyPrice: 900,
     benefits: [
@@ -61,7 +61,7 @@ const categoryData: { [key: string]: any } = {
     lastMonthPrice: 1100,
   },
   'Aluminum Cans': {
-    imgSrc: '/assets/categories/aluminum.svg',
+    imgSrc: '/images/icons/aluminum.png',
     cleanPrice: 10000,
     dirtyPrice: 8000,
     benefits: [
@@ -72,7 +72,7 @@ const categoryData: { [key: string]: any } = {
     lastMonthPrice: 9500,
   },
     'Electronics': {
-    imgSrc: '/assets/categories/electronics.svg',
+    imgSrc: '/images/icons/electronics.png',
     cleanPrice: 0, // Varies
     dirtyPrice: 0, // Varies
     benefits: [
@@ -83,7 +83,7 @@ const categoryData: { [key: string]: any } = {
     lastMonthPrice: null,
   },
    'Organic': {
-    imgSrc: '/assets/categories/organic.svg',
+    imgSrc: '/images/icons/organic.png',
     cleanPrice: 300,
     dirtyPrice: 100,
     benefits: [
@@ -106,7 +106,7 @@ const PriceTooltip = ({ content }: { content: React.ReactNode }) => {
     <div className="relative flex items-center">
       <button
         type="button"
-        className="ml-1.5 text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring rounded-full"
+        className="ml-1.5 text-muted-foreground hover:text-primary focus:outline-none focus:ring-0 rounded-full"
         onPointerDown={showTooltip}
         onPointerUp={hideTooltip}
         onPointerLeave={hideTooltip}
@@ -333,5 +333,3 @@ export default function SchedulePickupPage() {
     </div>
   );
 }
-
-    

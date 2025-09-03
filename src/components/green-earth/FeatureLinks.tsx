@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 const features = [
-  { name: "Donate", imgSrc: "/assets/mini-features/Donate.svg", href: "/features/donate" },
-  { name: "Leaderboard", imgSrc: "/assets/mini-features/Leaderboard.svg", href: "/features/leaderboard" },
-  { name: "Article", imgSrc: "/assets/mini-features/Article.svg", href: "/features/articles" },
-  { name: "Community", imgSrc: "/assets/mini-features/Community.svg", href: "/features/community" },
+  { name: "Donate", imgSrc: "/images/icons/donate.png", href: "/features/donate" },
+  { name: "Leaderboard", imgSrc: "/images/icons/leaderboard.png", href: "/features/leaderboard" },
+  { name: "Article", imgSrc: "/images/icons/article.png", href: "/features/articles" },
+  { name: "Community", imgSrc: "/images/icons/community.png", href: "/features/community" },
 ];
 
 export function FeatureLinks() {
