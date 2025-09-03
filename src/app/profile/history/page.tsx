@@ -25,44 +25,42 @@ const ExpandableRow = ({ item }: { item: TransactionHistoryItem }) => {
 
     return (
        <li className="py-4">
-          <Link href={`/profile/history/${item.id}`} className="block">
-            <div className="flex items-start" role="button" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}>
-                <div className="flex-grow">
-                    <p className="font-semibold text-sm">Sale of {item.wasteType}</p>
-                    <p className="text-xs text-muted-foreground">{format(new Date(item.date), 'dd MMM yyyy, HH:mm')}</p>
-                    <Badge className={cn("mt-2 text-xs", statusConfig[item.status])}>{item.status}</Badge>
-                </div>
-                <div className="text-right">
-                    <p className={`font-bold text-sm text-green-600`}>
-                        Rp {item.earnings.toLocaleString('id-ID')}
-                    </p>
-                     <p className="text-xs text-muted-foreground mt-1 flex items-center justify-end">
-                        Details <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-                    </p>
-                </div>
-            </div>
-           </Link>
+          <div className="flex items-start" role="button" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}>
+              <div className="flex-grow">
+                  <p className="font-semibold text-sm">Sale of {item.wasteType}</p>
+                  <p className="text-xs text-muted-foreground">{format(new Date(item.date), 'dd MMM yyyy, HH:mm')}</p>
+                  <Badge className={cn("mt-2 text-xs", statusConfig[item.status])}>{item.status}</Badge>
+              </div>
+              <div className="text-right">
+                  <p className={`font-bold text-sm text-green-600`}>
+                      Rp {item.earnings.toLocaleString('id-ID')}
+                  </p>
+                   <p className="text-xs text-muted-foreground mt-1 flex items-center justify-end">
+                      Details <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                  </p>
+              </div>
+          </div>
 
-             {isOpen && (
-                <div className="mt-4 pt-4 border-t border-dashed text-xs space-y-2">
-                    <div className="flex justify-between">
-                        <span className="text-muted-foreground">Invoice ID</span>
-                        <span className="font-mono">{item.id}</span>
-                    </div>
-                     <div className="flex justify-between">
-                        <span className="text-muted-foreground">Weight</span>
-                        <span>{item.weight} kg</span>
-                    </div>
-                     <div className="flex justify-between">
-                        <span className="text-muted-foreground">Price per Kg</span>
-                        <span>Rp {item.pricePerKg.toLocaleString('id-ID')}</span>
-                    </div>
-                     {item.driver && <div className="flex justify-between">
-                        <span className="text-muted-foreground">Pickup Partner</span>
-                        <span>{item.driver}</span>
-                    </div>}
-                </div>
-            )}
+           {isOpen && (
+              <div className="mt-4 pt-4 border-t border-dashed text-xs space-y-2">
+                  <div className="flex justify-between">
+                      <span className="text-muted-foreground">Invoice ID</span>
+                      <span className="font-mono">{item.id}</span>
+                  </div>
+                   <div className="flex justify-between">
+                      <span className="text-muted-foreground">Weight</span>
+                      <span>{item.weight} kg</span>
+                  </div>
+                   <div className="flex justify-between">
+                      <span className="text-muted-foreground">Price per Kg</span>
+                      <span>Rp {item.pricePerKg.toLocaleString('id-ID')}</span>
+                  </div>
+                   {item.driver && <div className="flex justify-between">
+                      <span className="text-muted-foreground">Pickup Partner</span>
+                      <span>{item.driver}</span>
+                  </div>}
+              </div>
+          )}
        </li>
     );
 };

@@ -99,24 +99,23 @@ export function WasteCategories() {
             aria-label={`Schedule pickup for ${category.name}`}
             role="link"
           >
-            <Card className="flex flex-col h-full w-full border-0 shadow-none rounded-none">
-              <CardHeader className="p-0">
-                <div className="relative aspect-[4/3] w-full">
-                  <Image
-                    src={category.image}
-                    alt={category.name}
-                    fill
-                    className="object-cover"
-                    data-ai-hint={category.aiHint}
-                  />
-                </div>
-              </CardHeader>
-              <CardContent className="p-2.5 flex flex-col flex-grow bg-card">
-                <CardTitle className="text-sm font-bold">{category.name}</CardTitle>
-                <CardDescription className="mt-0.5 flex-grow text-xs text-muted-foreground">{category.description}</CardDescription>
+            <div className="flex flex-col h-full w-full border-0 shadow-none rounded-none bg-card">
+              <div className="relative aspect-[4/3] w-full">
+                <Image
+                  src={category.image}
+                  alt={category.name}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={category.aiHint}
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                />
+              </div>
+              <div className="p-2.5 flex flex-col flex-grow">
+                <p className="text-sm font-bold">{category.name}</p>
+                <p className="mt-0.5 flex-grow text-xs text-muted-foreground">{category.description}</p>
                 <p className="mt-1.5 text-primary font-bold text-xs">{category.points}</p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </Link>
         ))}
       </div>

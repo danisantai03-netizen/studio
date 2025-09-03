@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import * as React from 'react';
@@ -11,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { getLeaderboard } from '@/features/leaderboard/services/leaderboardService';
-import type { LeaderboardItem } from '@/features/leaderboard/types';
+import { LeaderboardItem } from '@/features/leaderboard/types';
 
 // Memoized components for performance
 const PodiumItem = React.memo(({ user, rank }: { user: LeaderboardItem; rank: number }) => {

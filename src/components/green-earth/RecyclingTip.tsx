@@ -6,51 +6,36 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lightbulb, RefreshCw } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getRecyclingTip } from "@/ai/flows/recycling-tips";
 
-const staticTips = [
-  "Rinse containers before recycling to avoid contamination and pests.",
-  "Flatten cardboard boxes to save space in your recycling bin and at the facility.",
-  "Check local recycling guidelines; not all plastics are recyclable everywhere.",
-  "Keep plastic bags out of recycling bins; they jam machinery. Return them to a grocery store.",
-  "Compost food scraps to reduce landfill waste and create nutrient-rich soil.",
-  "Recycle old electronics at designated e-waste centers to recover valuable materials safely.",
-  "Remove lids from plastic bottles before recycling; they are often made of a different type of plastic.",
-  "Avoid recycling items smaller than a credit card, as they can fall through sorting machinery.",
-];
 
 export function RecyclingTip() {
-  const [tip, setTip] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['recyclingTip'],
+    queryFn: () => getRecyclingTip({}),
+    staleTime: Infinity, // Keep the tip until manually refreshed
+    refetchOnWindowFocus: false,
+  });
 
-  const getNewTip = useCallback(() => {
-    setIsLoading(true);
-    const randomIndex = Math.floor(Math.random() * staticTips.length);
-    const newTip = staticTips[randomIndex];
-    // Simulate a brief loading period
-    setTimeout(() => {
-        setTip(newTip);
-        setIsLoading(false);
-    }, 300);
-  }, []);
-
-  useEffect(() => {
-    getNewTip();
-  }, [getNewTip]);
-
-  const handleRefresh = () => {
-    getNewTip();
-  };
+  const handleRefresh = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ['recyclingTip'] });
+  }, [queryClient]);
+  
+  const tip = data?.tip;
+  const isActuallyLoading = isLoading || isFetching;
 
   return (
     <section aria-labelledby="recycling-tip-heading">
       <div className="flex items-center justify-between mb-2">
         <h2 id="recycling-tip-heading" className="text-lg font-bold">Daily Eco Tips</h2>
-        <Button variant="ghost" onClick={handleRefresh} disabled={isLoading} className="text-secondary h-auto p-0 text-xs">
-          <RefreshCw className={`mr-1 h-3 w-3 ${isLoading ? "animate-spin" : ""}`} />
+        <Button variant="ghost" onClick={handleRefresh} disabled={isActuallyLoading} className="text-secondary h-auto p-0 text-xs">
+          <RefreshCw className={`mr-1 h-3 w-3 ${isActuallyLoading ? "animate-spin" : ""}`} />
           New Tip
         </Button>
       </div>
-        {isLoading ? (
+        {isActuallyLoading ? (
             <Card className="bg-secondary/10 text-secondary-foreground shadow-sm rounded-xl w-full border-secondary/20">
               <CardContent className="p-3 sm:p-4">
                 <div className="flex items-start gap-3">
