@@ -1,28 +1,26 @@
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
-
 export class ApiError extends Error {
-    constructor(message: string, public status: number) {
-        super(message);
-        this.name = 'ApiError';
-    }
+  constructor(message: string, public status: number) {
+    super(message);
+    this.name = 'ApiError';
+  }
 }
 
-export async function apiClient<T>(
-    path: string, 
-    options: RequestInit = {}
-): Promise<T> {
-  const url = `${BASE_URL}${path}`;
-  
+// A singleton-like object to hold the base URL.
+// This makes it easy to change or access from anywhere in the app.
+export const apiClient = async <T>(
+  path: string,
+  options: RequestInit = {}
+): Promise<T> => {
+  const url = `${apiClient.defaults.baseURL}${path}`;
+
   const defaultOptions: RequestInit = {
     headers: {
-      "Content-Type": "application/json",
-      // In a real app, the token would be retrieved from auth state management
-      // "Authorization": `Bearer ${getAuthToken()}`,
-      ...(options.headers || {}),
+      'Content-Type': 'application/json',
+      ...options.headers,
     },
-    // In a real app with credentials, you might need this
-    // credentials: "include", 
+    // Include credentials (e.g., cookies) in all API requests
+    credentials: 'include',
   };
 
   const response = await fetch(url, {
@@ -31,14 +29,31 @@ export async function apiClient<T>(
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: 'An unknown error occurred' }));
-    throw new ApiError(errorData.message || response.statusText, response.status);
+    let errorMessage = `An API error occurred: ${response.status}`;
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.message || errorMessage;
+    } catch (e) {
+      // Ignore if response is not JSON
+    }
+    throw new ApiError(errorMessage, response.status);
   }
 
-  // Handle cases with no content
+  // Handle cases with no content (e.g., 204 No Content)
   if (response.status === 204) {
     return undefined as T;
   }
 
-  return response.json();
-}
+  // Handle cases where response might not be JSON but still OK
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+      return response.json();
+  }
+
+  return undefined as T;
+};
+
+// Default configuration that can be updated.
+apiClient.defaults = {
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '/api',
+};

@@ -1,34 +1,41 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getUser, logout } from "@/features/user/services/userService";
-import { getAuth, signOut } from "firebase/auth";
+import { getCurrentUser, logout as logoutAPI } from "@/features/auth/services/authService";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export function useUser() {
     return useQuery({
         queryKey: ['user'],
-        queryFn: getUser,
+        queryFn: getCurrentUser,
         staleTime: 1000 * 60 * 5, // 5 minutes
+        retry: false, // Do not retry on auth errors (e.g. 401)
     });
 }
 
 export function useLogout() {
     const queryClient = useQueryClient();
+    const router = useRouter();
+    const { toast } = useToast();
     
     return useMutation({
-        mutationFn: async () => {
-            // First, try to sign out from Firebase
-            const auth = getAuth();
-            await signOut(auth);
-
-            // Then, call the backend logout endpoint
-            await logout();
-        },
+        mutationFn: logoutAPI,
         onSuccess: () => {
-            // Clear all user-related data from the cache
-            queryClient.removeQueries({ queryKey: ['user'] });
-            queryClient.removeQueries({ queryKey: ['notifications'] });
-            queryClient.removeQueries({ queryKey: ['transactionHistory'] });
-            // You can add more query keys to clear as needed
+            // Clear all cached data
+            queryClient.clear();
+            // Redirect to login page
+            router.push('/login');
+            toast({
+                title: "Logged Out",
+                description: "You have been successfully logged out.",
+            });
         },
+        onError: (error: Error) => {
+             toast({
+                variant: "destructive",
+                title: "Logout Failed",
+                description: error.message || "An unexpected error occurred.",
+            });
+        }
     });
 }

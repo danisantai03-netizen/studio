@@ -2,12 +2,12 @@
 import { apiClient } from "@/services/apiClient";
 import type { User, TransactionHistoryItem } from "@/features/user/types";
 
-export async function getUser(): Promise<User> {
-    return apiClient('/user');
-}
+// This file is now for user-specific data, not auth.
+// Auth calls are in features/auth/services/authService.ts
 
-export async function logout(): Promise<{ success: boolean }> {
-    return apiClient('/auth/logout', { method: 'POST' });
+export async function getUserProfile(): Promise<User> {
+    // Example endpoint for fetching non-auth user data
+    return apiClient('/user/profile');
 }
 
 export async function getTransactionHistory(): Promise<TransactionHistoryItem[]> {

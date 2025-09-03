@@ -1,0 +1,136 @@
+
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { otpSchema } from '../schemas/authSchemas';
+import { verifyEmail, verifyLoginOtp, resendOtp } from '../services/authService';
+import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+
+type Values = z.infer<typeof otpSchema>;
+type Mode = 'register' | 'login';
+
+export default function OtpForm({ mode }: { mode: Mode }) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const params = useSearchParams();
+  const { toast } = useToast();
+  const email = params.get('email') || '';
+
+  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } =
+    useForm<Values>({
+      resolver: zodResolver(otpSchema),
+      defaultValues: { email, otp: '' },
+    });
+
+  const [seconds, setSeconds] = useState(60);
+
+  useEffect(() => {
+    if (seconds > 0) {
+      const timerId = setInterval(() => {
+        setSeconds(s => s - 1);
+      }, 1000);
+      return () => clearInterval(timerId);
+    }
+  }, [seconds]);
+
+  const verifyMutation = useMutation({
+    mutationFn: (payload: Values) => mode === 'register' ? verifyEmail(payload) : verifyLoginOtp(payload),
+    onSuccess: async () => {
+      toast({ title: mode === 'register' ? 'Account Verified!' : 'Login Successful!', description: mode === 'register' ? 'Please log in to continue.' : 'Welcome back!' });
+      if (mode === 'login') {
+          await queryClient.invalidateQueries({ queryKey: ['user']});
+      }
+      router.push(mode === 'register' ? '/login' : '/');
+    },
+    onError: (error: Error) => {
+      toast({ variant: 'destructive', title: 'Verification Failed', description: error.message });
+    }
+  });
+
+  const resendMutation = useMutation({
+    mutationFn: () => resendOtp({ email, context: mode }),
+    onSuccess: () => {
+      toast({ title: 'New Code Sent', description: 'A new OTP has been sent to your email.' });
+      setSeconds(60);
+    },
+    onError: (error: Error) => {
+        toast({ variant: 'destructive', title: 'Failed to Resend', description: error.message });
+    }
+  });
+
+  const onSubmit = (v: Values) => {
+    verifyMutation.mutate(v);
+  };
+  
+  if (!email) {
+      return (
+        <div className="text-center text-destructive">
+            <p>Email parameter is missing. Please go back and try again.</p>
+             <Button onClick={() => router.push(mode === 'register' ? '/register' : '/login')} className="mt-4">
+                Go Back
+            </Button>
+        </div>
+      );
+  }
+
+  return (
+    <div className="space-y-6">
+        <p className="text-center text-sm text-muted-foreground">
+            Enter the 6-digit code we sent to <br /> <b className="text-foreground">{email}</b>
+        </p>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <input {...register('email')} type="hidden" />
+        <div className="space-y-1.5">
+            <Controller
+                name="otp"
+                control={register.control}
+                render={({ field }) => (
+                     <Input
+                        {...field}
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        maxLength={6}
+                        className="h-14 text-2xl tracking-[0.5em] text-center"
+                        placeholder="••••••"
+                        aria-invalid={!!errors.otp}
+                        onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, '');
+                            field.onChange(value);
+                        }}
+                     />
+                )}
+            />
+            {errors.otp && <p className="text-sm text-destructive text-center">{errors.otp.message}</p>}
+        </div>
+        <Button type="submit" disabled={isSubmitting || verifyMutation.isPending} className="w-full">
+            {isSubmitting || verifyMutation.isPending ? 'Verifying...' : 'Verify'}
+        </Button>
+        </form>
+         <div className="text-center">
+            <Button
+                type="button"
+                variant="link"
+                disabled={seconds > 0 || resendMutation.isPending}
+                onClick={() => resendMutation.mutate()}
+                className="text-sm disabled:opacity-50"
+                aria-disabled={seconds > 0}
+            >
+                {resendMutation.isPending 
+                    ? "Sending..." 
+                    : seconds > 0 
+                    ? `Resend code in ${seconds}s` 
+                    : "Resend code"}
+            </Button>
+        </div>
+    </div>
+  );
+}
