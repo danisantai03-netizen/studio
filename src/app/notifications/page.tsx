@@ -3,27 +3,29 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowLeft, Check, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
-import type { NotificationItem } from "@/hooks/use-notifications";
-import { useNotifications } from "@/hooks/use-notifications";
+import type { NotificationItem } from "@/features/notifications/types";
+import { useNotifications, useMarkNotificationAsRead, useMarkAllNotificationsAsRead } from "@/features/notifications/hooks/useNotifications";
 import { cn } from "@/lib/utils";
 import { UniversalHeader } from "@/components/green-earth/UniversalHeader";
 
 export default function NotificationsPage() {
-  const {
-    data,
-    isLoading,
-    isError,
-    markOneAsRead,
-    markAllAsRead,
-  } = useNotifications();
+  const { data, isLoading, isError } = useNotifications();
+  const markOneAsReadMutation = useMarkNotificationAsRead();
+  const markAllAsReadMutation = useMarkAllNotificationsAsRead();
 
   const handleNotificationClick = (notification: NotificationItem) => {
     if (!notification.read) {
-      markOneAsRead.mutate(notification.id);
+      markOneAsReadMutation.mutate(notification.id);
+    }
+  };
+  
+  const handleMarkAllRead = () => {
+    if (data?.totalUnread && data.totalUnread > 0) {
+      markAllAsReadMutation.mutate();
     }
   };
 
@@ -37,8 +39,8 @@ export default function NotificationsPage() {
           variant="link"
           size="sm"
           className="text-primary h-auto p-0 text-xs absolute right-4"
-          onClick={() => markAllAsRead.mutate()}
-          disabled={totalUnread === 0}
+          onClick={handleMarkAllRead}
+          disabled={totalUnread === 0 || markAllAsReadMutation.isPending}
         >
           Mark all as read
         </Button>
@@ -86,9 +88,12 @@ function NotificationCard({
       )}>
         <div className={cn(
           "w-10 h-10 rounded-full grid place-items-center shrink-0 mt-1",
-          notification.read ? "bg-gray-100" : "bg-primary/10"
+          notification.read ? "bg-gray-100 dark:bg-gray-800" : "bg-primary/10"
         )}>
-          <Check className={cn("w-5 h-5", notification.read ? "text-gray-500" : "text-primary")} />
+          {/* Using a generic check icon for simplicity */}
+          <svg className={cn("w-5 h-5", notification.read ? "text-gray-500" : "text-primary")} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
         </div>
         <div className="flex-grow pt-1">
           <p className={cn("text-sm", !notification.read && "font-semibold")}>
@@ -103,7 +108,7 @@ function NotificationCard({
           </div>
         </div>
         {!notification.read && (
-          <div className="w-2 h-2.5 rounded-full bg-secondary mt-1 shrink-0 self-center" aria-label="Unread"></div>
+          <div className="w-2 h-2.5 rounded-full bg-primary mt-1 shrink-0 self-center" aria-label="Unread"></div>
         )}
       </div>
   );

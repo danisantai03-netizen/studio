@@ -5,15 +5,17 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Bell, Moon, Sun } from 'lucide-react';
-import { useNotifications } from "@/hooks/use-notifications";
-import useUserStore from "@/hooks/useUserStore";
+import { useNotifications } from "@/features/notifications/hooks/useNotifications";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/features/user/hooks/useUser";
+import { Skeleton } from "../ui/skeleton";
 
 export function Header() {
-  const { data } = useNotifications();
-  const totalUnread = data?.totalUnread ?? 0;
-  const { name, avatarUrl } = useUserStore();
+  const { data: notifications } = useNotifications();
+  const { data: user, isLoading: isUserLoading } = useUser();
+  const totalUnread = notifications?.totalUnread ?? 0;
+
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isMounted, setIsMounted] = React.useState(false);
 
@@ -21,24 +23,35 @@ export function Header() {
     setIsMounted(true);
   }, []);
 
-
   return (
     <header className="relative bg-background pt-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Link href="/profile" className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-card shadow-sm">
-              <Image
-                src={avatarUrl}
-                alt={name}
-                fill
-                className="object-cover"
-                data-ai-hint="profile person"
-              />
-            </Link>
-            <div>
-              <p className="text-xs text-muted-foreground">Welcome back,</p>
-              <h1 className="text-base font-bold text-foreground">{name}</h1>
-            </div>
+            {isUserLoading ? (
+                <>
+                    <Skeleton className="w-11 h-11 rounded-full" />
+                    <div className="space-y-1">
+                        <Skeleton className="h-4 w-20" />
+                        <Skeleton className="h-5 w-24" />
+                    </div>
+                </>
+            ) : (
+                <>
+                    <Link href="/profile" className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-card shadow-sm">
+                      <Image
+                        src={user?.avatarUrl ?? '/assets/avatars/alex-green.jpg'}
+                        alt={user?.name ?? 'User'}
+                        fill
+                        className="object-cover"
+                        data-ai-hint="profile person"
+                      />
+                    </Link>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Welcome back,</p>
+                      <h1 className="text-base font-bold text-foreground">{user?.name ?? 'Guest'}</h1>
+                    </div>
+                </>
+            )}
           </div>
           <div className="flex items-center gap-1">
             {isMounted && (

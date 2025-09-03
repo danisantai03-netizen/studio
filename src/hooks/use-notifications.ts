@@ -1,3 +1,2 @@
-// This file is being renamed to use-notifications.tsx. Its contents are now in that file.
-// This is to resolve a build error due to JSX being in a .ts file.
-// The corresponding import in layout.tsx has also been updated.
+// This file is being deleted and its logic is moved to /src/features/notifications/hooks/useNotifications.ts
+// This is part of the refactoring to a modular, feature-based architecture.

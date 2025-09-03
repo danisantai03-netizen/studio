@@ -11,33 +11,27 @@ export type MenuItem = {
   href: string;
 };
 
-type Props = { menus: MenuItem[] };
+type Props = { menu: MenuItem };
 
-const MemoizedProfileMenu: React.FC<Props> = ({ menus }) => {
+export const ProfileMenu: React.FC<Props> = ({ menu }) => {
   return (
-    <ul className="w-full">
-      {menus.map((m) => (
-        <li key={m.id} className="border-t">
-          <Link
-            href={m.href}
-            className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-muted/40 focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[0.99] transition-all duration-150 rounded-lg"
-            role="menuitem"
-          >
-            <div className="flex items-center gap-3">
-              <div className="grid place-items-center w-8 h-8">{m.icon}</div>
-              <div>
-                <div className="text-sm font-semibold text-foreground">{m.title}</div>
-                {m.subtitle && (
-                  <div className="text-xs text-muted-foreground">{m.subtitle}</div>
-                )}
-              </div>
-            </div>
-            <ChevronRight className="h-4 w-4 text-muted-foreground" />
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <li className="border-t">
+      <Link
+        href={menu.href}
+        className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-muted/40 focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[0.99] transition-all duration-150 rounded-lg"
+        role="menuitem"
+      >
+        <div className="flex items-center gap-3">
+          <div className="grid place-items-center w-8 h-8">{menu.icon}</div>
+          <div>
+            <div className="text-sm font-semibold text-foreground">{menu.title}</div>
+            {menu.subtitle && (
+              <div className="text-xs text-muted-foreground">{menu.subtitle}</div>
+            )}
+          </div>
+        </div>
+        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      </Link>
+    </li>
   );
 };
-
-export const ProfileMenu = React.memo(MemoizedProfileMenu);

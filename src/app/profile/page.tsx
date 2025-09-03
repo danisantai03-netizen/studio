@@ -10,7 +10,6 @@ import {
   History,
   Users,
   LogOut,
-  ChevronRight
 } from 'lucide-react';
 import {
   AlertDialog,
@@ -23,20 +22,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { getAuth, signOut } from "firebase/auth";
 import { BottomNav } from '@/components/green-earth/BottomNav';
-import useUserStore from '@/hooks/useUserStore';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
 import { ProfileHeader } from '@/components/green-earth/ProfileHeader';
 import { ProfileMenu, type MenuItem } from '@/components/green-earth/ProfileMenu';
 import { ProfileFooter } from '@/components/green-earth/ProfileFooter';
-import { useToast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
+import { useToast } from "@/hooks/use-toast";
+import { useUser, useLogout } from '@/features/user/hooks/useUser';
 
 export default function ProfilePage() {
     const router = useRouter();
     const { toast } = useToast();
-    const { name, userId, avatarUrl, clearUser } = useUserStore();
+    const { data: user, isLoading: isUserLoading } = useUser();
+    const logoutMutation = useLogout();
 
     const menuItems: MenuItem[] = [
         { id: 'referral', title: 'Referral', icon: <Users className="w-5 h-5 text-primary" />, href: '/profile/referral' },
@@ -47,23 +45,23 @@ export default function ProfilePage() {
     ];
 
     const handleLogout = async () => {
-        const auth = getAuth();
-        try {
-            await signOut(auth);
-            clearUser();
-            router.push('/');
-            toast({
-                title: "Logged Out",
-                description: "You have been successfully signed out.",
-            });
-        } catch (error) {
-            console.error("Logout failed:", error);
-            toast({
-                variant: "destructive",
-                title: "Logout Failed",
-                description: "An error occurred while logging out. Please try again.",
-            });
-        }
+        logoutMutation.mutate(undefined, {
+            onSuccess: () => {
+                router.push('/');
+                toast({
+                    title: "Logged Out",
+                    description: "You have been successfully signed out.",
+                });
+            },
+            onError: (error) => {
+                console.error("Logout failed:", error);
+                toast({
+                    variant: "destructive",
+                    title: "Logout Failed",
+                    description: "An error occurred while logging out. Please try again.",
+                });
+            }
+        });
     };
 
   return (
@@ -72,15 +70,20 @@ export default function ProfilePage() {
       <div className="flex flex-col flex-grow pb-20 w-full max-w-full mx-0 px-4 sm:px-6 md:px-8">
         <main className="flex-grow pt-4">
             <ProfileHeader 
-                name={name}
-                id={userId}
-                photoUrl={avatarUrl}
+                name={user?.name ?? 'Guest'}
+                id={user?.userId ?? ''}
+                photoUrl={user?.avatarUrl ?? '/assets/avatars/alex-green.jpg'}
                 onEdit={() => router.push('/profile/edit')}
+                isLoading={isUserLoading}
             />
-            <div className="mt-8 space-y-4">
-                <ProfileMenu menus={menuItems} />
+            <div className="mt-8 space-y-2">
+                <ul className="w-full">
+                    {menuItems.map((item) => (
+                        <ProfileMenu key={item.id} menu={item} />
+                    ))}
+                </ul>
                 
-                 <AlertDialog>
+                <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <button className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-muted/40 focus:outline-none focus:ring-2 focus:ring-primary/40 active:scale-[0.99] transition-all duration-150 rounded-lg text-destructive border-t">
                             <div className="flex items-center gap-3">
@@ -89,7 +92,6 @@ export default function ProfilePage() {
                                 </div>
                                 <div className="text-sm font-semibold">Logout</div>
                             </div>
-                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
                         </button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
@@ -100,10 +102,10 @@ export default function ProfilePage() {
                         </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleLogout} className="bg-destructive hover:bg-destructive/90">
-                            Confirm Logout
-                        </AlertDialogAction>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleLogout} className="bg-destructive hover:bg-destructive/90" disabled={logoutMutation.isPending}>
+                                {logoutMutation.isPending ? 'Logging out...' : 'Confirm Logout'}
+                            </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>

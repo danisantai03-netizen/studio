@@ -4,9 +4,11 @@
 import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
-import { cn } from '@/lib/utils';
 import { CheckCircle2, AlertCircle, XCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import { useQuery } from '@tanstack/react-query';
+import { getWithdrawalDetails } from '@/features/withdraw/services/withdrawService';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Status = 'Success' | 'In Progress' | 'Failed';
 
@@ -23,24 +25,55 @@ const DetailRow = ({ label, value }: { label: string; value: string | number }) 
     </div>
 );
 
+const WithdrawDetailSkeleton = () => (
+    <div className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-6 space-y-6">
+        <section className="text-center py-4 space-y-2">
+            <Skeleton className="h-6 w-1/2 mx-auto" />
+            <Skeleton className="h-10 w-3/4 mx-auto" />
+            <Skeleton className="h-8 w-1/3 mx-auto rounded-full" />
+        </section>
+        <section className="divide-y divide-border/60 border-t border-b py-2 space-y-3">
+            {[...Array(6)].map((_, i) => (
+                <div key={i} className="flex justify-between py-3">
+                    <Skeleton className="h-4 w-1/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                </div>
+            ))}
+        </section>
+    </div>
+);
 
 export default function WithdrawDetailPage() {
   const router = useRouter();
   const params = useParams();
   const withdrawId = params.withdrawId as string;
 
-  // In a real app, you would fetch this data based on the withdrawId
-  const mockData = {
-    status: 'In Progress' as Status,
-    amount: 100000,
-    fullName: 'Alex Green',
-    accountNumber: '081234567890',
-    method: 'DANA',
-    date: new Date(),
-  };
+  const { data: details, isLoading, isError } = useQuery({
+    queryKey: ['withdrawDetails', withdrawId],
+    queryFn: () => getWithdrawalDetails(withdrawId),
+    enabled: !!withdrawId,
+  });
+
+  if (isLoading) {
+      return (
+          <div className="bg-background min-h-screen">
+              <UniversalHeader title="Withdraw Details" />
+              <main><WithdrawDetailSkeleton /></main>
+          </div>
+      );
+  }
+
+  if (isError || !details) {
+      return (
+          <div className="bg-background min-h-screen">
+              <UniversalHeader title="Error" />
+              <main className="p-4 text-center">Could not fetch withdrawal details.</main>
+          </div>
+      );
+  }
   
-  const { status, amount, fullName, accountNumber, method, date } = mockData;
-  const currentStatus = statusConfig[status];
+  const { status, amount, fullName, accountNumber, method, date } = details;
+  const currentStatus = statusConfig[status as Status];
   const Icon = currentStatus.icon;
 
   return (
@@ -62,8 +95,8 @@ export default function WithdrawDetailPage() {
             <DetailRow label="Full Name" value={fullName} />
             <DetailRow label="Account Number" value={accountNumber} />
             <DetailRow label="Payment Method" value={method} />
-            <DetailRow label="Date" value={format(date, 'd MMMM yyyy')} />
-            <DetailRow label="Time" value={format(date, 'HH:mm:ss')} />
+            <DetailRow label="Date" value={format(new Date(date), 'd MMMM yyyy')} />
+            <DetailRow label="Time" value={format(new Date(date), 'HH:mm:ss')} />
         </section>
         
         <div className="pt-4">

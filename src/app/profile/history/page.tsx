@@ -2,65 +2,16 @@
 'use client';
 
 import { UniversalHeader } from '@/components/green-earth/UniversalHeader';
-import { ArrowDownLeft, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import React from 'react';
-
-const transactionHistory = [
-  { 
-    id: 'TXN-20231102-001', 
-    date: new Date('2023-11-02T11:00:00'),
-    earnings: 25000, 
-    status: 'Completed',
-    wasteType: 'Plastic Bottles',
-    weight: 12.5,
-    pricePerKg: 2000,
-    driver: 'Budi Santoso'
-  },
-  { 
-    id: 'TXN-20231101-002', 
-    date: new Date('2023-11-01T15:30:00'),
-    earnings: 8000, 
-    status: 'Picked Up',
-    wasteType: 'Cardboard',
-    weight: 10,
-    pricePerKg: 800,
-    driver: 'Citra Lestari'
-  },
-  { 
-    id: 'TXN-20231030-001', 
-    date: new Date('2023-10-30T09:00:00'),
-    earnings: 0, 
-    status: 'Scheduled',
-    wasteType: 'Aluminum Cans',
-    weight: 5,
-    pricePerKg: 10000,
-    driver: 'Agus Wijaya'
-  },
-  { 
-    id: 'TXN-20231028-001', 
-    date: new Date('2023-10-28T14:10:00'),
-    earnings: 15000, 
-    status: 'Completed',
-    wasteType: 'Glass Jars',
-    weight: 10,
-    pricePerKg: 1500,
-    driver: 'Budi Santoso'
-  },
-  { 
-    id: 'TXN-20231025-003', 
-    date: new Date('2023-10-25T12:00:00'),
-    earnings: 0, 
-    status: 'Canceled',
-    wasteType: 'Newspapers',
-    weight: 20,
-    pricePerKg: 1000,
-    driver: null
-  },
-];
+import { useQuery } from '@tanstack/react-query';
+import { getTransactionHistory } from '@/features/user/services/userService';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { TransactionHistoryItem } from '@/features/user/types';
 
 const statusConfig: { [key: string]: string } = {
   Completed: 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/50 dark:text-green-300 dark:border-green-700',
@@ -69,7 +20,7 @@ const statusConfig: { [key: string]: string } = {
   Canceled: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/50 dark:text-red-300 dark:border-red-700',
 };
 
-const ExpandableRow = ({ item }: { item: typeof transactionHistory[0] }) => {
+const ExpandableRow = ({ item }: { item: TransactionHistoryItem }) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return (
@@ -78,7 +29,7 @@ const ExpandableRow = ({ item }: { item: typeof transactionHistory[0] }) => {
             <div className="flex items-start" role="button" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}>
                 <div className="flex-grow">
                     <p className="font-semibold text-sm">Sale of {item.wasteType}</p>
-                    <p className="text-xs text-muted-foreground">{format(item.date, 'dd MMM yyyy, HH:mm')}</p>
+                    <p className="text-xs text-muted-foreground">{format(new Date(item.date), 'dd MMM yyyy, HH:mm')}</p>
                     <Badge className={cn("mt-2 text-xs", statusConfig[item.status])}>{item.status}</Badge>
                 </div>
                 <div className="text-right">
@@ -116,17 +67,48 @@ const ExpandableRow = ({ item }: { item: typeof transactionHistory[0] }) => {
     );
 };
 
+const HistorySkeleton = () => (
+    <ul className="divide-y divide-border">
+        {[...Array(5)].map((_, i) => (
+            <li key={i} className="py-4">
+                <div className="flex items-start">
+                    <div className="flex-grow space-y-2">
+                        <Skeleton className="h-5 w-3/4" />
+                        <Skeleton className="h-4 w-1/2" />
+                        <Skeleton className="h-6 w-1/4" />
+                    </div>
+                    <div className="text-right space-y-2">
+                        <Skeleton className="h-5 w-20 ml-auto" />
+                        <Skeleton className="h-4 w-16 ml-auto" />
+                    </div>
+                </div>
+            </li>
+        ))}
+    </ul>
+);
+
 
 export default function HistoryPage() {
+    const { data: history, isLoading, isError } = useQuery({
+        queryKey: ['transactionHistory'],
+        queryFn: getTransactionHistory
+    });
+
   return (
     <div className="bg-background min-h-screen">
       <UniversalHeader title="Transaction History" />
       <main className="w-full max-w-full mx-0 px-4 sm:px-6 md:px-8 py-4">
-        <ul className="divide-y divide-border">
-            {transactionHistory.map((item) => (
-               <ExpandableRow key={item.id} item={item} />
-            ))}
-        </ul>
+        {isLoading ? (
+            <HistorySkeleton />
+        ) : isError ? (
+            <p className="text-center text-red-500">Failed to load history.</p>
+        ) : (
+            <ul className="divide-y divide-border">
+                {history?.map((item) => (
+                   <ExpandableRow key={item.id} item={item} />
+                ))}
+            </ul>
+        )}
       </main>
     </div>
   );

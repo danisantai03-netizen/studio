@@ -5,7 +5,7 @@ import { BottomNav } from '@/components/green-earth/BottomNav';
 import { FeatureLinks } from '@/components/green-earth/FeatureLinks';
 import { FilterBar } from '@/components/green-earth/FilterBar';
 import { Header } from '@/components/green-earth/Header';
-import { PointsDashboard } from '@/components/green-earth/PointsDashboard';
+import { PointsDashboard } from '@/features/user/components/PointsDashboard';
 import { PromoCarousel } from '@/components/green-earth/PromoCarousel';
 import { RecyclingTip } from '@/components/green-earth/RecyclingTip';
 import { WasteCategories } from '@/components/green-earth/WasteCategories';
