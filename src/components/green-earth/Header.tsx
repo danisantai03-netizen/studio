@@ -13,7 +13,7 @@ import { Skeleton } from "../ui/skeleton";
 
 export function Header() {
   const { data: notifications } = useNotifications();
-  const { data: user, isLoading: isUserLoading } = useUser();
+  const { data: user } = useUser();
   const totalUnread = notifications?.totalUnread ?? 0;
 
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -27,13 +27,13 @@ export function Header() {
     <header className="relative bg-background pt-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Link href="/profile" className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-card shadow-sm">
-                {isUserLoading ? (
-                    <Skeleton className="h-full w-full" />
+             <Link href="/profile" className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-card shadow-sm">
+                {!user ? (
+                     <Skeleton className="h-full w-full" />
                 ) : (
                     <Image
-                        src={user?.avatarUrl ?? '/assets/avatars/alex-green.jpg'}
-                        alt={user?.name ?? 'User'}
+                        src={user.avatarUrl}
+                        alt={user.name}
                         fill
                         className="object-cover"
                         data-ai-hint="profile person"
@@ -42,7 +42,7 @@ export function Header() {
                 )}
             </Link>
             <div>
-              {isUserLoading ? (
+              {!user ? (
                   <div className="space-y-1">
                       <Skeleton className="h-4 w-20" />
                       <Skeleton className="h-5 w-24" />
@@ -50,7 +50,7 @@ export function Header() {
               ) : (
                 <>
                   <p className="text-xs text-muted-foreground">Welcome back,</p>
-                  <h1 className="text-base font-bold text-foreground">{user?.name ?? 'Guest'}</h1>
+                  <h1 className="text-base font-bold text-foreground">{user.name}</h1>
                 </>
               )}
             </div>
@@ -69,11 +69,11 @@ export function Header() {
             )}
             <Link
               href="/notifications"
-              aria-label={`Notifications, ${totalUnread} unread`}
+              aria-label={`Notifications, ${isMounted ? totalUnread : 0} unread`}
               className="relative p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-ring"
               >
               <Bell className="h-6 w-6 text-gray-500" />
-              {totalUnread > 0 && (
+              {isMounted && totalUnread > 0 && (
                 <span className="absolute top-1 right-1 inline-grid place-items-center w-4 h-4 text-[10px] rounded-full bg-accent text-accent-foreground">
                   {totalUnread > 9 ? "9+" : totalUnread}
                 </span>
