@@ -1,68 +1,68 @@
-{ pkgs, ... }: {
-  channel = "stable-23.11";
 
+{ pkgs, lib, ... }:
+{
+  # Use a recent channel
+  channel = "stable-24.11";
+
+  # Tools available in the environment
   packages = [
-    pkgs.nodejs-18_x
-    pkgs.yarn
-    pkgs.pnpm
-    pkgs.firebase-tools
+    pkgs.nodejs_20
+    pkgs.nodePackages.typescript
+    pkgs.nodePackages.firebase-tools
+    pkgs.nodePackages.pnpm
     pkgs.git
-    pkgs.watchman
+    pkgs.jdk17
   ];
 
+  # Useful editor/IDE extensions in Studio
+  idx.extensions = [
+    "dbaeumer.vscode-eslint"
+    "esbenp.prettier-vscode"
+    "bradlc.vscode-tailwindcss"
+  ];
+
+  # Environment variables (optional)
   env = {
-    NODE_ENV = "development";
+    NEXT_TELEMETRY_DISABLED = "1";
   };
 
-  idx = {
-    extensions = [
-      "ms-vscode.vscode-typescript-next"
-      "esbenp.prettier-vscode"
-      "dbaeumer.vscode-eslint"
+  # Install deps for each app when the workspace is first created
+  idx.workspace.onCreate = {
+    install-admin = "cd admin && (pnpm install || npm ci || npm install)";
+    install-driver = "cd driver && (pnpm install || npm ci || npm install)";
+    install-user = "cd user && (pnpm install || npm ci || npm install)";
+    # Optionally open these files on first load
+    default.openFiles = [
+      "admin/package.json"
+      "driver/package.json"
+      "user/package.json"
+      ".idx/dev.nix"
     ];
-
-    previews = {
-      enable = true;
-
-      previews = {
-        frontend = {
-          manager = "web";
-          cwd = "frontend";
-          command = [
-            "npm"
-            "run"
-            "dev"
-            "--"
-            "--port"
-            "$PORT"
-            "--hostname"
-            "0.0.0.0"
-          ];
-        };
-
-        backend = {
-          manager = "web";
-          cwd = "backend";
-          command = [
-            "firebase"
-            "emulators:start"
-            "--import=./emulator-data"
-            "--export-on-exit"
-          ];
-        };
-      };
-    };
   };
 
-  workspace = {
-    onCreate = {
-      install_frontend = "cd frontend && npm install";
-      install_backend = "cd backend && npm install";
-    };
-
-    onStart = {
-      dev_frontend = "cd frontend && npm run dev";
-      dev_backend = "cd backend && firebase emulators:start";
+  # Enable previews and wire each app
+  idx.previews = {
+    enable = true;
+    previews = {
+      admin = {
+        manager = "web";
+        cwd = "admin";
+        # Pass flags through "npm run dev -- <flags>" so Next binds correctly
+        command = ["npm" "run" "dev" "--" "-p" "$PORT" "-H" "0.0.0.0"];
+        env = { };
+      };
+      driver = {
+        manager = "web";
+        cwd = "driver";
+        command = ["npm" "run" "dev" "--" "-p" "$PORT" "-H" "0.0.0.0"];
+        env = { };
+      };
+      user = {
+        manager = "web";
+        cwd = "user";
+        command = ["npm" "run" "dev" "--" "-p" "$PORT" "-H" "0.0.0.0"];
+        env = { };
+      };
     };
   };
 }
