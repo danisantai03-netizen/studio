@@ -35,19 +35,20 @@
     previews = {
       enable = true;
       previews = {
-        # Preview untuk app Next.js (user)
+        # Preview untuk app Next.js di folder user/
         user = {
-          # Override script dev supaya listen ke $PORT & 0.0.0.0
-          command = ["npm" "run" "dev" "--" "-p" "$PORT" "-H" "0.0.0.0"];
+          # Gunakan skrip dev yang sudah ada
+          command = ["npm" "run" "dev"];
           manager = "web";
-          cwd = "."; # root project
+          cwd = "user";
         };
 
-        # Preview untuk backend Node/TS (lihat bagian 2)
+        # Preview untuk backend Node/TS di folder Backend/
         backend = {
-          command = ["npm" "run" "dev:api" "--" "--port" "$PORT" "--host" "0.0.0.0"];
+          # Gunakan skrip dev yang sudah ada
+          command = ["npm" "run" "dev"];
           manager = "web";
-          cwd = "api"; # folder backend
+          cwd = "Backend";
         };
       };
     };
